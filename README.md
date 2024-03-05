@@ -134,6 +134,7 @@ data://text/plain;base64,<base64>&cmd=ls
 ```
 ## Reverse Shell
 https://www.revshells.com/
+<br/>
 https://tex2e.github.io/reverse-shell-generator/index.html
 ### Bypass
 ```bash
