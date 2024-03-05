@@ -26,7 +26,7 @@
 - [Foothold](#foothold)
   - [Interactiveshell](#interactiveshell)
   - [Windows](#windows-1)
-  - [Tips](#tips)
+- [Tips](#tips)
 
 
 # Port Scan
@@ -260,7 +260,7 @@ powershell -ep bypass
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ```
 
-## Tips
+# Tips
 ```bash
 for ip in $(seq 1 254); do echo 192.168.50.$ip; done > ips
 ```
