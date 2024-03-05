@@ -118,6 +118,9 @@ https://github.com/swisskyrepo/PayloadsAllTheThings
 ## Path Traversal
 ```bash
 /etc/passwd
+/proc/self/cmdline
+/proc/1/cwd
+/proc/2/environ
 /home/offsec/.ssh/id_rsa
 /etc/nginx/nginx.conf
 /etc/nginx/modules-enabled/default.conf
