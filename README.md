@@ -8,6 +8,7 @@
   - [Autorecon](#autorecon)
   - [SNMP](#snmp)
   - [SMB](#smb)
+  - [RPC](#rpc)
   - [Web](#web)
     - [App](#app)
     - [subdomain](#subdomain)
@@ -134,6 +135,17 @@ snmpwalk -c internal -v2c 10.10.11.193
 ```bash
 smbclient -N -L \\\\10.129.144.138
 smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
+```
+
+## RPC
+```bash
+rpcclient -U '' -N 10.10.11.4
+
+enumdomains
+enumdomgroups
+lsaquery
+querydominfo
+enumdomusers
 ```
 
 ## Web
