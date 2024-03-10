@@ -102,6 +102,9 @@ nmap -p 139,445 -n -Pn --script smb-vuln-ms17-010,smb-vuln-cve-2017-7494,smb-vul
 # SMTP
 nmap -p 25 --script smtp-commands,smtp-ntlm-info
 
+# LDAP
+nmap -p 389 -n -Pn --script ldap-rootdse
+
 # vuln
 nmap -n -Pn --script vuln 10.10.10.248
 ```
