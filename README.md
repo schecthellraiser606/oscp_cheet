@@ -375,7 +375,7 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form 
 ```
 ## hashcrack
 ```bash
-# MD5-RAW: 0, NTLM: 1000, NetNTLMv2: 5600, AS-REP: 18200, TGS-REP: 13100
+# MD5-RAW: 0, SHA-256: 1400, NTLM: 1000, NetNTLMv2: 5600, AS-REP: 18200, TGS-REP: 13100
 hashcat -m 0 -a 0 crackme.txt /usr/share/wordlists/rockyou.txt -r /usr/share/john/rules/best64.rule --force
 
 # john
