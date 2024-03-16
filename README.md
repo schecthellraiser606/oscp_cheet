@@ -60,6 +60,7 @@
 - [Privilege Escalation](#privilege-escalation)
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
+    - [SharpUp](#sharpup)
     - [LOLBIN](#lolbin)
     - [token](#token-1)
     - [S4U](#s4u)
@@ -577,6 +578,11 @@ Install-ServiceBinary -Name ''
 Get-UnquotedService
 ## AbuseFunction  
 Write-ServiceBinary -Name 'GammaService' -Path "C:\Program Files\Enterprise Apps\Current.exe"
+```
+### SharpUp
+Ghostpack
+```powershell
+.\SharpUp.exe audit
 ```
 ### LOLBIN
 ```powershell
