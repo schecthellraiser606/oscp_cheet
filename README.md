@@ -602,6 +602,10 @@ shutdown /r /t 0
 # tasks
 schtasks /query /fo LIST /v
 Get-ScheduledTask
+
+## Watch
+wget https://raw.githubusercontent.com/markwragg/PowerShell-Watch/master/Watch/Public/Watch-Command.ps1
+Get-Process -ErrorAction SilentlyContinue | Watch-Command -Difference -Continuous -Seconds 20
 ```
 ### token
 ```powershell
