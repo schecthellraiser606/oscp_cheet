@@ -49,6 +49,7 @@
   - [Windows](#windows-3)
     - [PowerView](#powerview)
     - [winPEAS](#winpeas)
+    - [Powerless](#powerless)
     - [token](#token)
     - [Sherlock](#sherlock)
     - [PrivescCheck](#privesccheck)
@@ -503,6 +504,11 @@ cd /usr/share/peass/winpeas
 iwr -Uri http:// -Outfile winPEASany.exe
 # on powershell
 iwr -Uri http:// -Outfile winPEAS.bat
+```
+### Powerless
+https://learn.microsoft.com/en-us/sysinternals/downloads/accesschk
+```powershell
+wget https://raw.githubusercontent.com/gladiatx0r/Powerless/master/Powerless.bat
 ```
 ### token
 ```powershell
