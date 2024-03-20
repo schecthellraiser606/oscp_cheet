@@ -93,8 +93,9 @@ rustscan -a <IP> --top --ulimit 5000
 nmap -sn -v 192.168.50.1-253 -oG ping-sweep.txt
 
 # TCP
-nmap -sT -n -Pn -v 192.168.50.1-254 -A
-nmap -sT -n -Pn -v 192.168.50.1-254 --top-ports 1000 -A
+nmap -sT -n -Pn -v -A
+nmap -sT -n -Pn -v --top-ports 1000 -A 192.168.50.1-254 
+nmap -sT -n -Pn -v -p-
 # UDP
 nmap -sU -n -Pn -v <IP>
 
