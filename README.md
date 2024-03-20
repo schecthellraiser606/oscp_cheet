@@ -104,7 +104,7 @@ nmap -p 139,445 -n -Pn --script smb-protocols,smb-os-discovery,smb-enum-shares,s
 nmap -p 139,445 -n -Pn --script smb-vuln-ms17-010,smb-vuln-cve-2017-7494,smb-vuln-cve2009-3103,smb-vuln-ms06-025,smb-vuln-ms07-029,smb-vuln-ms08-067,smb-vuln-ms10-054,smb-vuln-ms10-061,smb-vuln-regsvc-dos,smb-vuln-webexec 10.10.10.40
 
 # SMTP
-nmap -p 25 --script smtp-commands,smtp-ntlm-info
+nmap -p 25 --script smtp-brute,smtp-enum-users,smtp-commands,smtp-ntlm-info
 
 # LDAP
 nmap -p 389 -n -Pn --script ldap-rootdse
