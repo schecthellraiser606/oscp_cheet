@@ -139,8 +139,17 @@ snmpwalk -c internal -v2c 10.10.11.193
 
 ## SMB
 ```bash
+# smbclient
 smbclient -N -L \\\\10.129.144.138
 smbclient //192.168.226.248/transfer -U htb.local/user%[HASH] --pw-nt-hash
+
+mask ""
+recurse ON
+prompt OFF
+mget *
+
+
+# smbmap
 smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
 ```
 
