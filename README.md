@@ -59,6 +59,8 @@
     - [cmd](#cmd)
     - [linpeas](#linpeas)
     - [pspy](#pspy)
+  - [Other](#other)
+    - [git](#git)
 - [Privilege Escalation](#privilege-escalation)
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
@@ -595,6 +597,15 @@ cd /usr/share/peass/linpeas
 ### pspy
 ```bash
 wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
+```
+
+## Other
+### git
+```powershell
+git status
+git log
+git show [commit]
+git reset --hard
 ```
 
 # Privilege Escalation
