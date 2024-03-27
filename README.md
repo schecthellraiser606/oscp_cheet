@@ -597,6 +597,8 @@ cd /usr/share/peass/linpeas
 ### pspy
 ```bash
 wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64
+
+wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy32
 ```
 
 ## Other
