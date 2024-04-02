@@ -358,7 +358,7 @@ shellter
 # 仮想tty
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 stty raw -echo; fg 
-export TERM=xterm-256col
+export TERM=xterm
 export SHELL=/bin/bash
 reset
 ```
