@@ -55,8 +55,9 @@
     - [Sherlock](#sherlock)
     - [PrivescCheck](#privesccheck)
     - [BloodHound](#bloodhound)
-  - [Linux](#linux-1)
     - [cmd](#cmd)
+  - [Linux](#linux-1)
+    - [cmd](#cmd-1)
     - [linpeas](#linpeas)
     - [pspy](#pspy)
   - [Other](#other)
@@ -587,6 +588,11 @@ Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.1
 MATCH (m:Computer) RETURN m
 MATCH (m:User) RETURN m
 MATCH p = (c:Computer)-[:HasSession]->(m:User) RETURN p
+```
+
+### cmd
+```powershell
+Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
 ```
 
 ## Linux
