@@ -359,7 +359,7 @@ shellter
 ## Linux
 ### Background
 ```bash
-nohup python3 
+nohup python3  &
 ```
 ### Interactiveshell
 ```bash
