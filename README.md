@@ -28,7 +28,9 @@
   - [shellcode](#shellcode)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
-  - [Interactiveshell](#interactiveshell)
+  - [Linux](#linux-1)
+    - [Background](#background)
+    - [Interactiveshell](#interactiveshell)
   - [Windows](#windows-1)
     - [SHELL](#shell)
     - [Client Soft](#client-soft)
@@ -56,7 +58,7 @@
     - [PrivescCheck](#privesccheck)
     - [BloodHound](#bloodhound)
     - [cmd](#cmd)
-  - [Linux](#linux-1)
+  - [Linux](#linux-2)
     - [cmd](#cmd-1)
     - [linpeas](#linpeas)
     - [pspy](#pspy)
@@ -70,7 +72,7 @@
     - [token](#token-1)
     - [S4U](#s4u)
     - [ADCS](#adcs)
-  - [Linux](#linux-2)
+  - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
 - [Transfer](#transfer)
@@ -354,7 +356,12 @@ shellter
 ```
 
 # Foothold
-## Interactiveshell
+## Linux
+### Background
+```bash
+nohup python3 
+```
+### Interactiveshell
 ```bash
 # 仮想tty
 python3 -c 'import pty; pty.spawn("/bin/bash")'
