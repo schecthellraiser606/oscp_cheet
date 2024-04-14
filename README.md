@@ -85,6 +85,7 @@
 - [Tips](#tips)
   - [list](#list)
   - [Metasploit](#metasploit)
+  - [Empire](#empire)
 
 
 # Port Scan
@@ -861,4 +862,17 @@ lcd /home/kali/Downloads
 lpwd
 download 
 upload
+```
+
+## Empire
+```bash
+# first
+listeners
+uselistener http
+
+usestager windows_launcher_vbs
+usestager windows_cmd_exec
+
+agents
+interact
 ```
