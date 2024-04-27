@@ -424,6 +424,7 @@ hashcat -m 0 -a 0 crackme.txt /usr/share/wordlists/rockyou.txt -r /usr/share/joh
 
 # john
 john --wordlist=/usr/share/wordlists/rockyou.txt --rules /usr/share/john/rules/best64.rule hash.txt
+john --wordlist=/usr/share/wordlists/fasttrack.txt --rules /usr/share/john/rules/best64.rule hash
 ```
 ## Windows
 ### crackmap
