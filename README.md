@@ -765,6 +765,8 @@ ssh -D 0.0.0.0:9999 database_admin@10.4.50.215
 tail /etc/proxychains4.conf
 
 # remote
+sudo systemctl start ssh
+
 ssh -R 127.0.0.1:2345:10.4.50.215:5432 kali@192.168.118.4
 # r Dynamic
 ssh -R 9998 kali@192.168.118.4
