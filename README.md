@@ -186,8 +186,8 @@ ffuf -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ
 ### dir
 ```bash
 # ffuf
-ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -e aspx,txt,pdf,html,php -u http:// 
-ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -e aspx,txt,pdf,html,php -u http://
+ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http:// 
+ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http://
 
 # dirsearch
 dirsearch -u https://
