@@ -200,7 +200,7 @@ gobuster dir -w /usr/share/seclists/Discovery/Web-Content/common.txt -k -x aspx,
 dirb http://
 
 # wordlist
-comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt) <(sort /usr/share/seclists/Discovery/Web-Content/common.txt)
+comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt) <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt)
 ```
 ### WordPress
 ```bash
