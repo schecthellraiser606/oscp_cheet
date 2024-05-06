@@ -187,20 +187,20 @@ ffuf -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ
 ```bash
 # ffuf
 ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http:// 
-ffuf -w /usr/share/wordlists/dirb/common.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http://
+ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http://
 
 # dirsearch
 dirsearch -u https://
 
 # gobuster
 gobuster dir -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt -k -x aspx,txt,pdf,html,php -u http://
-gobuster dir -w /usr/share/wordlists/dirb/common.txt -k -x aspx,txt,pdf,html,php -u http://
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/common.txt -k -x aspx,txt,pdf,html,php -u http://
 
 # Dirb
 dirb http://
 
 # wordlist
-comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt) <(sort /usr/share/wordlists/dirb/common.txt)
+comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt) <(sort /usr/share/seclists/Discovery/Web-Content/common.txt)
 ```
 ### WordPress
 ```bash
