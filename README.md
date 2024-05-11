@@ -136,7 +136,7 @@ autorecon <CIDR>
 
 ## SNMP
 ```bash
-# https://github.com/SECFORCE/SNMP-Brute/blob/master/snmpbrute.py
+wget https://raw.githubusercontent.com/SECFORCE/SNMP-Brute/master/snmpbrute.py
 python3 snmpbrute.py -t 10.10.11.193
 
 # snmpwalk
