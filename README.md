@@ -601,6 +601,15 @@ Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.1
 MATCH (m:Computer) RETURN m
 MATCH (m:User) RETURN m
 MATCH p = (c:Computer)-[:HasSession]->(m:User) RETURN p
+
+# AS-REP-roastable
+MATCH (u:User {dontreqpreauth: true}) RETURN u
+
+# Kerberoastable 
+MATCH (u:User) WHERE u.hasspn=true RETURN u
+
+# RDP
+MATCH p=(g:Group)-[:CanRDP]->(c:Computer) WHERE g.objectid ENDS WITH '-513' RETURN p
 ```
 
 ### cmd
