@@ -615,6 +615,11 @@ MATCH (u:User) WHERE u.hasspn=true RETURN u
 MATCH p=(g:Group)-[:CanRDP]->(c:Computer) WHERE g.objectid ENDS WITH '-513' RETURN p
 ```
 
+#### Userlist
+```bash
+jq '.nodes[].label'
+```
+
 ### cmd
 ```powershell
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
