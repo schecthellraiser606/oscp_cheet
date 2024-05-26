@@ -104,7 +104,7 @@ nmap -sT -n -Pn -v -A
 nmap -sT -n -Pn -v --top-ports 1000 -A 192.168.50.1-254 
 nmap -sT -n -Pn -v -T4 -p- -A
 # UDP
-nmap -sU -n -Pn -v <IP>
+nmap -sU -n -Pn -T4 -v <IP>
 
 # SMB
 # help /usr/share/nmap/scripts
