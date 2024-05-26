@@ -102,7 +102,7 @@ nmap -sn -v 192.168.50.1-253 -oG ping-sweep.txt
 # 22,21,25,389,3389,135,139,445,80,443,8080,8888,1443,5985,5986,8000
 nmap -sT -n -Pn -v -A
 nmap -sT -n -Pn -v --top-ports 1000 -A 192.168.50.1-254 
-nmap -sT -n -Pn -v -p-
+nmap -sT -n -Pn -v -T4 -p- -A
 # UDP
 nmap -sU -n -Pn -v <IP>
 
