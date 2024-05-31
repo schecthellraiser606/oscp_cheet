@@ -1,5 +1,6 @@
 # My Cheet Sheet
 - [My Cheet Sheet](#my-cheet-sheet)
+- [SWEEP](#sweep)
 - [Port Scan](#port-scan)
   - [rustscan](#rustscan)
   - [nmap](#nmap)
@@ -87,7 +88,13 @@
   - [Metasploit](#metasploit)
   - [Empire](#empire)
 
+# SWEEP
+```bash
+fping -asgq 172.16.5.0/24
 
+#nmap
+nmap -sn -v 192.168.50.1-253 -oG ping-sweep.txt
+```
 # Port Scan
 ## rustscan
 ```bash
@@ -95,9 +102,6 @@ rustscan -a <IP> --top --ulimit 5000
 ```
 ## nmap
 ```bash
-# IP-Sweep
-nmap -sn -v 192.168.50.1-253 -oG ping-sweep.txt
-
 # TCP
 # 22,21,25,389,3389,135,139,445,80,443,8080,8888,1443,5985,5986,8000
 nmap -sT -n -Pn -v -A
