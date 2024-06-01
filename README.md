@@ -808,8 +808,10 @@ tail /etc/proxychains4.conf
 
 # remote
 sudo systemctl start ssh
-
 ssh -R 127.0.0.1:2345:10.4.50.215:5432 kali@192.168.118.4
+# よくあるやつ
+ssh -D 0.0.0.0:1080 -R 80:127.0.0.1:80 -R 1336:192.168.45.205:1336 support@192.168.228.153
+
 # r Dynamic
 ssh -R 1080 kali@192.168.118.4
 tail /etc/proxychains4.conf
