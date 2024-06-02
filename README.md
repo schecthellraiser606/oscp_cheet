@@ -804,7 +804,7 @@ Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofot
 #### nopac
 ```powershell
 cd /opt/noPac
-source ./autorecon/bin/activate
+source ./venv/bin/activate
 
 # scan
 python3 scanner.py htb.local/svc_test:testpass -dc-ip 172.16.5.5 -use-ldap
