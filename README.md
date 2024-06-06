@@ -16,6 +16,7 @@
     - [dir](#dir)
     - [WordPress](#wordpress)
     - [endpoint](#endpoint)
+  - [enum4linux](#enum4linux)
 - [Initial Access](#initial-access)
   - [Path Traversal](#path-traversal)
     - [id\_sa](#id_sa)
@@ -223,6 +224,12 @@ wpscan --url http://192.168.198.244 --enumerate p --plugins-detection aggressive
 ```bash
 # katana
 katana -u http://
+```
+
+## enum4linux
+```bash
+# Userenum
+enum4linux -u user -p pass -U 172.16.7.3 
 ```
 
 # Initial Access
