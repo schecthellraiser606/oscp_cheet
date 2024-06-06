@@ -172,6 +172,7 @@ smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
 ## RPC
 ```bash
 rpcclient -U '' -N 10.10.11.4
+rpcclient -U user --password=weasal
 
 enumdomains
 enumdomgroups
