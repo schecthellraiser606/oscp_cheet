@@ -670,7 +670,7 @@ Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.1
 .\SharpHound.exe -c All -d htb.local --domainController 10.10.10.1 -o 
 
 # rusthound
-./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' --ldaps
+./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' -z -adcs --ldaps
 ```
 #### neo4j
 ```bash
