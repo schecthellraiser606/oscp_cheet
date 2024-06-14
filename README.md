@@ -773,7 +773,6 @@ net stop mysql
 shutdown /r /t 0 
 
 # tasks
-tasklist /svc
 schtasks /query /fo LIST /v
 Get-ScheduledTask
 
