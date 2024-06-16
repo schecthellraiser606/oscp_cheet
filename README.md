@@ -706,6 +706,9 @@ jq '.nodes[].label'
 ### cmd
 ```powershell
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
+
+# Eventlog
+wevtutil qe Security /rd:true /f:text | Select-String "/user"
 ```
 
 ## Linux
