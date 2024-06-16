@@ -77,6 +77,7 @@
     - [SharpUp](#sharpup)
     - [LOLBIN](#lolbin-1)
     - [token](#token-1)
+    - [Psgetsystem](#psgetsystem)
     - [S4U](#s4u)
     - [ADCS](#adcs)
   - [Linux](#linux-3)
@@ -798,6 +799,11 @@ cd /usr/share/windows-resources/binaries/
 ```
 #### Full Power
 https://github.com/itm4n/FullPowers
+
+### Psgetsystem
+https://github.com/decoder-it/psgetsystem
+
+
 ### S4U
 #### Rubeus
 https://github.com/Kevin-Robertson/Powermad
