@@ -837,7 +837,10 @@ diskshadow.exe
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
 
-
+#### LoadDriver
+https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys
+https://github.com/TarlogicSecurity/EoPLoadDriver/
+https://github.com/musheebat/Compiled-capcom-exploit
 
 ### S4U
 #### Rubeus
