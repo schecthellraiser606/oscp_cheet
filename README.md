@@ -79,6 +79,7 @@
     - [token](#token-1)
     - [SePriv](#sepriv)
     - [PrintNightmare](#printnightmare)
+    - [HiveNightmare](#hivenightmare)
     - [S4U](#s4u)
     - [ADCS](#adcs)
   - [Linux](#linux-3)
@@ -710,6 +711,12 @@ Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction Si
 
 # Eventlog
 wevtutil qe Security /rd:true /f:text | Select-String "/user"
+
+# install Service
+wmic product get name
+
+# Port
+netstat -ano
 ```
 
 ## Linux
@@ -859,6 +866,9 @@ https://github.com/musheebat/Compiled-capcom-exploit
 
 ### PrintNightmare
 https://github.com/calebstewart/CVE-2021-1675
+
+### HiveNightmare
+https://github.com/GossiTheDog/HiveNightmare/releases/tag/0.6
 
 ### S4U
 #### Rubeus
