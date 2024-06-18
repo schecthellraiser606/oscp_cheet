@@ -78,6 +78,7 @@
     - [LOLBIN](#lolbin-1)
     - [token](#token-1)
     - [SePriv](#sepriv)
+    - [PrintNightmare](#printnightmare)
     - [S4U](#s4u)
     - [ADCS](#adcs)
   - [Linux](#linux-3)
@@ -855,6 +856,9 @@ https://github.com/musheebat/Compiled-capcom-exploit
 .\EoPLoadDriver.exe System\CurrentControlSet\Capcom .\Capcom.sys
 .\ExploitCapcom.exe
 ```
+
+### PrintNightmare
+https://github.com/calebstewart/CVE-2021-1675
 
 ### S4U
 #### Rubeus
