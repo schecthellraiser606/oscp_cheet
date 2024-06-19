@@ -727,6 +727,8 @@ where /R C:\ *.config
 cmdkey /list
 runas /savecred /user:oscp\bob "COMMAND HERE"
 
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+
 # Powershell History
 (Get-PSReadLineOption).HistorySavePath
 
@@ -739,7 +741,6 @@ $credential.GetNetworkCredential().password
 $secureString = $credential.Password
 $plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString))
 echo $plainTextPassword
-
 
 # Eventlog
 wevtutil qe Security /rd:true /f:text | Select-String "/user"
