@@ -707,7 +707,10 @@ jq '.nodes[].label'
 
 ### cmd
 ```powershell
+# File
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
+
+findstr /SIM /C:"pass" *.txt *.ini *.cfg *.config *.xml
 
 # Eventlog
 wevtutil qe Security /rd:true /f:text | Select-String "/user"
