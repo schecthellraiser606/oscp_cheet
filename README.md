@@ -165,7 +165,9 @@ snmpwalk -c internal -v2c 10.10.11.193
 # smbclient
 smbclient -N -L \\\\10.129.144.138
 smbclient //192.168.226.248/transfer -U htb.local/user%[HASH] --pw-nt-hash
+smbclient -L //192.168.171.175 -U V.Ventz --password='HotelCalifornia194!'
 
+timeout 300
 mask ""
 recurse ON
 prompt OFF
