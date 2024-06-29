@@ -245,6 +245,7 @@ https://github.com/swisskyrepo/PayloadsAllTheThings
 ## Path Traversal
 https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt
 ```bash
+# linux
 /etc/passwd
 
 /proc/self/cmdline
@@ -260,6 +261,10 @@ https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.t
 /opt/apache/conf/httpd.conf
 
 /etc/knockd.conf
+
+#Windows
+C:\Windows\System32\Drivers\etc\hosts
+/Users/ana/.ssh/id_rsa
 ```
 ### id_sa
 ```bash
