@@ -771,6 +771,9 @@ wmic product get name
 
 # Port
 netstat -ano
+
+# Writeable folder
+icacls C:\xampp\
 ```
 
 ## Linux
