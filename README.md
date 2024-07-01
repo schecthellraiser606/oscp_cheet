@@ -246,6 +246,7 @@ enum4linux -u user -p pass -U 172.16.7.3
 https://github.com/swisskyrepo/PayloadsAllTheThings
 ## Path Traversal
 https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt
+https://gist.github.com/SleepyLctl/823c4d29f834a71ba995238e80eb15f9
 ```bash
 # linux
 /etc/passwd
@@ -265,7 +266,7 @@ https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.t
 /etc/knockd.conf
 
 #Windows
-C:\Windows\System32\Drivers\etc\hosts
+/Windows/System32/Drivers/etc/hosts
 /Users/ana/.ssh/id_rsa
 ```
 ### id_sa
