@@ -246,7 +246,7 @@ enum4linux -u user -p pass -U 172.16.7.3
 https://github.com/swisskyrepo/PayloadsAllTheThings
 ## Path Traversal
 https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt
-https://gist.github.com/SleepyLctl/823c4d29f834a71ba995238e80eb15f9
+https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 ```bash
 # linux
 /etc/passwd
