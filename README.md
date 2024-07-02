@@ -10,6 +10,7 @@
   - [SNMP](#snmp)
   - [SMB](#smb)
   - [RPC](#rpc)
+  - [LDAP](#ldap)
   - [Web](#web)
     - [App](#app)
     - [subdomain](#subdomain)
@@ -188,6 +189,12 @@ enumdomgroups
 lsaquery
 querydominfo
 enumdomusers
+```
+
+## LDAP
+https://book.hacktricks.xyz/network-services-pentesting/pentesting-ldap
+```bash
+ldapsearch -x -b "DC=hutch,DC=offsec" -H "ldap://192.168.215.122" "(objectclass=*)"
 ```
 
 ## Web
