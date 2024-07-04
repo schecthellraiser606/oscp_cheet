@@ -1130,6 +1130,10 @@ xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
 ```
 ## FTP
 ```bash
+# get
+prompt
+mget *
+
 # passive mode
 passive
 
