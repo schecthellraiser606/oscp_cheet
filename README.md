@@ -276,6 +276,7 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 /etc/nginx/modules-enabled/default.conf
 /opt/apache2/conf/httpd.conf
 /opt/apache/conf/httpd.conf
+/var/log/apache2/access.log
 
 /etc/knockd.conf
 
