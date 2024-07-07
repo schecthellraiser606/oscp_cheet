@@ -424,6 +424,12 @@ scf, Library-ms, url, lnk
 wget https://raw.githubusercontent.com/xct/hashgrab/main/hashgrab.py
 python3 hashgrab.py MY_IP test
 ```
+odt
+```bash
+pip install ezodf
+wget https://github.com/rmdavy/badodf/raw/master/badodt.py
+python3 badodt.py
+```
 
 ## File Upload
 ```bash
