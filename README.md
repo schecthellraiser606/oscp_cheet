@@ -783,6 +783,9 @@ jq '.nodes[].label'
 
 ### cmd
 ```powershell
+#Path
+set PATH=%PATH%C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0;
+
 # File Credential
 Get-Childitem -Path C:\windows.old -Include *SAM -Recurse -force -ErrorAction SilentlyContinue
 
