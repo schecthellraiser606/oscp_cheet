@@ -352,7 +352,8 @@ $env:HOMEPATH[0]
 
 ```
 ## SQLi
-https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
+https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection <br/>
+https://portswigger.net/web-security/sql-injection/cheat-sheet
 ```bash
 ' or 1=1 in (select @@version) -- //
 ' OR 1=1 in (SELECT * FROM users) -- //
