@@ -276,10 +276,12 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 
 /etc/nginx/nginx.conf
 /etc/nginx/modules-enabled/default.conf
+/etc/apache2/sites-enabled/000-default.conf
 /opt/apache2/conf/httpd.conf
 /opt/apache/conf/httpd.conf
 /var/log/apache2/access.log
 
+/etc/vsftpd.conf
 /etc/knockd.conf
 
 #Windows
