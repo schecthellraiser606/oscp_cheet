@@ -9,6 +9,7 @@
   - [Autorecon](#autorecon)
   - [SNMP](#snmp)
   - [SMB](#smb)
+  - [DNS](#dns)
   - [RPC](#rpc)
   - [LDAP](#ldap)
   - [Web](#web)
@@ -184,6 +185,12 @@ mget *
 
 # smbmap
 smbmap -H 10.10.10.100 -d active.htb -u SVC_TGS -p GPPstillStandingStrong2k18
+```
+
+## DNS
+```bash
+dig @192.168.192.196 matrimony.off any
+dig @192.168.192.196 matrimony.off axfr
 ```
 
 ## RPC
