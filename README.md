@@ -280,6 +280,7 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 
 /home/offsec/.ssh/id_rsa
 /home/offsec/.ssh/authorized_keys
+/home/offsec/.ssh/known_hosts
 
 /etc/nginx/nginx.conf
 /etc/nginx/modules-enabled/default.conf
@@ -300,6 +301,11 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 ```bash
 chmod 400 id_key
 ssh -i id_key -p 2222
+```
+```bash
+ssh-keygen -t rsa
+mv id_rsa.pub authorized_keys
+chmod 400 id_rsa
 ```
 ### LFI
 ```php
