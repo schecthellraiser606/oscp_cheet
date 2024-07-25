@@ -301,6 +301,8 @@ https://github.com/soffensive/windowsblindread/blob/master/windows-files.txt
 ```bash
 chmod 400 id_key
 ssh -i id_key -p 2222
+
+ssh -i root root@localhost -o IdentitiesOnly=yes
 ```
 ```bash
 ssh-keygen -t rsa
