@@ -236,7 +236,7 @@ dirsearch -u https://
 
 # gobuster
 gobuster dir -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt -k -x aspx,txt,pdf,html,php -u http://
-gobuster dir -w /usr/share/seclists/Discovery/Web-Content/common.txt -k -x aspx,txt,pdf,html,php -u http://
+gobuster dir -w /usr/share/seclists/Discovery/Web-Content/big.txt -k -x aspx,txt,pdf,html,php -u http://
 
 # Dirb
 dirb http://
