@@ -150,7 +150,8 @@ nmap -n -Pn --script vuln 10.10.10.248
 ## Powershell
 ```powershell
 # on powershell
-1..8000 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("192.168.221.151", $_)) "TCP port $_ is open"} 2>$null
+Start-Job {1..8000 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("192.168.221.151", $_)) "TCP port $_ is open"} 2>$null}
+Receive-Job -Id 
 ```
 
 # Recon
