@@ -249,8 +249,9 @@ comm -23 <(sort /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-med
 ### WordPress
 ```bash
 wpscan --url http://192.168.198.244 --enumerate u
-wpscan --url http://192.168.198.244 --enumerate p --plugins-detection aggressive  --plugins-version-detection  aggressive
-wpscan --url http://192.168.198.244 --enumerate p --plugins-detection mixed --plugins-version-detection  aggressive
+wpscan --url http://192.168.229.174 --enumerate at -t 150
+wpscan --url http://192.168.198.244 --enumerate p --plugins-detection aggressive  --plugins-version-detection  aggressive -t 150
+wpscan --url http://192.168.198.244 --enumerate ap --plugins-detection mixed --plugins-version-detection  aggressive -t 150
 
 wpscan --url http://192.168.169.121/wordpress/ -U 'loly' -P /usr/share/seclists/Passwords/darkweb2017-top1000.txt
 ```
