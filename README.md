@@ -873,10 +873,16 @@ icacls C:\xampp\
 ## Linux
 ### cmd
 ```bash
+# Port
 ss -anp
+
+# find
 find / -writable -type d 2>/dev/null
 find / -iname "*admin*" 2>/dev/null
 find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+
+# cron
+cd /etc/crond.d
 ```
 ### linpeas
 ```bash
