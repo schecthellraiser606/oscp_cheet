@@ -895,6 +895,7 @@ wmic product get name
 
 # Port
 netstat -ano
+tasklist /svc /FI "PID eq 336"
 
 # Writeable folder
 icacls C:\xampp\
