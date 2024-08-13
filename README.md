@@ -101,6 +101,7 @@
   - [Port Forwading](#port-forwading)
     - [SSH](#ssh)
     - [Chisel](#chisel)
+    - [Ligolo-ng](#ligolo-ng)
   - [SMB](#smb-1)
   - [FTP](#ftp)
 - [HTTP](#http)
@@ -1253,6 +1254,38 @@ https://github.com/jpillora/chisel/releases
 [ProxyList]
 socks5 127.0.0.1 1080
 ```
+### Ligolo-ng
+https://github.com/nicocha30/ligolo-ng/releases
+```bash
+# file
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_proxy_0.6.2_linux_arm64.tar.gz
+tar -zxvf ligolo-ng_proxy_0.6.2_linux_arm64.tar.gz
+
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_agent_0.6.2_linux_amd64.tar.gz
+tar -zxvf ligolo-ng_agent_0.6.2_linux_amd64.tar.gz
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_agent_0.6.2_windows_amd64.zip
+unzip ligolo-ng_agent_0.6.2_windows_amd64.zip
+
+ip tuntap add user root mode tun ligolo
+ip link set ligolo up
+./proxy -selfcert -laddr 0.0.0.0:2345
+
+.\agent -connect 192.168.45.10:2345 -ignore-cert
+./agent.exe -connect 192.168.45.10:2345 -ignore-cert
+
+session 
+session : 1
+start 
+ifconfig 
+
+ip route add 172.16.0.0/16 dev ligolo
+ip route
+
+# Transport Kali Web
+listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
+listener_list
+```
+
 ## SMB
 ```bash
 impacket-smbserver work /root/work -smb2support
