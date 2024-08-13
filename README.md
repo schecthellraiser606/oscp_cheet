@@ -1270,8 +1270,8 @@ ip tuntap add user root mode tun ligolo
 ip link set ligolo up
 ./proxy -selfcert -laddr 0.0.0.0:2345
 
-.\agent -connect 192.168.45.10:2345 -ignore-cert
-./agent.exe -connect 192.168.45.10:2345 -ignore-cert
+./agent -connect 192.168.45.10:2345 -ignore-cert
+.\agent.exe -connect 192.168.45.10:2345 -ignore-cert
 
 session 
 session : 1
