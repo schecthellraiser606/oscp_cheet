@@ -1279,6 +1279,7 @@ start
 ifconfig 
 
 ip route add 172.16.0.0/16 dev ligolo
+ip route delete 172.16.0.0/16 dev ligolo
 ip route
 
 # Transport Kali Web
