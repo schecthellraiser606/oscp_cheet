@@ -852,6 +852,9 @@ jq '.nodes[].label'
 
 ### cmd
 ```powershell
+# Users file
+tree /f
+
 #Path
 set PATH=%PATH%C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0;
 
@@ -1283,7 +1286,7 @@ ip route delete 172.16.0.0/16 dev ligolo
 ip route
 
 # Transport Kali Web
-listener_add --addr 0.0.0.0:80 --to 127.0.0.1:80 --tcp
+listener_add --addr 0.0.0.0:8888 --to 127.0.0.1:80 --tcp
 listener_list
 ```
 
