@@ -1287,6 +1287,7 @@ ip route
 
 # Transport Kali Web
 listener_add --addr 0.0.0.0:8888 --to 127.0.0.1:80 --tcp
+listener_add --addr 0.0.0.0:2345 --to 127.0.0.1:80 --tcp
 listener_list
 ```
 
