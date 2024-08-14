@@ -762,9 +762,13 @@ Get-DomainUser -Properties samaccountname,description | Where {$_.description -n
 # Kerberoastable
 Get-DomainUser -SPN -Properties samaccountname,serviceprincipalname,memberof
 
-# GenericAll
-Get-ObjectAcl -Identity "User.Name" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | select SecurityIdentifier,ActiveDirectoryRights
-"S-1-5-21-537427935-490066102-1511301751-512","S-1-5-32-548","S-1-5-18,S-1-5-21-537427935-490066102-1511301751-519" | Convert-SidToName
+# GenericAll to User
+$geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
+Convert-SidToName $geneall
+
+# DCSync
+$dcsync = Get-ObjectACL "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ObjectAceType -match 'Replication-Get')} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
+Convert-SidToName $dcsync
 ```
 ### winPEAS
 ```powershell
