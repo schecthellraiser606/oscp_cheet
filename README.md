@@ -34,6 +34,7 @@
   - [Webdav](#webdav)
   - [ldap\_shell](#ldap_shell)
   - [hash\_catch](#hash_catch)
+  - [Other Bypass](#other-bypass)
 - [Phishing](#phishing)
 - [Foothold](#foothold)
   - [Linux](#linux-1)
@@ -467,6 +468,10 @@ wget https://github.com/rmdavy/badodf/raw/master/badodt.py
 python3 badodt.py
 ```
 
+## Other Bypass
+```bash
+X-Forwarded-For: 127.0.0.1
+```
 
 # Phishing
 webdav
