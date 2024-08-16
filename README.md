@@ -1323,6 +1323,8 @@ xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
 prompt
 mget *
 
+wget -m ftp://ftp:ftp@192.168.166.114/*
+
 # passive mode
 passive
 
