@@ -785,9 +785,14 @@ Get-DomainUser -UACFilter DONT_REQ_PREAUTH
 # Kerberoastable
 Get-DomainUser -SPN -Properties samaccountname,serviceprincipalname,memberof
 Invoke-Kerberoast
+
 # Delegation 
-Get-DomainUser -TrustedToAuth -Properties samaccountname,useraccountcontrol,memberof
+## 制約なし
+Get-DomainComputer -Unconstrained -Properties dnshostname,useraccountcontrol
 Get-DomainUser -LDAPFilter "(userAccountControl:1.2.840.113556.1.4.803:=524288)" 
+## 制約ある
+Get-DomainUser -TrustedToAuth -Properties samaccountname,useraccountcontrol,memberof
+Get-DomainComputer -TrustedToAuth | select -Property dnshostname,useraccountcontrol
 
 # GenericAll to User
 $geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
