@@ -232,6 +232,8 @@ whatweb -v http://
 ### subdomain
 ```bash
 ffuf -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ -u http:// -H "Host: FUZZ. " -mc all -fs 111
+
+gobuster vhost -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt --append-domain -u http://
 ```
 ### dir
 ```bash
