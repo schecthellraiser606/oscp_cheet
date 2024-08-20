@@ -18,6 +18,7 @@
     - [dir](#dir)
     - [WordPress](#wordpress)
     - [endpoint](#endpoint)
+    - [POST Fuzz](#post-fuzz)
   - [enum4linux](#enum4linux)
 - [Initial Access](#initial-access)
   - [Path Traversal](#path-traversal)
@@ -235,8 +236,8 @@ ffuf -w /usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ
 ### dir
 ```bash
 # ffuf
-ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http://
-ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -e .aspx,.txt,.pdf,.html,.php -u http:// 
+ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt:FUZZ -recursion -recursion-depth 2 -e .aspx,.txt,.pdf,.html,.php -u http://
+ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -ic -e .aspx,.txt,.pdf,.html,.php -u http:// 
 
 # dirsearch
 dirsearch -u https://
@@ -265,6 +266,12 @@ wpscan --url http://192.168.169.121/wordpress/ -U 'loly' -P /usr/share/seclists/
 ```bash
 # katana
 katana -u http://
+```
+
+### POST Fuzz
+```bash
+ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt:FUZZ -X POST -H "Content-Type: application/x-www-form-urlencoded" -d 'username=admin&password=FUZZ' -u http://
+ffuf -w /usr/share/seclists/Discovery/Web-Content/big.txt:FUZZ -request req -u http://
 ```
 
 ## enum4linux
