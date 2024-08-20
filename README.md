@@ -1446,6 +1446,9 @@ passive
 bin
 # text
 ascii
+
+# upload folder
+/var/ftp/pub/
 ```
 # HTTP
 https://github.com/juliourena/plaintext/blob/master/Powershell/PSUpload.ps1
