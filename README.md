@@ -931,9 +931,6 @@ MATCH (u:User) WHERE u.description IS NOT NULL RETURN u
 # Delegation unconstrained
 MATCH (c:Computer {unconstraineddelegation:true}) return c
 
-# Evil Domain User
-MATCH p=(m:Group)-[r:Owns|:WriteDacl|:GenericAll|:WriteOwner|:ExecuteDCOM|:GenericWrite|:AllowedToDelegate|:ForceChangePassword]->(n:Computer) WHERE m.name STARTS WITH 'DOMAIN USERS' RETURN p
-
 # ANY PATH
 MATCH p = shortestPath((n)-[*1..]->(c)) WHERE n.name =~ '(?i)ここにUser名.*' AND NOT c=n RETURN p
 ```
@@ -953,6 +950,7 @@ impacket-findDelegation htb.LOCAL/user:pass
 ```powershell
 # Users file
 tree /f
+Get-ChildItem -force
 
 #Path
 set PATH=%PATH%C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0;
