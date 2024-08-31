@@ -906,6 +906,9 @@ Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.1
 
 # rusthound
 ./rusthound_musl -d streamio.htb -i 10.10.11.158 -u 'JDgodd@streamIO.htb' -p 'JDg0dd1s@d0p3cr3@t0r' -z --adcs --ldaps
+
+# Bloodhound-python
+bloodhound-python -c all -u enox -p california -d heist.offsec -ns 192.168.171.165 --zip
 ```
 #### neo4j
 ```bash
