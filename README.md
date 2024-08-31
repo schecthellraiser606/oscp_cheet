@@ -94,6 +94,7 @@
     - [S4U](#s4u)
     - [ADCS](#adcs)
     - [UAC bypass](#uac-bypass)
+    - [Other Tools](#other-tools)
   - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
@@ -1346,6 +1347,10 @@ python3 PetitPotam.py kaliIP targetIP -u user -p password -d domain
 
 ### UAC bypass
 https://github.com/FuzzySecurity/PowerShell-Suite/tree/master/Bypass-UAC
+
+### Other Tools
+https://github.com/expl0itabl3/Toolies<br/>
+https://github.com/dxnboy/redteam
 
 ## Linux
 ### SUGGEST
