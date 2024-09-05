@@ -114,6 +114,7 @@
   - [Metasploit](#metasploit)
   - [Empire](#empire)
   - [RDP admin](#rdp-admin)
+  - [User-Name-List](#user-name-list)
   - [sheet](#sheet)
 
 # SWEEP
@@ -1567,6 +1568,13 @@ interact
 reg add HKLM\System\CurrentControlSet\Control\Lsa /t REG_DWORD /v DisableRestrictedAdmin /d 0x0 /f
 
 xfreerdp /v: /u:administrator /pth: /dynamic-resolution /drive:.,linux /bpp:8 /compression /audio-mode:0 -themes -wallpaper
+```
+
+## User-Name-List
+https://github.com/urbanadventurer/username-anarchy
+```
+./username-anarchy Bill Gates > bill.txt
+./username-anarchy --input-file ../full-name.txt > unames.txt
 ```
 
 ## sheet
