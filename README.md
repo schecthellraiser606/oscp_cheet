@@ -1581,6 +1581,8 @@ xfreerdp /v: /u:administrator /pth: /dynamic-resolution /drive:.,linux /bpp:8 /c
 ## User-Name-List
 https://github.com/urbanadventurer/username-anarchy
 ```
+git clone https://github.com/urbanadventurer/username-anarchy
+
 ./username-anarchy Bill Gates > bill.txt
 ./username-anarchy --input-file ../full-name.txt > unames.txt
 ```
