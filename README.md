@@ -960,6 +960,8 @@ impacket-findDelegation htb.LOCAL/user:pass
 # Users file
 tree /f
 Get-ChildItem -force
+# hidden
+dir /a
 
 #Path
 set PATH=%PATH%C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0;
