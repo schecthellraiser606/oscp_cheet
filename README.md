@@ -220,6 +220,8 @@ enumdomusers
 https://book.hacktricks.xyz/network-services-pentesting/pentesting-ldap
 ```bash
 ldapsearch -x -v -b "DC=hutch,DC=offsec" -H "ldap://192.168.215.122" "(objectclass=*)"
+ | grep 'userPrincipalName:' -A 10 -B 40
+
 ldapsearch -x -v -b "DC=hutch,DC=offsec" -D "user@hutch.offsec" -w pass -H "ldap://192.168.215.122" "(ms-MCS-AdmPwd=*)"
 ```
 
