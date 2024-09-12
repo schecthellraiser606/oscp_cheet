@@ -1212,6 +1212,9 @@ add volume c: alias someAlias
 create
 expose %someAlias% z:
 ```
+```bash
+unix2dos z.dsh
+```
 
 #### LoadDriver
 https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys
