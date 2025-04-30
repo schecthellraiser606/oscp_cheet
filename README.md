@@ -963,6 +963,7 @@ echo VNCFake1 | proxychains4 -q vncviewer 172.20.0.52 -autopass -quality 0 -nojp
 ## Windows
 ### LOLBIN
 ```powershell
+# AD Module
 Import-Module ActiveDirectory
 
 # admin
@@ -979,6 +980,10 @@ Get-ADUser -Filter {DoesNotRequirePreAuth -eq 'True'}
 # trusted for delegation
 Get-ADUser -Properties * -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=524288)'
 Get-ADComputer -Properties * -LDAPFilter '(userAccountControl:1.2.840.113556.1.4.803:=524288)'
+
+# DACL
+## Enum to user01
+dsacls.exe ' CN=user01,CN=Users,DC=INLANEFREIGHT,DC=LOCAL'
 ```
 ### PowerView
 https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon <br/>
