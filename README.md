@@ -1279,6 +1279,8 @@ impacket-dpapi credential -f C8D69EBE9A43E9DEBF6B5FBD48B521B9 -key 0xd9a570722fb
 
 # AD Delete Object
 Get-ADObject -filter 'isDeleted -eq $true -and name -ne "Deleted Objects"' -includeDeletedObjects
+Restore-ADObject -Identity f80369c8-96a2-4a7f-a56c-9c15edd7d1e3
+Enable-ADAccount -Identity f80369c8-96a2-4a7f-a56c-9c15edd7d1e3
 ```
 
 ## Linux
