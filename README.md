@@ -1276,6 +1276,9 @@ impacket-dpapi masterkey -file 556a2412-1275-4ccf-b721-e6a0b4f90407 -password 'p
 impacket-dpapi credential -f C8D69EBE9A43E9DEBF6B5FBD48B521B9 -key 0xd9a570722fb
 
 .\SharpDPAPI.exe credentials /password:'pass' /unprotect
+
+# AD Delete Object
+Get-ADObject -filter 'isDeleted -eq $true -and name -ne "Deleted Objects"' -includeDeletedObjects
 ```
 
 ## Linux
